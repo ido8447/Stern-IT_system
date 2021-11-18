@@ -9,8 +9,8 @@ using Stern_IT.Models;
 
 namespace Stern_IT.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    [Migration("20211115214951_init")]
+    [DbContext(typeof(Models.DbContext))]
+    [Migration("20211115220131_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -8,7 +8,7 @@ using Stern_IT.Models;
 
 namespace Stern_IT.Migrations
 {
-    [DbContext(typeof(DbContext))]
+    [DbContext(typeof(Models.DbContext))]
     partial class DbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
