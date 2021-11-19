@@ -1,6 +1,12 @@
 <header>
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+    class="
+      navbar navbar-expand-sm navbar-toggleable-sm navbar-light
+      bg-white
+      border-bottom
+      box-shadow
+      mb-3
+    "
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">Stern IT System</a>
@@ -20,11 +26,33 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
-
-
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li
+            *ngIf="!userService.autuorizedUser()"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
             <a class="nav-link text-dark" [routerLink]="['/users/register']"
               >Register</a
+            >
+          </li>
+          <li
+            *ngIf="!userService.autuorizedUser()"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/users/login']"
+              >Log in</a
+            >
+          </li>
+          <li
+            *ngIf="userService.autuorizedUser()"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a
+              class="nav-link text-dark"
+              [routerLink]="['/']" (click)="userService.logout()"
+              >Log out</a
             >
           </li>
         </ul>

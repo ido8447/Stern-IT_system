@@ -9,8 +9,9 @@ import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
 import { CounterComponent } from "./counter/counter.component";
 import { FetchDataComponent } from "./fetch-data/fetch-data.component";
-import { RegisterComponent } from "./user/register/register.component";
 import { UserService } from "./user/services/user.service";
+import { RegisterComponent } from "./user/components/register/register.component";
+import { LoginComponent } from "./user/components/login/login.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UserService } from "./user/services/user.service";
     CounterComponent,
     FetchDataComponent,
     RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -31,6 +33,8 @@ import { UserService } from "./user/services/user.service";
       { path: "counter", component: CounterComponent },
       { path: "fetch-data", component: FetchDataComponent },
       { path: "users/register", component: RegisterComponent },
+      { path: "users/login", component: LoginComponent },
+
 
     ]),
     ReactiveFormsModule
