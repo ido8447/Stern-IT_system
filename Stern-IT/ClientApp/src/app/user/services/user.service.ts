@@ -1,8 +1,9 @@
 import { Inject, Injectable } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { registerLocaleData } from "@angular/common";
 import { Router } from "@angular/router";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +11,7 @@ import { Router } from "@angular/router";
 export class UserService {
   baseURL: string;
   apiURL = "api/Users/";
+  authorizedUser$: Subject<AuthorizedUser> = new Subject<AuthorizedUser>()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,7 +34,7 @@ export class UserService {
       }
     ),
   });
-
+  //register function
   register() {
     const body = {
       Email: this.formRegisterModel.value.Email,
@@ -40,24 +42,46 @@ export class UserService {
     };
     return this.httpClient.post(this.baseURL + this.apiURL + "Register", body);
   }
-  //
+  //login function
   login(user: any) {
-    this.httpClient.post(this.baseURL + this.apiURL + 'Login',user).subscribe(
-      (res:any)=>{
-        localStorage.setItem('token',res.token);
-        this.router.navigateByUrl('/');
-      }
-    );
+    this.authorizedUser$.next({
+      Email: ''
+    })
+    this.httpClient
+      .post(this.baseURL + this.apiURL + "Login", user)
+      .subscribe((res: any) => {
+          this.authorizedUser$.next({
+            Email: JSON.parse(window.atob((res.token.split('.')[1]))).Email
+          });
+      
+        localStorage.setItem("token", res.token);
+        this.router.navigateByUrl("/");
+      });
   }
-  logout(){
-    localStorage.removeItem('token');
-    this.router.navigateByUrl('/');
+  //loguot function
+  logout() {
+    this.authorizedUser$.next(undefined)
+    localStorage.removeItem("token");
+    this.router.navigateByUrl("/");
   }
-autuorizedUser(){
-  return localStorage.getItem('token') != null;
-}
+  authorizedUser() {
+    return localStorage.getItem("token") != null;
+  }
 
-  //
+  getAuthorizedUserInfo(){
+    const token = new HttpHeaders({'Authorized': 'Bearer '+localStorage.getItem('token')})
+    return this.httpClient.get(this.baseURL+this.apiURL+'GetAuthorizedUserInfo',{headers: token});
+  }
+
+  getAuthorizedUserEmail(){
+    if(localStorage.getItem('token')){
+      return JSON.parse(window.atob(localStorage.getItem('token'.split('.')[1]))).Email;
+    }
+    else{
+      return '';
+    }
+  }
+  //password mismatch function
   comparePasswords(formBuilder: FormGroup) {
     const confirmPassword = formBuilder.get("ConfirmPassword");
     if (
@@ -71,4 +95,8 @@ autuorizedUser(){
       }
     }
   }
+}
+
+export interface AuthorizedUser{
+  Email: string;
 }

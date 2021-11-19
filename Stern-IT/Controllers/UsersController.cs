@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -114,5 +115,20 @@ namespace Stern_IT.Controllers
             }
         }
         #endregion
+
+
+        //GET: api/Users/GetAuthorizedUserInfo
+        [HttpGet]
+        [Authorize]
+        [Route("GetAuthorizedUserInfo")]
+        public async Task<object> GetAuthorizeUserInfo()
+        {
+            string userId = User.Claims.First(c => c.Type == "Id").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return new
+            {
+                user.Email
+            };
+        }
     }
 }

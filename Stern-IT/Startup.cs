@@ -50,7 +50,7 @@ namespace Stern_IT
             });
 
 
-            ///Write comment method
+            ///Write Security Token
             var key = Encoding.UTF8.GetBytes(Configuration["JWTkey"].ToString());
             services.AddAuthentication(x =>
             {
@@ -71,6 +71,9 @@ namespace Stern_IT
 
                 };
             });
+
+            //
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
         }
 

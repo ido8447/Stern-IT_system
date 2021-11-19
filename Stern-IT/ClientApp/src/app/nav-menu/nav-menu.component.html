@@ -27,7 +27,7 @@
       >
         <ul class="navbar-nav flex-grow">
           <li
-            *ngIf="!userService.autuorizedUser()"
+            *ngIf="!userService.authorizedUser()"
             class="nav-item"
             [routerLinkActive]="['link-active']"
           >
@@ -36,7 +36,7 @@
             >
           </li>
           <li
-            *ngIf="!userService.autuorizedUser()"
+            *ngIf="!userService.authorizedUser()"
             class="nav-item"
             [routerLinkActive]="['link-active']"
           >
@@ -44,16 +44,15 @@
               >Log in</a
             >
           </li>
+
+
+          <li *ngIf="userService.authorizedUser() && authorizedUser" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/']">{{authorizedUser.Email}}</a>
+          </li>
+
+
           <li
-            *ngIf="userService.autuorizedUser()"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a
-              class="nav-link text-dark"
-              [routerLink]="['/']" (click)="userService.logout()"
-              >Log out</a
-            >
+            *ngIf="userService.authorizedUser()" class="nav-item" [routerLinkActive]="['link-active']" > <a class="nav-link text-dark" [routerLink]="['/']" (click)="userService.logout()" >Log out</a>
           </li>
         </ul>
       </div>
