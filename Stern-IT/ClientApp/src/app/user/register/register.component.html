@@ -1,0 +1,106 @@
+<h1>Register</h1>
+  <p class="font-weight-normal">Register to Stern-IT account</p>
+  <hr />
+
+  <div class="row">
+  <div class="col-2"></div>
+  <div class="col-4">
+    <form
+    [formGroup]="userService.formRegisterModel"
+    (submit)="register()"
+    autocomplete="off"
+    >
+      <!-- Email -->
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="Email"
+          id="Email"
+          class="form-control"
+          formControlName="Email"
+          required
+          email
+        />
+        <label
+          class="text-danger"
+          *ngIf="
+            userService.formRegisterModel.get('Email').touched &&
+            userService.formRegisterModel.get('Email').errors?.email
+          "
+        >
+          Invalid Email Address
+        </label>
+      </div>
+
+      <!-- Password -->
+      <div formGroupName="Passwords" class="form-group mb-4">
+        <div class="form-group required">
+          <input
+            type="password"
+            placeholder="Password"
+            class="form-control"
+            formControlName="Password"
+          />
+          <label
+          class="text-danger"
+          *ngIf="
+            userService.formRegisterModel.get('Passwords.Password').touched &&
+            userService.formRegisterModel.get('Passwords.Password').errors
+              ?.required
+          "
+        >
+          Invalid Password Address
+        </label>
+        <label
+          class="text-danger"
+          *ngIf="
+            userService.formRegisterModel.get('Passwords.Password').touched &&
+            userService.formRegisterModel.get('Passwords.Password').errors?.minLength
+          "
+        >
+          Minimum Length is 4 charaters
+        </label>
+        </div>
+
+        <div class="form-group required">
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            class="form-control"
+            formControlName="ConfirmPassword"
+          />
+          <label
+            class="text-danger"
+            *ngIf="
+              userService.formRegisterModel.get('Passwords.ConfirmPassword').touched &&
+              userService.formRegisterModel.get('Passwords.ConfirmPassword').errors
+                ?.required
+            "
+          >
+            Invalid Confirm Password Address
+          </label>
+          <label
+            class="text-danger"
+            *ngIf="
+              userService.formRegisterModel.get('Passwords.ConfirmPassword').touched &&
+              userService.formRegisterModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch
+            "
+          >
+            The passwords does not match
+          </label>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button
+        [disabled]="!userService.formRegisterModel.valid"
+        class="btn btn-lg btn-primary btn-block"
+        type="submit"
+      >
+        Register
+      </button>
+
+      <button class="ml-auto m-4 btn btn-info">Back</button>
+    </form>
+  </div>
+</div>

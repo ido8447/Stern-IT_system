@@ -20,7 +20,7 @@ export class UserService {
 
   formRegisterModel = this.formBuilder.group({
     Email: ['', Validators.email],
-    Password: this.formBuilder.group(
+    Passwords: this.formBuilder.group(
       {
         Password: ['', [Validators.required, Validators.minLength(4)]],
         ConfirmPassword: ['', Validators.required],
@@ -34,11 +34,12 @@ export class UserService {
   register() {
     const body = {
       Email: this.formRegisterModel.value.Email,
-      Password: this.formRegisterModel.value.Password.Password,
+      Password: this.formRegisterModel.value.Passwords.Password,
     };
     return this.httpClient.post(this.baseURL + this.apiURL + 'Register', body);
   }
 
+  //
   comparePasswords(formBuilder: FormGroup) {
     const confirmPassword = formBuilder.get('ConfirmPassword');
     if (
