@@ -11,7 +11,7 @@ import { Subject } from "rxjs";
 export class UserService {
   baseURL: string;
   apiURL = "api/Users/";
-  authorizedUser$: Subject<AuthorizedUser> = new Subject<AuthorizedUser>()
+  authorizedUser$: Subject<AuthorizedUser> = new Subject<AuthorizedUser>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,22 +45,22 @@ export class UserService {
   //login function
   login(user: any) {
     this.authorizedUser$.next({
-      Email: ''
-    })
+      Email: "",
+    });
     this.httpClient
       .post(this.baseURL + this.apiURL + "Login", user)
       .subscribe((res: any) => {
-          this.authorizedUser$.next({
-            Email: JSON.parse(window.atob((res.token.split('.')[1]))).Email
-          });
-      
+        this.authorizedUser$.next({
+          Email: JSON.parse(window.atob(res.token.split(".")[1])).Email,
+        });
+
         localStorage.setItem("token", res.token);
         this.router.navigateByUrl("/");
       });
   }
   //loguot function
   logout() {
-    this.authorizedUser$.next(undefined)
+    this.authorizedUser$.next(undefined);
     localStorage.removeItem("token");
     this.router.navigateByUrl("/");
   }
@@ -68,17 +68,21 @@ export class UserService {
     return localStorage.getItem("token") != null;
   }
 
-  getAuthorizedUserInfo(){
-    const token = new HttpHeaders({'Authorized': 'Bearer '+localStorage.getItem('token')})
-    return this.httpClient.get(this.baseURL+this.apiURL+'GetAuthorizedUserInfo',{headers: token});
+  getAuthorizedUserInfo() {
+    // const token = new HttpHeaders({'Authorized': 'Bearer '+localStorage.getItem('token')});
+    // return this.httpClient.get(this.baseURL+this.apiURL+'GetAuthorizedUserInfo',{headers: token});
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "GetAuthorizedUserInfo"
+    );
   }
 
-  getAuthorizedUserEmail(){
-    if(localStorage.getItem('token')){
-      return JSON.parse(window.atob(localStorage.getItem('token'.split('.')[1]))).Email;
-    }
-    else{
-      return '';
+  getAuthorizedUserEmail() {
+    if (localStorage.getItem("token")) {
+      return JSON.parse(
+        window.atob(localStorage.getItem("token".split(".")[1]))
+      ).Email;
+    } else {
+      return "";
     }
   }
   //password mismatch function
@@ -97,6 +101,6 @@ export class UserService {
   }
 }
 
-export interface AuthorizedUser{
+export interface AuthorizedUser {
   Email: string;
 }

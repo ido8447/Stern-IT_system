@@ -12,6 +12,7 @@ import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { UserService } from "./user/services/user.service";
 import { RegisterComponent } from "./user/components/register/register.component";
 import { LoginComponent } from "./user/components/login/login.component";
+import { AuthorizeInterceptor } from "./auth/authorize.interceptor";
 
 @NgModule({
   declarations: [
@@ -21,12 +22,14 @@ import { LoginComponent } from "./user/components/login/login.component";
     CounterComponent,
     FetchDataComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
+
     //the app router file
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
@@ -34,12 +37,14 @@ import { LoginComponent } from "./user/components/login/login.component";
       { path: "fetch-data", component: FetchDataComponent },
       { path: "users/register", component: RegisterComponent },
       { path: "users/login", component: LoginComponent },
-
-
     ]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [UserService],
+  providers: [UserService,{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthorizeInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
