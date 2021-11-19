@@ -9,7 +9,7 @@ import { UserService } from "../services/user.service";
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.formRegisterModel.reset();
@@ -26,5 +26,9 @@ export class RegisterComponent implements OnInit {
         });
       }
     });
+  }
+
+  Back() {
+    this.router.navigate(["/"]);
   }
 }
