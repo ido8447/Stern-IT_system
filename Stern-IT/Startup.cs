@@ -1,4 +1,6 @@
+using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,7 +80,7 @@ namespace Stern_IT
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -124,6 +126,35 @@ namespace Stern_IT
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+
+            CreateRoles(serviceProvider).Wait();
+        }
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<Models.User>>();
+            string[] roleNames = { "Administrator", "Moderator" };
+            IdentityResult roleResault;
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResault = await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+            Models.User userAdmin = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "ido@stern-it.com");
+            if (userAdmin != null)
+            {
+                await userManager.AddToRoleAsync(userAdmin, "Administrator");
+                await userManager.AddToRoleAsync(userAdmin, "Moderator");
+            }
+            Models.User userModerator = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "eyal@stern-it.com");
+            if (userModerator != null)
+            {
+                await userManager.AddToRoleAsync(userModerator, "Moderator");
+            }
         }
     }
 }

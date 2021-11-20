@@ -99,6 +99,24 @@ export class UserService {
       }
     }
   }
+  allowedRole(allowedRole): boolean{
+    let match = false;
+    const role = JSON.parse(window.atob(localStorage.getItem('token'.split('.')[1]))).role;
+    if (typeof(role)=="string") {
+      allowedRole.forEach(element => {
+        if (role==element) {
+          match=true;
+          return false;
+        }
+      });
+    }
+    else if(Array.isArray(role)){
+      if (allowedRole.filter(element=>role.includes(element)).length>0) {
+        match=true;
+      }
+    }
+    return match;
+  }
 }
 
 export interface AuthorizedUser {
