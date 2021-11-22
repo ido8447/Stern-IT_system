@@ -45,6 +45,7 @@ namespace Stern_IT
 
 
             services.AddControllersWithViews();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -127,9 +128,16 @@ namespace Stern_IT
                 }
             });
 
-
+            //call to this function and wait until it finish
             CreateRoles(serviceProvider).Wait();
         }
+
+        /// <summary>
+        /// create role
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns>2 type of role: administrator and moderator</returns>
+        /// and put 2 users to roles
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

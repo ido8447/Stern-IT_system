@@ -27,6 +27,8 @@
       >
         <ul class="navbar-nav flex-grow">
           <!--  -->
+          <!-- Show and route Administration Page -->
+          <!-- see only if this user has Administrator role -->
           <li
             *ngIf="
               userService.authorizedUser() &&
@@ -36,8 +38,13 @@
             [routerLink]="['/administration']"
             routerLinkActive="link-active"
           >
-            <a class="nav-link text-dark" [routerLink]="['/administration']">Administration</a>
+            <a class="nav-link text-dark" [routerLink]="['/administration']"
+              >Administration</a
+            >
           </li>
+          <!--  -->
+          <!-- navigate to register page -->
+          <!-- see only if unconnected -->
           <li
             *ngIf="!userService.authorizedUser()"
             class="nav-item"
@@ -48,6 +55,8 @@
             >
           </li>
           <!--  -->
+          <!-- navigate to login page -->
+          <!-- see only if unconnected -->
           <li
             *ngIf="!userService.authorizedUser()"
             class="nav-item"
@@ -57,7 +66,9 @@
               >Log in</a
             >
           </li>
-
+          <!--  -->
+          <!-- Show Email for this user -->
+          <!-- see only if connected -->
           <li
             *ngIf="userService.authorizedUser() && authorizedUser"
             class="nav-item"
@@ -67,7 +78,9 @@
               authorizedUser.Email
             }}</a>
           </li>
-
+          <!--  -->
+          <!-- Log out from this user -->
+          <!-- see only if connected -->
           <li
             *ngIf="userService.authorizedUser()"
             class="nav-item"

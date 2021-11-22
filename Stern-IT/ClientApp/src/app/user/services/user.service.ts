@@ -22,6 +22,7 @@ export class UserService {
     this.baseURL = baseURL;
   }
 
+  //the model of the register page, with
   formRegisterModel = this.formBuilder.group({
     Email: ["", Validators.email],
     Passwords: this.formBuilder.group(
@@ -43,6 +44,7 @@ export class UserService {
     return this.httpClient.post(this.baseURL + this.apiURL + "Register", body);
   }
   //login function
+  //save token and login to the system
   login(user: any) {
     this.authorizedUser$.next({
       Email: "",
@@ -59,23 +61,32 @@ export class UserService {
       });
   }
   //loguot function
+  //remove the token and navigate to default form
   logout() {
     this.authorizedUser$.next(undefined);
     localStorage.removeItem("token");
     this.router.navigateByUrl("/");
   }
+
+  //get token from local storage
+  //reurn true\false if token exist
+  //if exist, there is a connect user
   authorizedUser() {
     return localStorage.getItem("token") != null;
   }
 
+  //todo check if it workes
+  //show info of user
   getAuthorizedUserInfo() {
-    // const token = new HttpHeaders({'Authorized': 'Bearer '+localStorage.getItem('token')});
-    // return this.httpClient.get(this.baseURL+this.apiURL+'GetAuthorizedUserInfo',{headers: token});
     return this.httpClient.get(
       this.baseURL + this.apiURL + "GetAuthorizedUserInfo"
     );
   }
 
+  //if there is a token (user connect)
+  //it return the email of this user by read the token with atob and json parse
+  //atob: return information of some token
+  //json parse: change mode to json
   getAuthorizedUserEmail() {
     if (localStorage.getItem("token")) {
       return JSON.parse(
@@ -85,7 +96,9 @@ export class UserService {
       return "";
     }
   }
+
   //password mismatch function
+  //check if 2 passwords have a match or not
   comparePasswords(formBuilder: FormGroup) {
     const confirmPassword = formBuilder.get("ConfirmPassword");
     if (
@@ -99,20 +112,33 @@ export class UserService {
       }
     }
   }
-  allowedRole(allowedRole: string[]): boolean{
+
+  //get some role
+  //return true\false if this user has this role from input
+  allowedRole(rolesArray: string[]): boolean {
     let match = false;
-    const role = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1])).role;
-    if (typeof(role)=="string") {
-      allowedRole.forEach(element => {
-        if (role==element) {
-          match=true;
+    //read the token by window.atob
+    //export role information from it
+    const role = JSON.parse(
+      window.atob(localStorage.getItem("token").split(".")[1])
+    ).role;
+    //if it has 1 role
+    //the type will be string
+    //find from all roles if there is a match
+    if (typeof role == "string") {
+      rolesArray.forEach((element) => {
+        if (role == element) {
+          match = true;
           return false;
         }
       });
     }
-    else if(Array.isArray(role)){
-      if (allowedRole.filter(element=>role.includes(element)).length>0) {
-        match=true;
+    //if it has 2 and up roles
+    //the type will be array
+    //find from all roles if there is a match
+    else if (Array.isArray(role)) {
+      if (rolesArray.filter((element) => role.includes(element)).length > 0) {
+        match = true;
       }
     }
     return match;

@@ -7,8 +7,6 @@ import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
-import { CounterComponent } from "./counter/counter.component";
-import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { UserService } from "./user/services/user.service";
 import { RegisterComponent } from "./user/components/register/register.component";
 import { LoginComponent } from "./user/components/login/login.component";
@@ -21,8 +19,6 @@ import { AuthorizeGuard } from "./auth/authorize.guard";
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     RegisterComponent,
     LoginComponent,
     AdministrationComponent,
@@ -32,17 +28,15 @@ import { AuthorizeGuard } from "./auth/authorize.guard";
     HttpClientModule,
     FormsModule,
 
-    //the app router file
+    //the app router file with guards
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "counter", component: CounterComponent },
-      { path: "fetch-data", component: FetchDataComponent },
       { path: "users/register", component: RegisterComponent },
       { path: "users/login", component: LoginComponent },
       {
         path: "administration",
         component: AdministrationComponent,
-        canActivate: [AuthorizeGuard],
+         canActivate: [AuthorizeGuard],
         data: { allowedRoles: ["Administrator"] },
       },
     ]),

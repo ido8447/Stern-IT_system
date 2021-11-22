@@ -15,7 +15,8 @@ export class RegisterComponent implements OnInit {
     this.userService.formRegisterModel.reset();
   }
 
-  register() {
+
+    register() {
     this.userService.register().subscribe((res: any) => {
       if (res.succeeded) {
         this.userService.formRegisterModel.reset();

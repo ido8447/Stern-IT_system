@@ -12,11 +12,15 @@ export class NavMenuComponent implements OnInit {
 
   constructor(private userService: UserService) {}
   ngOnInit(): void {
+    
     this.userService.authorizedUser$.subscribe(
       (authorizedUser: AuthorizedUser) => {
         this.authorizedUser = authorizedUser;
       }
     );
+
+    //if there is a token
+    //put on authorizedUser a email from the token
     if (localStorage.getItem("token")) {
       this.authorizedUser = {
         Email: this.userService.getAuthorizedUserEmail(),

@@ -12,8 +12,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
 namespace Stern_IT.Controllers
 {
     [Route("api/[controller]")]
@@ -26,6 +24,7 @@ namespace Stern_IT.Controllers
         {
             _userManager = userManager;
         }
+        //
         #region Register
 
         /// <summary>
@@ -69,8 +68,7 @@ namespace Stern_IT.Controllers
             }
         }
         #endregion
-
-
+        //
         #region Login
         /// <summary>
         /// Class to Login
@@ -123,9 +121,13 @@ namespace Stern_IT.Controllers
             }
         }
         #endregion
-
+        //
 
         //GET: api/Users/GetAuthorizedUserInfo
+        /// <summary>
+        ///  Show Authorize User Info
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("GetAuthorizedUserInfo")]
