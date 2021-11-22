@@ -99,9 +99,9 @@ export class UserService {
       }
     }
   }
-  allowedRole(allowedRole): boolean{
+  allowedRole(allowedRole: string[]): boolean{
     let match = false;
-    const role = JSON.parse(window.atob(localStorage.getItem('token'.split('.')[1]))).role;
+    const role = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1])).role;
     if (typeof(role)=="string") {
       allowedRole.forEach(element => {
         if (role==element) {

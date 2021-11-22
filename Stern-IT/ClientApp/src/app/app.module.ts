@@ -13,6 +13,8 @@ import { UserService } from "./user/services/user.service";
 import { RegisterComponent } from "./user/components/register/register.component";
 import { LoginComponent } from "./user/components/login/login.component";
 import { AuthorizeInterceptor } from "./auth/authorize.interceptor";
+import { AdministrationComponent } from "./admin/administration.component";
+import { AuthorizeGuard } from "./auth/authorize.guard";
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { AuthorizeInterceptor } from "./auth/authorize.interceptor";
     FetchDataComponent,
     RegisterComponent,
     LoginComponent,
-    
+    AdministrationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -37,14 +39,23 @@ import { AuthorizeInterceptor } from "./auth/authorize.interceptor";
       { path: "fetch-data", component: FetchDataComponent },
       { path: "users/register", component: RegisterComponent },
       { path: "users/login", component: LoginComponent },
+      {
+        path: "administration",
+        component: AdministrationComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator"] },
+      },
     ]),
     ReactiveFormsModule,
   ],
-  providers: [UserService,{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthorizeInterceptor,
-    multi: true
-  }],
+  providers: [
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizeInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -26,6 +26,18 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
+          <!--  -->
+          <li
+            *ngIf="
+              userService.authorizedUser() &&
+              userService.allowedRole(['Administrator'])
+            "
+            class="nav-item"
+            [routerLink]="['/administration']"
+            routerLinkActive="link-active"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/administration']">Administration</a>
+          </li>
           <li
             *ngIf="!userService.authorizedUser()"
             class="nav-item"
@@ -35,6 +47,7 @@
               >Register</a
             >
           </li>
+          <!--  -->
           <li
             *ngIf="!userService.authorizedUser()"
             class="nav-item"
@@ -45,14 +58,27 @@
             >
           </li>
 
-
-          <li *ngIf="userService.authorizedUser() && authorizedUser" class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/']">{{authorizedUser.Email}}</a>
+          <li
+            *ngIf="userService.authorizedUser() && authorizedUser"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/']">{{
+              authorizedUser.Email
+            }}</a>
           </li>
 
-
           <li
-            *ngIf="userService.authorizedUser()" class="nav-item" [routerLinkActive]="['link-active']" > <a class="nav-link text-dark" [routerLink]="['/']" (click)="userService.logout()" >Log out</a>
+            *ngIf="userService.authorizedUser()"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a
+              class="nav-link text-dark"
+              [routerLink]="['/']"
+              (click)="userService.logout()"
+              >Log out</a
+            >
           </li>
         </ul>
       </div>

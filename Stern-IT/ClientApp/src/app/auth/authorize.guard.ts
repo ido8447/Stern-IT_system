@@ -12,6 +12,8 @@ import { UserService } from "../user/services/user.service";
 @Injectable({
   providedIn: "root",
 })
+
+
 export class AuthorizeGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) {}
   //
