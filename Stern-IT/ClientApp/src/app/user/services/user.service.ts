@@ -60,6 +60,8 @@ export class UserService {
         this.router.navigateByUrl("/");
       });
   }
+
+  
   //loguot function
   //remove the token and navigate to default form
   logout() {
@@ -68,12 +70,24 @@ export class UserService {
     this.router.navigateByUrl("/");
   }
 
+
+
+  //todo Write on this
+  public get(Id?: string) {
+    if (Id) {
+      return this.httpClient.get(this.baseURL + this.apiURL + Id);
+    } else {
+      return this.httpClient.get(this.baseURL + this.apiURL);
+    }
+  }
+
   //get token from local storage
   //reurn true\false if token exist
   //if exist, there is a connect user
   authorizedUser() {
     return localStorage.getItem("token") != null;
   }
+
 
   //todo check if it workes
   //show info of user
@@ -90,7 +104,7 @@ export class UserService {
   getAuthorizedUserEmail() {
     if (localStorage.getItem("token")) {
       return JSON.parse(
-        window.atob(localStorage.getItem("token".split(".")[1]))
+        window.atob(localStorage.getItem("token").split(".")[1])
       ).Email;
     } else {
       return "";

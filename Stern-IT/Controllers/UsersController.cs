@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,13 @@ namespace Stern_IT.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<Models.User> _userManager;
+        private readonly Models.DbContext _context;
 
-        public UsersController(UserManager<Models.User> userManager)
+        //constractor
+        public UsersController(UserManager<Models.User> userManager, Models.DbContext dbContext)
         {
             _userManager = userManager;
+            _context = dbContext;
         }
         //
         #region Register
@@ -42,6 +46,8 @@ namespace Stern_IT.Controllers
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }
+
+
 
         //POST: api/Users/Register
         /// <summary>
@@ -123,9 +129,13 @@ namespace Stern_IT.Controllers
         #endregion
         //
 
+
+
+
+ 
         //GET: api/Users/GetAuthorizedUserInfo
         /// <summary>
-        ///  Show Authorize User Info
+        ///  Show Email User by Key
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -139,6 +149,42 @@ namespace Stern_IT.Controllers
             {
                 user.Email
             };
+        }
+
+
+
+
+        /// <summary>
+        /// user view model class
+        /// </summary>
+        public class UserViewModel
+        {
+            public string Id { get; set; }
+            public string Email { get; set; }
+            public string[] Roles { get; set; }
+        }
+
+
+
+       //todo write on this
+        //GET: api/Users
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> Users()
+        {
+            List<UserViewModel> viewModels = new List<UserViewModel>();
+            List<Models.User> users = await _context.Users.ToListAsync();
+            foreach (Models.User user in users)
+            {
+                viewModels.Add(new UserViewModel()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Roles = _userManager.GetRolesAsync(user).Result.ToArray()
+
+                });
+            }
+            return viewModels;
         }
     }
 }

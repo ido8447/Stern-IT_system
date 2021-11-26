@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class AuthorizeInterceptor implements HttpInterceptor {
-  //todo write what this function do
+  //add header to the http request
   intercept(
     httpRequest: HttpRequest<any>,
     httpHandler: HttpHandler
