@@ -8,7 +8,7 @@ import { UserService } from "../../services/user.service";
   templateUrl: "./list.component.html",
 })
 export class ListComponent implements OnInit, AfterViewInit {
-  columns: string[] = ["ID", "Email", "Password" , "Roles"];
+  columns: string[] = ["Email", "Phone" , "Roles"];
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -17,10 +17,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   constructor(private userService: UserService) {
     this.dataSource.filterPredicate = (user: User, filter: string) => {
       return (
-        user.ID.toLowerCase().includes(filter.toLowerCase()) ||
         user.Email.toLowerCase().includes(filter.toLowerCase()) ||
-        user.Password.toLowerCase().includes(filter.toLowerCase()) ||
-        user.Roles.join(', ').toLowerCase().includes(filter.toLowerCase())
+        user.Roles.join(',').toLowerCase().includes(filter.toLowerCase())
       );
     };
   }

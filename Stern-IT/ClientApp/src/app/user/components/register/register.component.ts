@@ -15,10 +15,9 @@ export class RegisterComponent implements OnInit {
     this.userService.formRegisterModel.reset();
   }
 
-
-    register() {
+  register() {
     this.userService.register().subscribe((res: any) => {
-      if (res.succeeded) {
+      if (res.Succeeded == true) {
         this.userService.formRegisterModel.reset();
         alert("New User Registered!");
       } else {
@@ -28,6 +27,4 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
-
-
 }

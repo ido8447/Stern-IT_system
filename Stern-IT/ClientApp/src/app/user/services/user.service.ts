@@ -25,6 +25,7 @@ export class UserService {
   //the model of the register page, with
   formRegisterModel = this.formBuilder.group({
     Email: ["", Validators.email],
+    PhoneNumber: ["", Validators.required],
     Passwords: this.formBuilder.group(
       {
         Password: ["", [Validators.required, Validators.minLength(4)]],
@@ -40,6 +41,7 @@ export class UserService {
     const body = {
       Email: this.formRegisterModel.value.Email,
       Password: this.formRegisterModel.value.Passwords.Password,
+      PhoneNumber: this.formRegisterModel.value.PhoneNumber,
     };
     return this.httpClient.post(this.baseURL + this.apiURL + "Register", body);
   }

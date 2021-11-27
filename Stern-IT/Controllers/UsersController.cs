@@ -40,6 +40,10 @@ namespace Stern_IT.Controllers
             [EmailAddress]
             public string Email { get; set; }
 
+            [Required]
+            [Phone]
+            public string PhoneNumber { get; set; }
+
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} Must be least {2} and the maz {1} charaters long", MinimumLength = 4)]
@@ -60,8 +64,8 @@ namespace Stern_IT.Controllers
             var applicationUser = new Models.User()
             {
                 UserName = model.Email,
-                Email = model.Email
-
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
             try
             {
@@ -132,7 +136,7 @@ namespace Stern_IT.Controllers
 
 
 
- 
+
         //GET: api/Users/GetAuthorizedUserInfo
         /// <summary>
         ///  Show Email User by Key
@@ -147,9 +151,10 @@ namespace Stern_IT.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             return new
             {
-                user.Email
+                user.Email,
             };
         }
+        
 
 
 
@@ -166,7 +171,7 @@ namespace Stern_IT.Controllers
 
 
 
-       //todo write on this
+        //todo write on this
         //GET: api/Users
         [HttpGet]
         [Authorize(Roles = "Administrator")]
