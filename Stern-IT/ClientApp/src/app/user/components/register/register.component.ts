@@ -10,16 +10,21 @@ import { UserService } from "../../services/user.service";
 })
 export class RegisterComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) {}
-
+  
+  
   ngOnInit(): void {
     this.userService.formRegisterModel.reset();
   }
+
+
+
 
   register() {
     this.userService.register().subscribe((res: any) => {
       if (res.Succeeded == true) {
         this.userService.formRegisterModel.reset();
         alert("New User Registered!");
+        // this.userService.login(form.value);
       } else {
         res.errors.forEach((error: any) => {
           console.log(error.description);

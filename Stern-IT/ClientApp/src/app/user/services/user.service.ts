@@ -25,7 +25,7 @@ export class UserService {
   //the model of the register page, with
   formRegisterModel = this.formBuilder.group({
     Email: ["", Validators.email],
-    PhoneNumber: ["", Validators.required],
+    PhoneNumber: ["", Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],
     Passwords: this.formBuilder.group(
       {
         Password: ["", [Validators.required, Validators.minLength(4)]],
@@ -38,11 +38,22 @@ export class UserService {
   });
   //register function
   register() {
-    const body = {
-      Email: this.formRegisterModel.value.Email,
-      Password: this.formRegisterModel.value.Passwords.Password,
-      PhoneNumber: this.formRegisterModel.value.PhoneNumber,
-    };
+    var body = null;
+    var PhoneNumber= this.formRegisterModel.value.PhoneNumber;
+    if (PhoneNumber!="") {
+       body = {
+        Email: this.formRegisterModel.value.Email,
+        Password: this.formRegisterModel.value.Passwords.Password,
+        PhoneNumber: this.formRegisterModel.value.PhoneNumber,
+      };
+    }
+    else{
+      body = {
+        Email: this.formRegisterModel.value.Email,
+        Password: this.formRegisterModel.value.Passwords.Password,
+      };
+    }
+   
     return this.httpClient.post(this.baseURL + this.apiURL + "Register", body);
   }
   //login function
@@ -63,7 +74,6 @@ export class UserService {
       });
   }
 
-  
   //loguot function
   //remove the token and navigate to default form
   logout() {
@@ -71,8 +81,6 @@ export class UserService {
     localStorage.removeItem("token");
     this.router.navigateByUrl("/");
   }
-
-
 
   //todo Write on this
   public get(Id?: string) {
@@ -89,7 +97,6 @@ export class UserService {
   authorizedUser() {
     return localStorage.getItem("token") != null;
   }
-
 
   //todo check if it workes
   //show info of user

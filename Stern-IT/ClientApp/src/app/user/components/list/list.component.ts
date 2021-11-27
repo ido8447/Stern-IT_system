@@ -8,7 +8,7 @@ import { UserService } from "../../services/user.service";
   templateUrl: "./list.component.html",
 })
 export class ListComponent implements OnInit, AfterViewInit {
-  columns: string[] = ["Email", "Phone" , "Roles"];
+  columns: string[] = ["Email", "PhoneNumber" , "Roles"];
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;

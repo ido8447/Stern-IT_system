@@ -40,13 +40,12 @@ namespace Stern_IT.Controllers
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
             [Phone]
             public string PhoneNumber { get; set; }
 
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} Must be least {2} and the maz {1} charaters long", MinimumLength = 4)]
+            [StringLength(100, ErrorMessage = "The {0} Must be least {2} and the max {1} charaters long", MinimumLength = 4)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }
@@ -166,6 +165,7 @@ namespace Stern_IT.Controllers
         {
             public string Id { get; set; }
             public string Email { get; set; }
+            public string PhoneNumber { get; set; }
             public string[] Roles { get; set; }
         }
 
@@ -185,6 +185,7 @@ namespace Stern_IT.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
                     Roles = _userManager.GetRolesAsync(user).Result.ToArray()
 
                 });
