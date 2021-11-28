@@ -29,10 +29,10 @@ namespace Stern_IT.Controllers
             _context = dbContext;
         }
         //
-        #region Register
 
+        #region Register
         /// <summary>
-        /// Class to Register
+        /// Class model to register page
         /// </summary>
         public class UserRegisterModel
         {
@@ -49,12 +49,9 @@ namespace Stern_IT.Controllers
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }
-
-
-
         //POST: api/Users/Register
         /// <summary>
-        /// Function to Register
+        /// Function to register on the system
         /// </summary>
         [HttpPost]
         [Route("Register")]
@@ -80,7 +77,7 @@ namespace Stern_IT.Controllers
         //
         #region Login
         /// <summary>
-        /// Class to Login
+        /// Class model to Login
         /// </summary>
         public class UserLoginModel
         {
@@ -90,7 +87,7 @@ namespace Stern_IT.Controllers
 
         //POST: api/Users/Login
         /// <summary>
-        /// Function to Login
+        /// Function to login on the system
         /// </summary>
         [HttpPost]
         [Route("Login")]
@@ -140,7 +137,7 @@ namespace Stern_IT.Controllers
         /// <summary>
         ///  Show Email User by Key
         /// </summary>
-        /// <returns></returns>
+        /// <returns>user email</returns>
         [HttpGet]
         [Authorize]
         [Route("GetAuthorizedUserInfo")]
@@ -153,13 +150,13 @@ namespace Stern_IT.Controllers
                 user.Email,
             };
         }
-        
+
 
 
 
 
         /// <summary>
-        /// user view model class
+        /// user model class to view on table
         /// </summary>
         public class UserViewModel
         {
@@ -171,7 +168,10 @@ namespace Stern_IT.Controllers
 
 
 
-        //todo write on this
+        /// <summary>
+        /// Function to show users on table from postgresSql
+        /// </summary>
+        /// <returns>List of models with parameters</returns>
         //GET: api/Users
         [HttpGet]
         [Authorize(Roles = "Administrator")]
@@ -192,5 +192,115 @@ namespace Stern_IT.Controllers
             }
             return viewModels;
         }
+
+
+        //GET: api/Users/5
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<UserViewModel>> GetUser(string id)
+        {
+            var applicationUser = await _context.Users.FindAsync(id);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                Id = applicationUser.Id,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+                Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray()
+            };
+
+            return userViewModel;
+
+        }
+
+        //DELETE: api/Users/5
+        /// <summary>
+        /// Delete the current User by his ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<UserViewModel>> DeleteUser(string id)
+        {
+            var applicationUser = await _context.Users.FindAsync(id);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+            _context.Users.Remove(applicationUser);
+            await _context.SaveChangesAsync();
+
+            return new UserViewModel()
+            {
+                Id = applicationUser.Id,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+                Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray()
+            };
+
+        }
+
+
+
+        //PUT: api/Users/5
+        /// <summary>
+        /// Put new model after editing on the new model with this id
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <param name="model">model of user</param>
+        /// <returns>new user model</returns>
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> PutUser(string id, UserViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return BadRequest();
+            }
+            var applicationUser = await _context.Users.FindAsync(id);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+
+            _context.Entry(applicationUser).State = EntityState.Modified;
+            try
+            {
+                 var userRoles = await _userManager.GetRolesAsync(applicationUser);
+                 await _userManager.RemoveFromRolesAsync(applicationUser,userRoles.ToArray());
+                 await _userManager.AddToRolesAsync(applicationUser,model.Roles);
+                 await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if(applicationUser == null){
+                    return NotFound();
+                }                
+                else{
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+        //
+
+        //GET: api/Users/GetRoles
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Roles List</returns>
+        [HttpGet]
+        [Route("GetRoles")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles(){
+            return await _context.Roles.ToListAsync();
+        }
+        
     }
 }
+
+

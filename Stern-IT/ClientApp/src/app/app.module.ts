@@ -28,6 +28,8 @@ import { AdministrationComponent } from "./admin/administration.component";
 import { AuthorizeGuard } from "./auth/authorize.guard";
 import { IndexComponent } from "./user/components/Index/index.component";
 import { ListComponent } from "./user/components/list/list.component";
+import { UserDetailsComponent } from "./user/components/details/details.component";
+import { UserEditComponent } from "./user/components/edit/edit.component";
 
 @NgModule({
   declarations: [
@@ -36,9 +38,11 @@ import { ListComponent } from "./user/components/list/list.component";
     HomeComponent,
     RegisterComponent,
     LoginComponent,
-    AdministrationComponent,
     IndexComponent,
     ListComponent,
+    UserDetailsComponent,
+    UserEditComponent,
+    AdministrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -50,6 +54,18 @@ import { ListComponent } from "./user/components/list/list.component";
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "users/register", component: RegisterComponent },
       { path: "users/login", component: LoginComponent },
+      {
+        path: "users/:id",
+        component: UserDetailsComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator"] },
+      },
+       {
+        path: "users/edit/:id",
+        component: UserEditComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator"] },
+      },
       {
         path: "users",
         component: IndexComponent,

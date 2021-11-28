@@ -8,7 +8,7 @@ import { UserService } from "../../services/user.service";
   templateUrl: "./list.component.html",
 })
 export class ListComponent implements OnInit, AfterViewInit {
-  columns: string[] = ["Email", "PhoneNumber" , "Roles"];
+  columns: string[] = ["Email", "PhoneNumber", "Roles", "details-edit-delete"];
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -18,7 +18,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.dataSource.filterPredicate = (user: User, filter: string) => {
       return (
         user.Email.toLowerCase().includes(filter.toLowerCase()) ||
-        user.Roles.join(',').toLowerCase().includes(filter.toLowerCase())
+        user.Roles.join(",").toLowerCase().includes(filter.toLowerCase())
       );
     };
   }
@@ -31,12 +31,25 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.get();
   }
   get() {
-    this.userService.get().subscribe(res => {
+    this.userService.get().subscribe((res) => {
       this.dataSource.data = res as User[];
     });
   }
 
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
+  }
+  
+  delete(Id: any) {
+    if (confirm("Are you sure to delete this record?")) {
+      this.userService.delete(Id).subscribe(
+        () => {
+          this.get();
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    }
   }
 }

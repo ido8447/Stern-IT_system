@@ -39,21 +39,20 @@ export class UserService {
   //register function
   register() {
     var body = null;
-    var PhoneNumber= this.formRegisterModel.value.PhoneNumber;
-    if (PhoneNumber!="") {
-       body = {
+    var PhoneNumber = this.formRegisterModel.value.PhoneNumber;
+    if (PhoneNumber != "") {
+      body = {
         Email: this.formRegisterModel.value.Email,
         Password: this.formRegisterModel.value.Passwords.Password,
         PhoneNumber: this.formRegisterModel.value.PhoneNumber,
       };
-    }
-    else{
+    } else {
       body = {
         Email: this.formRegisterModel.value.Email,
         Password: this.formRegisterModel.value.Passwords.Password,
       };
     }
-   
+
     return this.httpClient.post(this.baseURL + this.apiURL + "Register", body);
   }
   //login function
@@ -165,6 +164,30 @@ export class UserService {
       }
     }
     return match;
+  }
+
+  //Get ID (from userController)
+  //Go to the URL => this.baseURL + this.apiURL + Id
+  //and return this url with DELETE
+  //Action the function on UserController
+  delete(Id: string) {
+    return this.httpClient.delete(this.baseURL + this.apiURL + Id);
+  }
+
+  //Get User (from userController)
+  //Go to the URL => this.baseURL + this.apiURL + user.Id, user
+  //and return this url with PUT
+  //Action the function on UserController
+  put(user: any) {
+    return this.httpClient.put(this.baseURL + this.apiURL + user.Id, user);
+  }
+
+  //Get nothing (from userController)
+  //Go to the URL => this.baseURL + this.apiURL + "GetRoles"
+  //and return this url with GET
+  //Action the function on UserController
+  public GetRoles() {
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
   }
 }
 
