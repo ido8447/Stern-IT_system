@@ -1,0 +1,40 @@
+<ul
+*ngIf="userService.authorizedUser()"
+style="height: 95vh"
+class="nav flex-column pt-4 bg-dark"
+>
+<li *ngIf="userService.allowedRole(['Administrator'])">
+  <a class="nav-link text-white" [routerLink]="['/administration']">
+    <i class="fa fa-user-plus"></i>
+    <span class="ml-3">Admin</span>
+  </a>
+</li>
+  <li class="nav-item">
+    <a class="nav-link text-white">
+      <i class="fas fa-user"></i>
+      <span class="ml-3">Info</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link text-white" style="cursor: pointer">
+      <i class="fas fa-envelope"></i>
+      <span class="ml-3">Contacts</span>
+    </div>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link text-white" href="#">
+      <i class="fas fa-signal"></i>
+      <span class="ml-3">Reports</span>
+    </a>
+  </li>
+  <!--  -->
+  <!-- Show and route Administration Page -->
+  <!-- see only if this user has Administrator role -->
+  <li *ngIf="userService.allowedRole(['Administrator'])">
+    <a class="nav-link text-white" [routerLink]="['/users']">
+      <i class="fas fa-users"></i>
+      <span class="ml-3">Users</span>
+    </a>
+  </li>
+</ul>

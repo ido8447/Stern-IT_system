@@ -1,26 +1,22 @@
-<mat-card>
-    <mat-card-title>
-        User Details
-    </mat-card-title>
-    <mat-card-content>
-        <dl>
-            <dt>Email:</dt>
-            <dd>
-                {{user?.Email}}
-            </dd>
-            <dt>Phone Number:</dt>
-            <dd>
-                {{user?.PhoneNumber}}
-            </dd>
-            <dt>Roles:</dt>
-            <dd>
-                {{user?.Roles}}
-            </dd>
-        </dl>
-    </mat-card-content>
-    <mat-card-actions>
-        <a class="btn" [routerLink]="['/users']" matTooltip="Back" >
-            <i class="material-icons">arrow_back</i>
-        </a>
-    </mat-card-actions>
-</mat-card>
+<div class="card">
+  <div class="card-header">User Details</div>
+  <div class="card-body">
+    <dl>
+      <dt>Email:</dt>
+      <dd>
+        {{ user?.Email }}
+      </dd>
+      <dt>Phone Number:</dt>
+      <dd>
+        {{ user?.PhoneNumber }}
+      </dd>
+      <dt>Roles:</dt>
+      <dd>
+        {{ user?.Roles }}
+      </dd>
+    </dl>
+    <a class="btn" [routerLink]="['/users']" matTooltip="Back">
+      <i class="material-icons">arrow_back</i>
+    </a>
+  </div>
+</div>

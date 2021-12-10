@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthorizedUser, UserService } from '../user/services/user.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.css']
 })
-export class HomeComponent implements OnInit{
+export class SidenavComponent implements OnInit {
+
   isExpanded = false;
   authorizedUser: AuthorizedUser;
 
   constructor(private userService: UserService) {}
 
-  
   ngOnInit(): void {
     this.userService.authorizedUser$.subscribe(
       (authorizedUser: AuthorizedUser) => {
@@ -25,10 +26,6 @@ export class HomeComponent implements OnInit{
       };
     }
   }
-
-
-
-
 
 
 }

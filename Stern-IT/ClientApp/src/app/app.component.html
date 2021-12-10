@@ -1,6 +1,17 @@
-<body>
+<header>
   <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+</header>
+<main>
+  <div class="container-fluid mt-auto">
+    <div class="row">
+      <div class="col-2 pl-0">
+        <app-sidenav></app-sidenav>
+
+      </div>
+      <div class="col-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
-</body>
+</main>
+<footer></footer>

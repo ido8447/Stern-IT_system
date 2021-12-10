@@ -30,6 +30,7 @@ import { IndexComponent } from "./user/components/Index/index.component";
 import { ListComponent } from "./user/components/list/list.component";
 import { UserDetailsComponent } from "./user/components/details/details.component";
 import { UserEditComponent } from "./user/components/edit/edit.component";
+import { SidenavComponent } from "./sidenav/sidenav.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { UserEditComponent } from "./user/components/edit/edit.component";
     ListComponent,
     UserDetailsComponent,
     UserEditComponent,
-    AdministrationComponent
+    AdministrationComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
