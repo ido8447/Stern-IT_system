@@ -20,10 +20,10 @@ namespace Stern_IT.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<Models.User> _userManager;
-        private readonly Models.DbContext _context;
+        private readonly Models.SternItContext _context;
 
         //constractor
-        public UsersController(UserManager<Models.User> userManager, Models.DbContext dbContext)
+        public UsersController(UserManager<Models.User> userManager, Models.SternItContext dbContext)
         {
             _userManager = userManager;
             _context = dbContext;
@@ -97,9 +97,11 @@ namespace Stern_IT.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 //
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim("Id", user.Id.ToString()));
-                claims.Add(new Claim("Email", user.Email));
+                List<Claim> claims = new List<Claim>
+                {
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim("Email", user.Email)
+                };
                 var roles = await _userManager.GetRolesAsync(user);
                 IdentityOptions identityOptions = new IdentityOptions();
                 foreach (string role in roles)

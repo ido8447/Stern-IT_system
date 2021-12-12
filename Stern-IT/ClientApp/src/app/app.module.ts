@@ -31,6 +31,8 @@ import { ListComponent } from "./user/components/list/list.component";
 import { UserDetailsComponent } from "./user/components/details/details.component";
 import { UserEditComponent } from "./user/components/edit/edit.component";
 import { SidenavComponent } from "./sidenav/sidenav.component";
+import { ReportsComponent } from "./user/components/reports/reports.component";
+import { CreatereportComponent } from './user/components/createreport/createreport.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { SidenavComponent } from "./sidenav/sidenav.component";
     UserDetailsComponent,
     UserEditComponent,
     AdministrationComponent,
-    SidenavComponent
+    SidenavComponent,
+    ReportsComponent,
+    CreatereportComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -55,6 +59,17 @@ import { SidenavComponent } from "./sidenav/sidenav.component";
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "users/register", component: RegisterComponent },
+      {
+        path: "reports",
+        component: ReportsComponent,
+        canActivate: [AuthorizeGuard],
+      },
+      {
+        path: "create-report",
+        component: CreatereportComponent,
+        canActivate: [AuthorizeGuard],
+      },
+
       { path: "users/login", component: LoginComponent },
       {
         path: "users/:id",
@@ -62,7 +77,7 @@ import { SidenavComponent } from "./sidenav/sidenav.component";
         canActivate: [AuthorizeGuard],
         data: { allowedRoles: ["Administrator"] },
       },
-       {
+      {
         path: "users/edit/:id",
         component: UserEditComponent,
         canActivate: [AuthorizeGuard],

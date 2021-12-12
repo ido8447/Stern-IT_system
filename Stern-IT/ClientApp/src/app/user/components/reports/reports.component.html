@@ -1,0 +1,7 @@
+<h1>Report</h1>
+<form *ngIf="userService.authorizedUser() && !userService.allowedRole(['Administrator'])">
+  <a class="nav-link border" [routerLink]="['/create-report']">
+    <i class="fas fa-plus-square"></i>
+    <span class="ml-3">Create Report</span>
+  </a>
+</form>

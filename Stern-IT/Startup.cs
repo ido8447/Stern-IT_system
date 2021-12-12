@@ -31,7 +31,7 @@ namespace Stern_IT
             services.AddCors();
 
             //Connect to PostgreSQL
-            services.AddDbContext<Models.DbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Models.SternItContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>(option =>
             {
                 option.Password.RequireDigit = false;
@@ -41,7 +41,7 @@ namespace Stern_IT
                 option.Password.RequiredLength = 4;
 
 
-            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<Models.DbContext>();
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<Models.SternItContext>();
 
 
             services.AddControllersWithViews();

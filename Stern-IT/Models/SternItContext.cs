@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace Stern_IT.Models
 {
-    public class DbContext :IdentityDbContext<User>
+    public class SternItContext : IdentityDbContext<User>
     {
-        public DbContext(DbContextOptions options) :base(options)
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+
+        public SternItContext(DbContextOptions options) : base(options)
         {
 
         }
+
     }
+
 }
