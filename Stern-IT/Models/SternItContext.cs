@@ -10,12 +10,13 @@ namespace Stern_IT.Models
     public class SternItContext : IdentityDbContext<User>
     {
         public DbSet<Report> Reports { get; set; }
-        public DbSet<Customer> Customers { get; set; }
 
         public SternItContext(DbContextOptions options) : base(options)
         {
 
         }
+
+       
 
     }
 

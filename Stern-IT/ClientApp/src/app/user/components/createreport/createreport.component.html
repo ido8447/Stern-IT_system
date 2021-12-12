@@ -1,40 +1,89 @@
 <h1>Create Report</h1>
-<div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="inputName">Name</label>
-    <input type="text" class="form-control" id="inputName" />
-  </div>
-  <div class="form-group col-md-6">
-    <label for="inputState">Priority</label>
-    <select id="inputState" class="form-control">
-      <option selected>Low</option>
-      <option>Medium</option>
-      <option>High</option>
-      <option>Immoderate</option>
-    </select>
+<div>
+  <form
+    #form="ngForm"
+    novalidate="novalidate"
+    autocomplete="off"
+    (submit)="SendReport(form)"
+  >
+    <div class="form-group">
+      <input
+        id="inputEmail"
+        name="Email"
+        type="hidden"
+        [(ngModel)]="formReportModel.Email"
+        #Email="ngModel"
+      />
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="inputName">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputName"
+        name="Name"
+        [(ngModel)]="formReportModel.Name"
+        #Name="ngModel"
+      />
+    </div>
+    <!--  -->
+    <div class="form-group col-md-6">
+      <label for="inputState">Priority</label>
+      <select
+        id="inputState"
+        class="form-control"
+        name="Priority"
+        [(ngModel)]="formReportModel.Priority"
+        #Priority="ngModel"
+      >
+        <option selected>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+        <option>Immoderate</option>
+      </select>
+    </div>
+    <!--  -->
+    <div class="form-group">
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        <i class="fas fa-file-upload"></i>
+        {{ fileName }}
+      </button>
+      <input
+        hidden
+        (change)="onFileSelected()"
+        #fileInput
+        type="file"
+        id="file"
+      />
+    </div>
+    <!--  -->
+
+    <div class="form-group">
+      <label for="inputSubject">Subject</label>
+      <!-- | -->
+      <input
+        type="text"
+        class="form-control"
+        id="inputSubject"
+        name="Subject"
+        [(ngModel)]="formReportModel.Subject"
+        #Subject="ngModel"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputDescription">Description</label>
+      <textarea
+        id="inputDescription"
+        class="form-control"
+        rows="10"
+        name="Description"
+        [(ngModel)]="formReportModel.Description"
+        #Description="ngModel"
+      >
+      </textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </div>
-</div>
-<!--  -->
-<div class="form-group">
-
-<button type="button" mat-raised-button (click)="fileInput.click()">
-    <i class="fas fa-file-upload"></i>
-    {{fileName}}
-</button>
-<input hidden (change) = "onFileSelected()" #fileInput type="file" id="file">
-</div>
-<!--  -->
-
-<div class="form-group">
-  <label for="inputSubject">Subject</label>
-  <input type="text" class="form-control" id="inputSubject" />
-</div>
-<div class="form-group">
-  <label for="inputDescription">Description</label>
-  <textarea id="inputDescription" class="form-control" rows="10"> </textarea>
-</div>
-
-<button type="submit" class="btn btn-primary">Submit</button>
-
-
-

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -153,7 +154,7 @@ namespace Stern_IT.Controllers
             };
         }
 
- 
+
 
 
 
@@ -274,17 +275,19 @@ namespace Stern_IT.Controllers
             _context.Entry(applicationUser).State = EntityState.Modified;
             try
             {
-                 var userRoles = await _userManager.GetRolesAsync(applicationUser);
-                 await _userManager.RemoveFromRolesAsync(applicationUser,userRoles.ToArray());
-                 await _userManager.AddToRolesAsync(applicationUser,model.Roles);
-                 await _context.SaveChangesAsync();
+                var userRoles = await _userManager.GetRolesAsync(applicationUser);
+                await _userManager.RemoveFromRolesAsync(applicationUser, userRoles.ToArray());
+                await _userManager.AddToRolesAsync(applicationUser, model.Roles);
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if(applicationUser == null){
+                if (applicationUser == null)
+                {
                     return NotFound();
-                }                
-                else{
+                }
+                else
+                {
                     throw;
                 }
             }
@@ -300,10 +303,49 @@ namespace Stern_IT.Controllers
         [HttpGet]
         [Route("GetRoles")]
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles(){
+        public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles()
+        {
             return await _context.Roles.ToListAsync();
         }
-        
+
+       
+
+        public class CreateReportModel
+        {
+            public string Email { get; set; }
+            public string Name { get; set; }
+            public string Subject { get; set; }
+            public string Priority { get; set; }
+            public string Description { get; set; }
+        }
+
+        //POST: api/Users/create-report
+        [HttpPost]
+        [Route("create-report")]
+        public async Task<object> CreateReport(CreateReportModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            Models.Report applicationCreateReport = new Models.Report
+            {
+                Name = model.Name,
+                Priority = model.Priority,
+                Subject = model.Subject,
+                Description = model.Description,
+                user = user
+            };
+            try
+            {
+                _context.Add(applicationCreateReport);
+                await _context.SaveChangesAsync();
+                return Ok();               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }
 

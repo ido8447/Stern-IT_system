@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthorizedUser, UserService } from '../../services/user.service';
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AuthorizedUser, UserService } from "../../services/user.service";
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  selector: "app-reports",
+  templateUrl: "./reports.component.html",
+  styleUrls: ["./reports.component.css"],
 })
 export class ReportsComponent implements OnInit {
-
   authorizedUser: AuthorizedUser;
 
   constructor(private userService: UserService) {}
@@ -26,4 +26,5 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+  
 }

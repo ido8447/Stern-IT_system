@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { registerLocaleData } from "@angular/common";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -12,6 +13,8 @@ export class UserService {
   baseURL: string;
   apiURL = "api/Users/";
   authorizedUser$: Subject<AuthorizedUser> = new Subject<AuthorizedUser>();
+  formReportModel: any;
+  userEmail: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,7 +70,7 @@ export class UserService {
         this.authorizedUser$.next({
           Email: JSON.parse(window.atob(res.token.split(".")[1])).Email,
         });
-
+        this.userEmail =  user.Email;
         localStorage.setItem("token", res.token);
         this.router.navigateByUrl("/");
       });
@@ -188,6 +191,20 @@ export class UserService {
   //Action the function on UserController
   public GetRoles() {
     return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
+  }
+
+  public SendReport(report: any) {
+    return this.httpClient
+      .post(this.baseURL + this.apiURL + "create-report", report).subscribe((res: any) => {
+        if (res.Succeeded) {
+          alert("Request has send!");
+          this.formReportModel.reset();
+          this.router.navigateByUrl("/")
+        } else {
+          console.log(res);
+        }
+      });;
+      
   }
 }
 

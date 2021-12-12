@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stern_IT.Models;
@@ -9,9 +10,10 @@ using Stern_IT.Models;
 namespace Stern_IT.Migrations
 {
     [DbContext(typeof(SternItContext))]
-    partial class SternItContextModelSnapshot : ModelSnapshot
+    [Migration("20211212175442_change pk")]
+    partial class changepk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,6 +165,9 @@ namespace Stern_IT.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -172,12 +177,12 @@ namespace Stern_IT.Migrations
                     b.Property<string>("Subject")
                         .HasColumnType("text");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reports");
                 });
@@ -299,9 +304,9 @@ namespace Stern_IT.Migrations
 
             modelBuilder.Entity("Stern_IT.Models.Report", b =>
                 {
-                    b.HasOne("Stern_IT.Models.User", "user")
+                    b.HasOne("Stern_IT.Models.User", null)
                         .WithMany("Reports")
-                        .HasForeignKey("userId");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
