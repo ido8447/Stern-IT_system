@@ -1,0 +1,29 @@
+<h1>Ticket</h1>
+<form>
+  <div
+    class="form"
+    *ngIf="
+      userService.authorizedUser() &&
+      !userService.allowedRole(['Administrator'])
+    "
+  >
+    <div class="row">
+      <a class="nav-link border" [routerLink]="['/create-ticket']">
+        <i class="fas fa-plus-square"></i>
+        <span class="ml-3">Create Ticket</span>
+      </a>
+    </div>
+    <div class="row">
+      <app-show-tickets></app-show-tickets>
+    </div>
+  </div>
+
+  <div
+    class="form"
+    *ngIf="
+      userService.authorizedUser() && userService.allowedRole(['Moderator'])
+    "
+  >
+    <app-show-tickets-all-users></app-show-tickets-all-users>
+  </div>
+</form>

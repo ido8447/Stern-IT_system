@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { User } from "src/app/models/user.model";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../../services/user.service";
 
 @Component({
   selector: "app-list",

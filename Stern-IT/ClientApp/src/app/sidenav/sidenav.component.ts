@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AuthorizedUser, UserService } from '../user/services/user.service';
+import { AuthorizedUser, UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-sidenav',

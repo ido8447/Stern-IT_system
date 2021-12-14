@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { AuthorizedUser, UserService } from "../../services/user.service";
+import { AuthorizedUser, UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-tickets",

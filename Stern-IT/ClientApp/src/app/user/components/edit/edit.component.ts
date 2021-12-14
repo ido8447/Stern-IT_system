@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Role, UserInfo } from "src/app/models/user.model";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../../services/user.service";
 
 @Component({
     templateUrl: "edit.component.html"

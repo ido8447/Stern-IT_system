@@ -7,6 +7,8 @@ namespace Stern_IT.Models
     {
          [Key]
          public int ID { get; set; }
+         public string Email { get; set; }
+
          public string Name { get; set; }
          public string Subject { get; set; }
          public string Priority { get; set; }

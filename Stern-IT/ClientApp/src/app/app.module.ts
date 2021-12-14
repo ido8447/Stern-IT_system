@@ -20,7 +20,7 @@ import "hammerjs";
 import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
-import { UserService } from "./user/services/user.service";
+import { UserService } from "./services/user.service";
 import { RegisterComponent } from "./user/components/register/register.component";
 import { LoginComponent } from "./user/components/login/login.component";
 import { AuthorizeInterceptor } from "./auth/authorize.interceptor";
@@ -31,8 +31,12 @@ import { ListComponent } from "./user/components/list/list.component";
 import { UserDetailsComponent } from "./user/components/details/details.component";
 import { UserEditComponent } from "./user/components/edit/edit.component";
 import { SidenavComponent } from "./sidenav/sidenav.component";
-import { TicketsComponent } from "./user/components/ticket/tickets.component";
-import { CreateTicketComponent } from './user/components/createTicket/createTicket.component';
+
+import { CreateTicketComponent } from "./ticket/components/createTicket/createTicket.component";
+import { ShowTicketsAllUsersComponent } from "./ticket/components/show-tickets-all-users/show-tickets-all-users.component";
+import { ShowTicketsComponent } from "./ticket/components/show-tickets/show-tickets.component";
+import { TicketsComponent } from "./ticket/components/ticket/tickets.component";
+import { TicketService } from "./services/ticket.service";
 
 @NgModule({
   declarations: [
@@ -49,6 +53,8 @@ import { CreateTicketComponent } from './user/components/createTicket/createTick
     SidenavComponent,
     TicketsComponent,
     CreateTicketComponent,
+    ShowTicketsComponent,
+    ShowTicketsAllUsersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -111,6 +117,7 @@ import { CreateTicketComponent } from './user/components/createTicket/createTick
   ],
   providers: [
     UserService,
+    TicketService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizeInterceptor,

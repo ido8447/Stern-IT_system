@@ -21,6 +21,7 @@ namespace Stern_IT.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<Models.User> _userManager;
+
         private readonly Models.SternItContext _context;
 
         //constractor
@@ -28,6 +29,7 @@ namespace Stern_IT.Controllers
         {
             _userManager = userManager;
             _context = dbContext;
+
         }
         //
 
@@ -309,42 +311,6 @@ namespace Stern_IT.Controllers
         }
 
        
-
-        public class CreateTicketModel
-        {
-            public string Email { get; set; }
-            public string Name { get; set; }
-            public string Subject { get; set; }
-            public string Priority { get; set; }
-            public string Description { get; set; }
-        }
-
-        //POST: api/Users/create-Ticket
-        [HttpPost]
-        [Route("create-ticket")]
-        public async Task<object> CreateTicket(CreateTicketModel model)
-        {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            Models.Ticket applicationCreateTicket = new Models.Ticket
-            {
-                Name = model.Name,
-                Priority = model.Priority,
-                Subject = model.Subject,
-                Description = model.Description,
-                user = user
-            };
-            try
-            {
-                _context.Add(applicationCreateTicket);
-                var result = await _context.SaveChangesAsync();
-                return Ok(result);               
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
 
     }
 }

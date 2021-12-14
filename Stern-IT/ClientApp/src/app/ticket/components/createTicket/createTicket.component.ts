@@ -1,7 +1,9 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { FormGroup, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import { UserService } from "../../services/user.service";
+import { TicketService } from "src/app/services/ticket.service";
+import { UserService } from "src/app/services/user.service";
+
 
 @Component({
   selector: "app-createTicket",
@@ -18,7 +20,7 @@ export class CreateTicketComponent implements OnInit {
   };
   srcResault: any;
   fileName: any;
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private ticketService: TicketService, private userService: UserService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -34,9 +36,6 @@ export class CreateTicketComponent implements OnInit {
     }
   }
   SendTicket(form: NgForm) {
-    this.userService.SendTicket(form.value).subscribe((res: any) => {
-      alert("Request has send!");
-      this.router.navigateByUrl('/')
-    });
+    this.ticketService.SendTicket(form.value);
   }
 }
