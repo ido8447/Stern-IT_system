@@ -1,17 +1,17 @@
-<h1>Create Report</h1>
+<h1>Create Ticket</h1>
 <div>
   <form
     #form="ngForm"
     novalidate="novalidate"
     autocomplete="off"
-    (submit)="SendReport(form)"
+    (submit)="SendTicket(form)"
   >
     <div class="form-group">
       <input
         id="inputEmail"
         name="Email"
         type="hidden"
-        [(ngModel)]="formReportModel.Email"
+        [(ngModel)]="formTicketModel.Email"
         #Email="ngModel"
       />
     </div>
@@ -23,7 +23,7 @@
         class="form-control"
         id="inputName"
         name="Name"
-        [(ngModel)]="formReportModel.Name"
+        [(ngModel)]="formTicketModel.Name"
         #Name="ngModel"
       />
     </div>
@@ -34,7 +34,7 @@
         id="inputState"
         class="form-control"
         name="Priority"
-        [(ngModel)]="formReportModel.Priority"
+        [(ngModel)]="formTicketModel.Priority"
         #Priority="ngModel"
       >
         <option selected>Low</option>
@@ -67,7 +67,7 @@
         class="form-control"
         id="inputSubject"
         name="Subject"
-        [(ngModel)]="formReportModel.Subject"
+        [(ngModel)]="formTicketModel.Subject"
         #Subject="ngModel"
       />
     </div>
@@ -78,7 +78,7 @@
         class="form-control"
         rows="10"
         name="Description"
-        [(ngModel)]="formReportModel.Description"
+        [(ngModel)]="formTicketModel.Description"
         #Description="ngModel"
       >
       </textarea>

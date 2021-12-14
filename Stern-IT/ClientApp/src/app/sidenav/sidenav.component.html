@@ -1,14 +1,14 @@
 <ul
-*ngIf="userService.authorizedUser()"
-style="height: 95vh"
-class="nav flex-column pt-4 bg-dark"
+  *ngIf="userService.authorizedUser()"
+  style="height: 95vh"
+  class="nav flex-column pt-4 bg-dark"
 >
-<li *ngIf="userService.allowedRole(['Administrator'])">
-  <a class="nav-link text-white" [routerLink]="['/administration']">
-    <i class="fa fa-user-plus"></i>
-    <span class="ml-3">Admin</span>
-  </a>
-</li>
+  <li *ngIf="userService.allowedRole(['Administrator'])">
+    <a class="nav-link text-white" [routerLink]="['/administration']">
+      <i class="fa fa-user-plus"></i>
+      <span class="ml-3">Admin</span>
+    </a>
+  </li>
   <li class="nav-item">
     <a class="nav-link text-white">
       <i class="fas fa-user"></i>
@@ -23,9 +23,8 @@ class="nav flex-column pt-4 bg-dark"
   </li>
 
   <li class="nav-item">
-    <a class="nav-link text-white"[routerLink]="['/reports']">
-      <i class="fas fa-signal"></i>
-      <span class="ml-3">Reports</span>
+    <a class="nav-link text-white" [routerLink]="['/tickets']">
+      <i class="fas fa-ticket-alt"></i> <span class="ml-3">Tickets</span>
     </a>
   </li>
   <!--  -->

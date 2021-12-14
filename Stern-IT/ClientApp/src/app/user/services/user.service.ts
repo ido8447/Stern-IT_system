@@ -13,7 +13,7 @@ export class UserService {
   baseURL: string;
   apiURL = "api/Users/";
   authorizedUser$: Subject<AuthorizedUser> = new Subject<AuthorizedUser>();
-  formReportModel: any;
+  formTicketModel: any;
   userEmail: FormGroup;
 
   constructor(
@@ -193,17 +193,11 @@ export class UserService {
     return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
   }
 
-  public SendReport(report: any) {
+
+  //send request of ticket
+  public SendTicket(ticket: any) {
     return this.httpClient
-      .post(this.baseURL + this.apiURL + "create-report", report).subscribe((res: any) => {
-        if (res.Succeeded) {
-          alert("Request has send!");
-          this.formReportModel.reset();
-          this.router.navigateByUrl("/")
-        } else {
-          console.log(res);
-        }
-      });;
+      .post(this.baseURL + this.apiURL + "create-ticket", ticket);
       
   }
 }

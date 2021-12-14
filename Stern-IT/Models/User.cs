@@ -8,6 +8,6 @@ namespace Stern_IT.Models
 {
     public class User : IdentityUser
     {
-        public List<Report> Reports { get; set; }
+        public List<Ticket> Tickets { get; set; }
     }
 }

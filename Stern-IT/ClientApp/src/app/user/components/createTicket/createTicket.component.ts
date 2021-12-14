@@ -1,14 +1,15 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { FormGroup, NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
 
 @Component({
-  selector: "app-createreport",
-  templateUrl: "./createreport.component.html",
-  styleUrls: ["./createreport.component.css"],
+  selector: "app-createTicket",
+  templateUrl: "./createTicket.component.html",
+  styleUrls: ["./createTicket.component.css"],
 })
-export class CreatereportComponent implements OnInit {
-  formReportModel = {
+export class CreateTicketComponent implements OnInit {
+  formTicketModel = {
     Email: this.userService.getAuthorizedUserEmail(),
     Name: "",
     Priority: "",
@@ -17,7 +18,7 @@ export class CreatereportComponent implements OnInit {
   };
   srcResault: any;
   fileName: any;
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -32,7 +33,10 @@ export class CreatereportComponent implements OnInit {
       reader.readAsArrayBuffer(InputNode.files[0]);
     }
   }
-  SendReport(form: NgForm) {
-    this.userService.SendReport(form.value)
+  SendTicket(form: NgForm) {
+    this.userService.SendTicket(form.value).subscribe((res: any) => {
+      alert("Request has send!");
+      this.router.navigateByUrl('/')
+    });
   }
 }

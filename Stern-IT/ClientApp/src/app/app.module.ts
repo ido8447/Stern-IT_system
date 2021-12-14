@@ -31,8 +31,8 @@ import { ListComponent } from "./user/components/list/list.component";
 import { UserDetailsComponent } from "./user/components/details/details.component";
 import { UserEditComponent } from "./user/components/edit/edit.component";
 import { SidenavComponent } from "./sidenav/sidenav.component";
-import { ReportsComponent } from "./user/components/reports/reports.component";
-import { CreatereportComponent } from './user/components/createreport/createreport.component';
+import { TicketsComponent } from "./user/components/ticket/tickets.component";
+import { CreateTicketComponent } from './user/components/createTicket/createTicket.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +47,8 @@ import { CreatereportComponent } from './user/components/createreport/createrepo
     UserEditComponent,
     AdministrationComponent,
     SidenavComponent,
-    ReportsComponent,
-    CreatereportComponent,
+    TicketsComponent,
+    CreateTicketComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -60,13 +60,13 @@ import { CreatereportComponent } from './user/components/createreport/createrepo
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "users/register", component: RegisterComponent },
       {
-        path: "reports",
-        component: ReportsComponent,
+        path: "tickets",
+        component: TicketsComponent,
         canActivate: [AuthorizeGuard],
       },
       {
-        path: "create-report",
-        component: CreatereportComponent,
+        path: "create-ticket",
+        component: CreateTicketComponent,
         canActivate: [AuthorizeGuard],
       },
 

@@ -310,7 +310,7 @@ namespace Stern_IT.Controllers
 
        
 
-        public class CreateReportModel
+        public class CreateTicketModel
         {
             public string Email { get; set; }
             public string Name { get; set; }
@@ -319,13 +319,13 @@ namespace Stern_IT.Controllers
             public string Description { get; set; }
         }
 
-        //POST: api/Users/create-report
+        //POST: api/Users/create-Ticket
         [HttpPost]
-        [Route("create-report")]
-        public async Task<object> CreateReport(CreateReportModel model)
+        [Route("create-ticket")]
+        public async Task<object> CreateTicket(CreateTicketModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            Models.Report applicationCreateReport = new Models.Report
+            Models.Ticket applicationCreateTicket = new Models.Ticket
             {
                 Name = model.Name,
                 Priority = model.Priority,
@@ -335,9 +335,9 @@ namespace Stern_IT.Controllers
             };
             try
             {
-                _context.Add(applicationCreateReport);
-                await _context.SaveChangesAsync();
-                return Ok();               
+                _context.Add(applicationCreateTicket);
+                var result = await _context.SaveChangesAsync();
+                return Ok(result);               
             }
             catch (Exception ex)
             {

@@ -3,11 +3,11 @@ import { NgForm } from "@angular/forms";
 import { AuthorizedUser, UserService } from "../../services/user.service";
 
 @Component({
-  selector: "app-reports",
-  templateUrl: "./reports.component.html",
-  styleUrls: ["./reports.component.css"],
+  selector: "app-tickets",
+  templateUrl: "./tickets.component.html",
+  styleUrls: ["./tickets.component.css"],
 })
-export class ReportsComponent implements OnInit {
+export class TicketsComponent implements OnInit {
   authorizedUser: AuthorizedUser;
 
   constructor(private userService: UserService) {}

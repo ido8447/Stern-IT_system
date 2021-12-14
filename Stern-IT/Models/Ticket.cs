@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Stern_IT.Models
 {
-    public class Report
+    public class Ticket
     {
          [Key]
          public int ID { get; set; }
