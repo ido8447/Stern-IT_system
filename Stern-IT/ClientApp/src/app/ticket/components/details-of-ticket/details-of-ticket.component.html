@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header">Ticket Details</div>
+    <div class="card-body">
+      <dl>
+        <dt>Id:</dt>
+        <dd>
+          {{ ticket?.Id }}
+        </dd>
+        <dt>Email:</dt>
+        <dd>
+          {{ ticket?.Email }}
+        </dd>
+        <dt>Name:</dt>
+        <dd>
+          {{ ticket?.Name }}
+        </dd>
+        <dt>Subject:</dt>
+        <dd>
+          {{ ticket?.Subject }}
+        </dd>
+        <dt>Priority:</dt>
+        <dd>
+          {{ ticket?.Priority }}
+        </dd>
+        <dt>Description:</dt>
+        <dd>
+          {{ ticket?.Description }}
+        </dd>
+        
+      </dl>
+      <a class="btn" [routerLink]="['/tickets']" matTooltip="Back">
+        <i class="material-icons">arrow_back</i>
+      </a>
+    </div>
+  </div>
+  

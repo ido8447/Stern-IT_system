@@ -37,6 +37,7 @@ import { ShowTicketsAllUsersComponent } from "./ticket/components/show-tickets-a
 import { ShowTicketsComponent } from "./ticket/components/show-tickets/show-tickets.component";
 import { TicketsComponent } from "./ticket/components/ticket/tickets.component";
 import { TicketService } from "./services/ticket.service";
+import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/details-of-ticket.component";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { TicketService } from "./services/ticket.service";
     CreateTicketComponent,
     ShowTicketsComponent,
     ShowTicketsAllUsersComponent,
+    DetailsOfTicketComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -75,7 +77,12 @@ import { TicketService } from "./services/ticket.service";
         component: CreateTicketComponent,
         canActivate: [AuthorizeGuard],
       },
-
+      {
+        path: "tickets/:id",
+        component: DetailsOfTicketComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator", "Moderator"] },
+      },
       { path: "users/login", component: LoginComponent },
       {
         path: "users/:id",

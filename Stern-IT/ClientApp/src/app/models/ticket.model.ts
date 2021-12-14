@@ -5,4 +5,5 @@ export class Ticket {
     Subject: string;
     Priority: string;
     Description: string;
+    Created: string;
   }

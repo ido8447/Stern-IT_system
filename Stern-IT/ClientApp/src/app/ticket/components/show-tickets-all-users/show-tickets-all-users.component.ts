@@ -9,7 +9,7 @@ import { TicketService } from "src/app/services/ticket.service";
   styleUrls: ["./show-tickets-all-users.component.css"],
 })
 export class ShowTicketsAllUsersComponent implements OnInit {
-  columns: string[] = ["Email","Name", "Subject", "Priority", "details-edit-delete"];
+  columns: string[] = ["Email","Name", "Subject", "Priority", "Date" ,"details-delete"];
   dataSource = new MatTableDataSource<Ticket>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -20,8 +20,10 @@ export class ShowTicketsAllUsersComponent implements OnInit {
       return (
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Name.toLowerCase().includes(filter.toLowerCase()) ||
-        ticket.Priority.toLowerCase().includes(filter.toLowerCase())
-      );
+        ticket.Priority.toLowerCase().includes(filter.toLowerCase())||
+        ticket.Email.toLowerCase().includes(filter.toLowerCase())
+     
+        );
     };
   }
 
@@ -42,16 +44,20 @@ export class ShowTicketsAllUsersComponent implements OnInit {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
-  // delete(Id: any) {
-  //   if (confirm("Are you sure to delete this record?")) {
-  //     this.userService.delete(Id).subscribe(
-  //       () => {
-  //         this.get();
-  //       },
-  //       (err: any) => {
-  //         console.log(err);
-  //       }
-  //     );
-  //   }
-  // }
+  deleteTicket(Id: any) {
+    if (confirm("Are you sure to delete this ticket?")) {
+      this.ticketService.DeleteTicket(Id).subscribe(
+        () => {
+          this.ticketService.getTicket();
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  refresh(){
+    this.get();
+  }
 }

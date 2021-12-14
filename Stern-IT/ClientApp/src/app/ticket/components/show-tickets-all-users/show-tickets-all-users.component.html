@@ -1,5 +1,10 @@
-<p>show-tickets-all-users works!</p>
 <form autocomplete="off">
+  <a class="btn" (click)="refresh()" matTooltip="Refresh">
+    <i class="material-icons">refresh</i>
+  </a>
+
+
+
   <mat-form-field>
     <input
       matInput
@@ -35,25 +40,23 @@
           {{ item.Priority }}
         </td>
       </ng-container>
-
-      <ng-container matColumnDef="details-edit-delete">
-        <th mat-header-cell *matHeaderCellDef></th>
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.Created }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="details-delete">
+        <th mat-header-cell *matHeaderCellDef>Details - Delete</th>
         <td mat-cell *matCellDef="let item">
           <a
             class="btn"
-            [routerLink]="['/users', item.Id]"
+            [routerLink]="['/tickets', item.Id]"
             matTooltip="Details"
           >
             <i class="material-icons">info</i>
           </a>
-          <a
-            class="btn"
-            [routerLink]="['/users/edit', item.Id]"
-            matTooltip="Edit"
-          >
-            <i class="material-icons">edit</i>
-          </a>
-          <a class="btn" matTooltip="Delete" (click)="delete(item.Id)">
+          <a class="btn" matTooltip="Delete" (click)="deleteTicket(item.Id)">
             <i class="material-icons">delete</i>
           </a>
         </td>
@@ -65,7 +68,7 @@
 
   <mat-paginator
     [pageSizeOptions]="[100, 50, 25, 10]"
-    [pageSize]="10"
+    [pageSize]="25"
     showFirstLastButtons
   ></mat-paginator>
 </form>
