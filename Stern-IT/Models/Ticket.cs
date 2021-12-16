@@ -7,7 +7,7 @@ namespace Stern_IT.Models
     public class Ticket
     {
          [Key]
-         public int ID { get; set; }
+         public int TicketId { get; set; }
          public string Email { get; set; }
 
          public string Name { get; set; }

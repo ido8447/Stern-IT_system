@@ -33,6 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20211216164803_change.cs" />
+    <Compile Remove="Migrations\20211216164803_change.Designer.cs" />
+    <Compile Remove="Migrations\20211216164840_change.cs" />
+    <Compile Remove="Migrations\20211216164840_change.Designer.cs" />
+    <Compile Remove="Migrations\20211216165032_change.cs" />
+    <Compile Remove="Migrations\20211216165032_change.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\user\user.service.ts" />
   </ItemGroup>
 

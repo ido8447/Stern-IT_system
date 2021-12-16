@@ -107,7 +107,7 @@ namespace Stern_IT.Controllers
             {
                 viewModels.Add(new TicketViewModel()
                 {
-                    Id = ticket.ID,
+                    Id = ticket.TicketId,
                     Name = ticket.Name,
                     Subject = ticket.Subject,
                     Priority = ticket.Priority,
@@ -135,7 +135,7 @@ namespace Stern_IT.Controllers
             }
             TicketViewModel ticketViewModel = new TicketViewModel()
             {
-                Id = applicationTicket.ID,
+                Id = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
                 Name = applicationTicket.Name,
                 Subject = applicationTicket.Subject,
@@ -170,7 +170,7 @@ namespace Stern_IT.Controllers
 
             return new TicketViewModel()
             {
-                Id = applicationTicket.ID,
+                Id = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
                 Name = applicationTicket.Name,
                 Subject = applicationTicket.Subject,
