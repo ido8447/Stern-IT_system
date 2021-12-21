@@ -50,7 +50,7 @@ export class TicketService {
   public getTickets(Email: string, Status: string) {
     if (Status == "Open") {
       return this.httpClient.get(
-        this.baseURL + this.apiURL + "opentickets/" + Email
+        this.baseURL + this.apiURL + "tickets/" + Email
       );
     } else if (Status == "Closed") {
       return this.httpClient.get(

@@ -88,52 +88,8 @@ namespace Stern_IT.Controllers
 
         }
 
-
-
-        /// <summary>
-        /// Function to show tickets on table from postgresSql
-        /// </summary>
-        /// <returns>List of models with parameters</returns>
-        //GET: api/Tickets
-        [HttpGet]
-        [Authorize(Roles = "Moderator")]
-        [Authorize(Roles = "Administrator")]
-
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets()
-        {
-            List<TicketViewModel> viewModels = new List<TicketViewModel>();
-            List<Models.Ticket> tickets = await _context.Tickets.ToListAsync();
-
-            foreach (Models.Ticket ticket in tickets)
-            {
-                viewModels.Add(new TicketViewModel()
-                {
-                    Id = ticket.TicketId,
-                    Status = ticket.Status,
-                    Subject = ticket.Subject,
-                    Priority = ticket.Priority,
-                    Description = ticket.Description,
-                    Email = ticket.Email,
-                    Created = ticket.Created,
-                });
-
-            }
-
-            return viewModels;
-        }
-
-
-
-
-
-
-
-
         //GET: api/Tickets/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Moderator")]
-        [Authorize(Roles = "Administrator")]
-
         public async Task<ActionResult<TicketViewModel>> GetTicket(int id)
         {
             var applicationTicket = await _context.Tickets.FindAsync(id);
@@ -155,78 +111,115 @@ namespace Stern_IT.Controllers
 
             return ticketViewModel;
         }
+        
 
 
 
-        //GET: api/Tickets/opentickets/{email}
-        [HttpGet("opentickets/{email}")]
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetUserTickets(string email)
+        /// <summary>
+        /// Function to show tickets on table from postgresSql
+        /// </summary>
+        /// <returns>List of models with parameters</returns>
+        //GET: api/Tickets
+        [HttpGet("tickets/{email}")]
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets(string email)
         {
-            List<TicketViewModel> viewModels = new List<TicketViewModel>();
-            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Open").ToListAsync();
-            tickets.ForEach(ticket =>
+            var user = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("Moderator") || roles.Contains("Administrator"))
             {
-                viewModels.Add(new TicketViewModel()
-                {
-                    Id = ticket.TicketId,
-                    Status = ticket.Status,
-                    Subject = ticket.Subject,
-                    Priority = ticket.Priority,
-                    Description = ticket.Description,
-                    Email = ticket.Email,
-                    Created = ticket.Created,
-                });
-            });
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").ToListAsync();
 
-            return viewModels;
+                foreach (Models.Ticket ticket in tickets)
+                {
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
+
+                }
+
+                return viewModels;
+            }
+            else
+            {
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Open").ToListAsync();
+                tickets.ForEach(ticket =>
+                {
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
+                });
+
+                return viewModels;
+            }
+
+            
         }
+
+
 
 
         //GET: api/Tickets/closedtickets/{email}
         [HttpGet("closedtickets/{email}")]
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetUserClosedTickets(string email)
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetClosedTickets(string email)
         {
-            List<TicketViewModel> viewModels = new List<TicketViewModel>();
-            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
-            tickets.ForEach(ticket =>
+            var user = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count ==0)
             {
-                viewModels.Add(new TicketViewModel()
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
+                tickets.ForEach(ticket =>
                 {
-                    Id = ticket.TicketId,
-                    Status = ticket.Status,
-                    Subject = ticket.Subject,
-                    Priority = ticket.Priority,
-                    Description = ticket.Description,
-                    Email = ticket.Email,
-                    Created = ticket.Created,
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
                 });
-            });
 
-            return viewModels;
-        }
-
-
-        //GET: api/Tickets/closedtickets
-        [HttpGet("closedtickets")]
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetClosedTickets()
-        {
-            List<TicketViewModel> viewModels = new List<TicketViewModel>();
-            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
-            tickets.ForEach(ticket =>
+                return viewModels;
+            }
+            else
             {
-                viewModels.Add(new TicketViewModel()
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
+                tickets.ForEach(ticket =>
                 {
-                    Id = ticket.TicketId,
-                    Status = ticket.Status,
-                    Subject = ticket.Subject,
-                    Priority = ticket.Priority,
-                    Description = ticket.Description,
-                    Email = ticket.Email,
-                    Created = ticket.Created,
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
                 });
-            });
 
-            return viewModels;
+                return viewModels;
+            }
         }
 
         //DELETE: api/tickets/5
@@ -236,9 +229,6 @@ namespace Stern_IT.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Moderator")]
-        [Authorize(Roles = "Administrator")]
-
         public async Task<ActionResult<TicketViewModel>> DeleteTicket(int id)
         {
             var applicationTicket = await _context.Tickets.FindAsync(id);
@@ -269,7 +259,7 @@ namespace Stern_IT.Controllers
         /// <param name="model">model of user</param>
         /// <returns>new user model</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutUser(string id, TicketViewModel model)
+        public async Task<ActionResult> PutTicketr(string id, TicketViewModel model)
         {
             if (int.Parse(id) != model.Id)
             {

@@ -33,13 +33,11 @@ import { UserEditComponent } from "./user/components/edit/edit.component";
 import { SidenavComponent } from "./sidenav/sidenav.component";
 
 import { CreateTicketComponent } from "./ticket/components/createTicket/createTicket.component";
-import { ShowTicketsAllUsersComponent } from "./ticket/components/show-tickets-all-users/show-tickets-all-users.component";
 import { ShowTicketsComponent } from "./ticket/components/show-tickets/show-tickets.component";
 import { TicketsComponent } from "./ticket/components/ticket/tickets.component";
 import { TicketService } from "./services/ticket.service";
 import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/details-of-ticket.component";
 import { ClosedticketsComponent } from './ticket/components/closedtickets/closedtickets.component';
-import { ClosedAllticketsComponent } from './ticket/components/closed-alltickets/closed-alltickets.component';
 import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket.component';
 
 @NgModule({
@@ -58,10 +56,8 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
     TicketsComponent,
     CreateTicketComponent,
     ShowTicketsComponent,
-    ShowTicketsAllUsersComponent,
     DetailsOfTicketComponent,
     ClosedticketsComponent,
-    ClosedAllticketsComponent,
     EditTicketComponent,
   ],
   imports: [
@@ -92,7 +88,7 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
         path: "tickets/:id",
         component: DetailsOfTicketComponent,
         canActivate: [AuthorizeGuard],
-        data: { allowedRoles: ["Administrator", "Moderator"] },
+        // data: { allowedRoles: ["Administrator", "Moderator"] },
       },
       {
         path: "tickets/edit/:id",

@@ -1,23 +1,8 @@
 <h1>Ticket</h1>
 <form>
-  <div
-    class="form"
-    *ngIf="
-      userService.authorizedUser() &&
-      !userService.allowedRole(['Administrator'])&&
-      !userService.allowedRole(['Moderator'])
-    "
-  >
-    <div class="row">
-  
-    </div>
-      <app-show-tickets></app-show-tickets>
-  </div>
+ 
 
-  <div
-    class="form"
-    *ngIf="userService.authorizedUser() && userService.allowedRole(['Moderator']) || userService.allowedRole(['Administrator'])"
-  >
-    <app-show-tickets-all-users></app-show-tickets-all-users>
-  </div>
+      <app-show-tickets></app-show-tickets>
+
+ 
 </form>

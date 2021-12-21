@@ -10,8 +10,18 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./closedtickets.component.css']
 })
 export class ClosedticketsComponent implements OnInit {
-  columns: string[] = ["Subject","Status",  "Priority", "Date" ,"details-delete"];
+  columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
+
+
+  columnsFunc() {
+
+    if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
+      return ["Email","Subject", "Status", "Priority", "Date", "details-delete"];
+    }
+    return ["Subject", "Status", "Priority", "Date", "details-delete"];
+  }
+
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

@@ -223,6 +223,9 @@ namespace Stern_IT.Controllers
 
         }
 
+
+
+
         //DELETE: api/Users/5
         /// <summary>
         /// Delete the current User by his ID
@@ -297,6 +300,8 @@ namespace Stern_IT.Controllers
         }
         //
 
+
+
         //GET: api/Users/GetRoles
         /// <summary>
         /// 
@@ -307,11 +312,16 @@ namespace Stern_IT.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles()
         {
-            return await _context.Roles.ToListAsync();
+           var roles = await _context.Roles.ToListAsync();
+            return roles;
         }
 
-       
-
+        // [HttpGet("GetUserRoles/{email}")]
+        // public async Task<object> GetUserRoles(string email)
+        // {
+        //     var user = await _userManager.FindByEmailAsync(email);
+        //     return await _userManager.GetRolesAsync(user);
+        // }
     }
 }
 

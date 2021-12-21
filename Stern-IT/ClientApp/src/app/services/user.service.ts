@@ -195,10 +195,14 @@ export class UserService {
   //Go to the URL => this.baseURL + this.apiURL + "GetRoles"
   //and return this url with GET
   //Action the function on UserController
+  // public GetUserRoles(Email: string) {
+  //   return this.httpClient.get(this.baseURL + this.apiURL + "GetUserRoles/" + Email);
+  // }
   public GetRoles() {
-    return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles" );
   }
 }
+
 export interface AuthorizedUser {
   Email: string;
 }
