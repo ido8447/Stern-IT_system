@@ -72,7 +72,15 @@ export class UserService {
         });
         this.userEmail = user.Email;
         localStorage.setItem("token", res.token);
-        this.router.navigateByUrl("/");
+        if (
+          this.authorizedUser() &&
+          !this.allowedRole(["Administrator"]) &&
+          !this.allowedRole(["Moderator"])
+        ) {
+          this.router.navigateByUrl("tickets");
+        } else {
+          this.router.navigateByUrl("/");
+        }
       });
   }
 
@@ -192,10 +200,6 @@ export class UserService {
   public GetRoles() {
     return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
   }
-
-
-
-
 }
 export interface AuthorizedUser {
   Email: string;

@@ -96,13 +96,14 @@ namespace Stern_IT.Controllers
         /// <returns>List of models with parameters</returns>
         //GET: api/Tickets
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Administrator")]
 
         public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets()
         {
             List<TicketViewModel> viewModels = new List<TicketViewModel>();
             List<Models.Ticket> tickets = await _context.Tickets.ToListAsync();
+
             foreach (Models.Ticket ticket in tickets)
             {
                 viewModels.Add(new TicketViewModel()
@@ -115,15 +116,23 @@ namespace Stern_IT.Controllers
                     Email = ticket.Email,
                     Created = ticket.Created,
                 });
+
             }
+
             return viewModels;
         }
 
 
-     //GET: api/Tickets/5
+
+
+
+
+
+
+        //GET: api/Tickets/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Administrator")]
         [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Administrator")]
 
         public async Task<ActionResult<TicketViewModel>> GetTicket(int id)
         {
@@ -141,7 +150,7 @@ namespace Stern_IT.Controllers
                 Subject = applicationTicket.Subject,
                 Priority = applicationTicket.Priority,
                 Description = applicationTicket.Description
-               
+
             };
 
             return ticketViewModel;
@@ -149,7 +158,34 @@ namespace Stern_IT.Controllers
 
 
 
-        
+        //GET: api/Tickets/{email}
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetUserTickets(string email)
+        {
+            List<TicketViewModel> viewModels = new List<TicketViewModel>();
+            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).ToListAsync();
+            tickets.ForEach(ticket =>
+            {
+                viewModels.Add(new TicketViewModel()
+                {
+                    Id = ticket.TicketId,
+                    Name = ticket.Name,
+                    Subject = ticket.Subject,
+                    Priority = ticket.Priority,
+                    Description = ticket.Description,
+                    Email = ticket.Email,
+                    Created = ticket.Created,
+                });
+            });
+
+            return viewModels;
+        }
+
+
+
+
+
+
         //DELETE: api/tickets/5
         /// <summary>
         /// Delete the current Ticket by his ID
@@ -157,7 +193,9 @@ namespace Stern_IT.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Moderator")]
         [Authorize(Roles = "Administrator")]
+
         public async Task<ActionResult<TicketViewModel>> DeleteTicket(int id)
         {
             var applicationTicket = await _context.Tickets.FindAsync(id);
@@ -179,6 +217,10 @@ namespace Stern_IT.Controllers
             };
 
         }
+
+
+
+
     }
 }
 

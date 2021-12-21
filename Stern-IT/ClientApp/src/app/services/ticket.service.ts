@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { UserService } from "./user.service";
 import { convertActionBinding } from "@angular/compiler/src/compiler_util/expression_converter";
+import { each } from "lodash";
 
 @Injectable({
   providedIn: "root",
@@ -35,22 +36,22 @@ export class TicketService {
       });
   }
 
-  public getTicket(Id?: string) {
-    if (Id) {
-      return this.httpClient.get(this.baseURL + this.apiURL + parseInt(Id));
-    } else {
+  public getTicket(Id?: number) {
+    if (Id!=null) {
+      return this.httpClient.get(this.baseURL + this.apiURL + Id);
+    }
+
+    else {
       return this.httpClient.get(this.baseURL + this.apiURL);
     }
   }
 
-  
-  
+  public getTickets(Email: string) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "email/" +Email);
+
+  }
+ 
   DeleteTicket(Id: string) {
     return this.httpClient.delete(this.baseURL + this.apiURL + parseInt(Id));
   }
-
-
-
-
-
 }

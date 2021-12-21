@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   login(form: NgForm) {
     this.userService.login(form.value);
+    
   }
 
   openWEB() {

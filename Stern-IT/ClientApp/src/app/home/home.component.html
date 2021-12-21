@@ -1,4 +1,9 @@
-<form>
-  Welcome
+<div *ngIf="userService.authorizedUser() && !userService.allowedRole(['Administrator']) && !userService.allowedRole(['Moderator'])">
+  <h5>Welcome To The System</h5>
+  <a [routerLink]="['/tickets']" class="btn btn-primary">Tickets</a>
+</div>
 
-</form>
+
+<div *ngIf="userService.authorizedUser() && userService.allowedRole(['Administrator']) && userService.allowedRole(['Moderator'])">
+  Managers
+</div>

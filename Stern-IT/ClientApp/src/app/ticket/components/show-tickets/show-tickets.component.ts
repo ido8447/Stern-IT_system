@@ -3,6 +3,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Ticket } from 'src/app/models/ticket.model';
 import { UserService } from 'src/app/services/user.service';
 import { map, filter } from "rxjs/operators";
+import { TicketService } from 'src/app/services/ticket.service';
 
 
 @Component({
@@ -12,13 +13,13 @@ import { map, filter } from "rxjs/operators";
 })
 export class ShowTicketsComponent implements OnInit {
 
-  columns: string[] = ["Subject", "Priority"];
+  columns: string[] = ["Email","Name", "Subject", "Priority", "Date" ];
   dataSource = new MatTableDataSource<Ticket>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(private ticketService: TicketService, private userService: UserService) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
         ticket.Subject.toLowerCase().includes(filter.toLowerCase())
@@ -32,18 +33,11 @@ export class ShowTicketsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
-    // var lstOfTickets = ;
-    // var newLst = null;
-    // for (let index = 0; index < lstOfTickets.length; index++) {
-    //   if (
-    //     lstOfTickets[index].Email == this.userService.getAuthorizedUserEmail()
-    //   )
-    //     newLst.push(lstOfTickets[index]);
-    // }
-    this.get();
+      this.get();
   }
+
   get() {
-     this.userService.get().subscribe((res: Ticket[]) => {
+    this.ticketService.getTickets(this.userService.getAuthorizedUserEmail()).subscribe((res) => {
       this.dataSource.data = res as Ticket[];
     });
   }

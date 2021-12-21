@@ -108,6 +108,7 @@ import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/
         canActivate: [AuthorizeGuard],
         data: { allowedRoles: ["Administrator"] },
       },
+
     ]),
     ReactiveFormsModule,
     BrowserAnimationsModule,
