@@ -33,7 +33,7 @@ namespace Stern_IT.Controllers
         public class CreateTicketModel
         {
             public string Email { get; set; }
-            public string Name { get; set; }
+            public string Status { get; set; }
             public string Subject { get; set; }
             public string Priority { get; set; }
             public string Description { get; set; }
@@ -49,7 +49,7 @@ namespace Stern_IT.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             Models.Ticket applicationCreateTicket = new Models.Ticket
             {
-                Name = model.Name,
+                Status = model.Status,
                 Priority = model.Priority,
                 Subject = model.Subject,
                 Description = model.Description,
@@ -79,7 +79,7 @@ namespace Stern_IT.Controllers
         public class TicketViewModel
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Status { get; set; }
             public string Email { get; set; }
             public string Subject { get; set; }
             public string Priority { get; set; }
@@ -109,7 +109,7 @@ namespace Stern_IT.Controllers
                 viewModels.Add(new TicketViewModel()
                 {
                     Id = ticket.TicketId,
-                    Name = ticket.Name,
+                    Status = ticket.Status,
                     Subject = ticket.Subject,
                     Priority = ticket.Priority,
                     Description = ticket.Description,
@@ -146,7 +146,7 @@ namespace Stern_IT.Controllers
             {
                 Id = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
-                Name = applicationTicket.Name,
+                Status = applicationTicket.Status,
                 Subject = applicationTicket.Subject,
                 Priority = applicationTicket.Priority,
                 Description = applicationTicket.Description
@@ -158,18 +158,18 @@ namespace Stern_IT.Controllers
 
 
 
-        //GET: api/Tickets/{email}
-        [HttpGet("email/{email}")]
+        //GET: api/Tickets/opentickets/{email}
+        [HttpGet("opentickets/{email}")]
         public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetUserTickets(string email)
         {
             List<TicketViewModel> viewModels = new List<TicketViewModel>();
-            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).ToListAsync();
+            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Open").ToListAsync();
             tickets.ForEach(ticket =>
             {
                 viewModels.Add(new TicketViewModel()
                 {
                     Id = ticket.TicketId,
-                    Name = ticket.Name,
+                    Status = ticket.Status,
                     Subject = ticket.Subject,
                     Priority = ticket.Priority,
                     Description = ticket.Description,
@@ -182,9 +182,52 @@ namespace Stern_IT.Controllers
         }
 
 
+        //GET: api/Tickets/closedtickets/{email}
+        [HttpGet("closedtickets/{email}")]
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetUserClosedTickets(string email)
+        {
+            List<TicketViewModel> viewModels = new List<TicketViewModel>();
+            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
+            tickets.ForEach(ticket =>
+            {
+                viewModels.Add(new TicketViewModel()
+                {
+                    Id = ticket.TicketId,
+                    Status = ticket.Status,
+                    Subject = ticket.Subject,
+                    Priority = ticket.Priority,
+                    Description = ticket.Description,
+                    Email = ticket.Email,
+                    Created = ticket.Created,
+                });
+            });
+
+            return viewModels;
+        }
 
 
+        //GET: api/Tickets/closedtickets
+        [HttpGet("closedtickets")]
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetClosedTickets()
+        {
+            List<TicketViewModel> viewModels = new List<TicketViewModel>();
+            List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
+            tickets.ForEach(ticket =>
+            {
+                viewModels.Add(new TicketViewModel()
+                {
+                    Id = ticket.TicketId,
+                    Status = ticket.Status,
+                    Subject = ticket.Subject,
+                    Priority = ticket.Priority,
+                    Description = ticket.Description,
+                    Email = ticket.Email,
+                    Created = ticket.Created,
+                });
+            });
 
+            return viewModels;
+        }
 
         //DELETE: api/tickets/5
         /// <summary>
@@ -210,7 +253,7 @@ namespace Stern_IT.Controllers
             {
                 Id = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
-                Name = applicationTicket.Name,
+                Status = applicationTicket.Status,
                 Subject = applicationTicket.Subject,
                 Priority = applicationTicket.Priority,
                 Description = applicationTicket.Description
@@ -219,7 +262,43 @@ namespace Stern_IT.Controllers
         }
 
 
+        //PUT: api/Ticket/5
+        /// <summary>
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <param name="model">model of user</param>
+        /// <returns>new user model</returns>
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutUser(string id, TicketViewModel model)
+        {
+            if (int.Parse(id) != model.Id)
+            {
+                return BadRequest();
+            }
+            var applicationTicket = await _context.Users.FindAsync(id);
+            if (applicationTicket == null)
+            {
+                return NotFound();
+            }
 
+            _context.Entry(applicationTicket).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (applicationTicket == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
 
     }
 }

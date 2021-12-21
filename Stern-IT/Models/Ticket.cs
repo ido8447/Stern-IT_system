@@ -10,7 +10,7 @@ namespace Stern_IT.Models
          public int TicketId { get; set; }
          public string Email { get; set; }
 
-         public string Name { get; set; }
+         public string Status { get; set; }
          public string Subject { get; set; }
          public string Priority { get; set; }
          public string Description { get; set; }

@@ -1,21 +1,23 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { Ticket } from "src/app/models/ticket.model";
-import { TicketService } from "src/app/services/ticket.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Ticket } from 'src/app/models/ticket.model';
+import { TicketService } from 'src/app/services/ticket.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: "app-show-tickets-all-users",
-  templateUrl: "./show-tickets-all-users.component.html",
-  styleUrls: ["./show-tickets-all-users.component.css"],
+  selector: 'app-closed-alltickets',
+  templateUrl: './closed-alltickets.component.html',
+  styleUrls: ['./closed-alltickets.component.css']
 })
-export class ShowTicketsAllUsersComponent implements OnInit {
+export class ClosedAllticketsComponent implements OnInit {
+
   columns: string[] = ["Email","Status", "Subject", "Priority", "Date" ,"details-delete"];
   dataSource = new MatTableDataSource<Ticket>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private ticketService: TicketService) {
+  constructor(private ticketService: TicketService, private userService: UserService) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
@@ -35,7 +37,7 @@ export class ShowTicketsAllUsersComponent implements OnInit {
     this.get();
   }
   get() {
-    this.ticketService.getTicket().subscribe((res) => {
+    this.ticketService.getTicket(this.userService.getAuthorizedUserEmail(),"Closed").subscribe((res) => {
       this.dataSource.data = res as Ticket[];
     });
   }
@@ -60,4 +62,5 @@ export class ShowTicketsAllUsersComponent implements OnInit {
   refresh(){
     this.get();
   }
+
 }

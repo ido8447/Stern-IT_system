@@ -1,22 +1,32 @@
 <ul
-*ngIf="userService.authorizedUser()"
+  *ngIf="userService.authorizedUser()"
   style="height: 95vh"
   class="nav flex-column pt-4 bg-dark"
 >
-  <li *ngIf="userService.authorizedUser() && userService.allowedRole(['Administrator'])">
+  <li
+    *ngIf="
+      userService.authorizedUser() && userService.allowedRole(['Administrator'])
+    "
+  >
     <a class="nav-link text-white" [routerLink]="['/administration']">
       <i class="fa fa-user-plus"></i>
       <span class="ml-3">Admin</span>
     </a>
   </li>
 
-
-  <li class="nav-item" >
+  <li class="nav-item">
     <a class="nav-link text-white" [routerLink]="['/tickets']">
       <i class="fas fa-ticket-alt"></i> <span class="ml-3">Tickets</span>
     </a>
   </li>
-  <li class="nav-item" *ngIf="userService.authorizedUser() && !userService.allowedRole(['Administrator']) && !userService.allowedRole(['Moderator'])" >
+  <li
+    class="nav-item"
+    *ngIf="
+      userService.authorizedUser() &&
+      !userService.allowedRole(['Administrator']) &&
+      !userService.allowedRole(['Moderator'])
+    "
+  >
     <a class="nav-link text-white" [routerLink]="['/create-ticket']">
       <i class="far fa-paper-plane"></i> <span class="ml-3">Create</span>
     </a>
@@ -24,10 +34,24 @@
   <!--  -->
   <!-- Show and route Administration Page -->
   <!-- see only if this user has Administrator role -->
-  <li *ngIf="userService.authorizedUser() && userService.allowedRole(['Administrator']) && userService.allowedRole(['Moderator'])">
+  <li
+    *ngIf="
+      userService.authorizedUser() &&
+      userService.allowedRole(['Administrator']) &&
+      userService.allowedRole(['Moderator'])
+    "
+  >
     <a class="nav-link text-white" [routerLink]="['/users']">
       <i class="fas fa-users"></i>
       <span class="ml-3">Users</span>
+    </a>
+  </li>
+  <!--  -->
+  <!-- Show and route Administration Page -->
+  <!-- see only if this user has Administrator role -->
+  <li *ngIf="userService.authorizedUser()">
+    <a class="nav-link text-white" [routerLink]="['/closed-ticket']">
+      <i class="far fa-times-circle"></i> <span class="ml-3">Closed</span>
     </a>
   </li>
 </ul>

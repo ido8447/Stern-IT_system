@@ -1,18 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Ticket } from 'src/app/models/ticket.model';
-import { UserService } from 'src/app/services/user.service';
-import { map, filter } from "rxjs/operators";
 import { TicketService } from 'src/app/services/ticket.service';
-
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-show-tickets',
-  templateUrl: './show-tickets.component.html',
-  styleUrls: ['./show-tickets.component.css']
+  selector: 'app-closedtickets',
+  templateUrl: './closedtickets.component.html',
+  styleUrls: ['./closedtickets.component.css']
 })
-export class ShowTicketsComponent implements OnInit {
-
+export class ClosedticketsComponent implements OnInit {
   columns: string[] = ["Subject","Status",  "Priority", "Date" ,"details-delete"];
   dataSource = new MatTableDataSource<Ticket>();
 
@@ -40,7 +37,7 @@ export class ShowTicketsComponent implements OnInit {
   }
 
   get() {
-    this.ticketService.getTickets(this.userService.getAuthorizedUserEmail(),"Open").subscribe((res) => {
+    this.ticketService.getTickets(this.userService.getAuthorizedUserEmail(),"Closed").subscribe((res) => {
       this.dataSource.data = res as Ticket[];
     });
   }

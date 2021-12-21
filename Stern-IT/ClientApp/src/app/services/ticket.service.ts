@@ -36,22 +36,38 @@ export class TicketService {
       });
   }
 
-  public getTicket(Id?: number) {
-    if (Id!=null) {
+  public getTicket(Id?: number, Status?: string) {
+    if (Id != null) {
       return this.httpClient.get(this.baseURL + this.apiURL + Id);
-    }
-
-    else {
+    } else if (Id == null && Status == "Closed") {
+      return this.httpClient.get(this.baseURL + this.apiURL + "closedtickets");
+    } else {
       return this.httpClient.get(this.baseURL + this.apiURL);
     }
+    //closedtickets
   }
 
-  public getTickets(Email: string) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "email/" +Email);
-
+  public getTickets(Email: string, Status: string) {
+    if (Status == "Open") {
+      return this.httpClient.get(
+        this.baseURL + this.apiURL + "opentickets/" + Email
+      );
+    } else if (Status == "Closed") {
+      return this.httpClient.get(
+        this.baseURL + this.apiURL + "closedtickets/" + Email
+      );
+    }
   }
- 
+
   DeleteTicket(Id: string) {
     return this.httpClient.delete(this.baseURL + this.apiURL + parseInt(Id));
+  }
+
+  //Get User (from userController)
+  //Go to the URL => this.baseURL + this.apiURL + user.Id, user
+  //and return this url with PUT
+  //Action the function on UserController
+  PutTicket(ticket: any) {
+    return this.httpClient.put(this.baseURL + this.apiURL + ticket.Id, ticket);
   }
 }

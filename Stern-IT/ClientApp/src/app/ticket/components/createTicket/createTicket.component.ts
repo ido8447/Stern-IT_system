@@ -13,7 +13,7 @@ import { UserService } from "src/app/services/user.service";
 export class CreateTicketComponent implements OnInit {
   formTicketModel = {
     Email: this.userService.getAuthorizedUserEmail(),
-    Name: "",
+    Status: "Open",
     Priority: "",
     Subject: "",
     Description: "",

@@ -92,7 +92,6 @@ export class UserService {
     this.router.navigateByUrl("/");
   }
 
-  //todo Write on this
   public get(Id?: string) {
     if (Id) {
       return this.httpClient.get(this.baseURL + this.apiURL + Id);
@@ -108,7 +107,6 @@ export class UserService {
     return localStorage.getItem("token") != null;
   }
 
-  //todo check if it workes
   //show info of user
   getAuthorizedUserInfo() {
     return this.httpClient.get(

@@ -38,6 +38,9 @@ import { ShowTicketsComponent } from "./ticket/components/show-tickets/show-tick
 import { TicketsComponent } from "./ticket/components/ticket/tickets.component";
 import { TicketService } from "./services/ticket.service";
 import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/details-of-ticket.component";
+import { ClosedticketsComponent } from './ticket/components/closedtickets/closedtickets.component';
+import { ClosedAllticketsComponent } from './ticket/components/closed-alltickets/closed-alltickets.component';
+import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,9 @@ import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/
     ShowTicketsComponent,
     ShowTicketsAllUsersComponent,
     DetailsOfTicketComponent,
+    ClosedticketsComponent,
+    ClosedAllticketsComponent,
+    EditTicketComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -78,10 +84,20 @@ import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/
         canActivate: [AuthorizeGuard],
       },
       {
+        path: "closed-ticket",
+        component: ClosedticketsComponent,
+        canActivate: [AuthorizeGuard],
+      },
+      {
         path: "tickets/:id",
         component: DetailsOfTicketComponent,
         canActivate: [AuthorizeGuard],
         data: { allowedRoles: ["Administrator", "Moderator"] },
+      },
+      {
+        path: "tickets/edit/:id",
+        component: EditTicketComponent,
+        canActivate: [AuthorizeGuard],
       },
       { path: "users/login", component: LoginComponent },
       {
