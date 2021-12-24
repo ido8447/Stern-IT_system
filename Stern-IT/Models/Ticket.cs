@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,5 +18,6 @@ namespace Stern_IT.Models
          public string Created { get; set; }
 
          public User user { get; set; }
+         public List<Answer> answer { get; set; }
     }
 }

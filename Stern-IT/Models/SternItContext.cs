@@ -10,6 +10,8 @@ namespace Stern_IT.Models
     public class SternItContext : IdentityDbContext<User>
     {
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+
 
         public SternItContext(DbContextOptions options) : base(options)
         {

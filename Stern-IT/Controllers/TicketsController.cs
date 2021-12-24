@@ -111,7 +111,7 @@ namespace Stern_IT.Controllers
 
             return ticketViewModel;
         }
-        
+
 
 
 
@@ -168,7 +168,7 @@ namespace Stern_IT.Controllers
                 return viewModels;
             }
 
-            
+
         }
 
 
@@ -180,7 +180,7 @@ namespace Stern_IT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
-            if (roles.Count ==0)
+            if (roles.Count == 0)
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
@@ -290,6 +290,72 @@ namespace Stern_IT.Controllers
             return NoContent();
         }
 
+
+
+
+        public class AnsweredTicketViewModel
+        {
+            public int Id { get; set; }
+            public string Email { get; set; }
+            public bool IsManager { get; set; }
+            public string Description { get; set; }
+
+        }
+        [HttpGet("answer/{id}")]
+        public async Task<ActionResult<IEnumerable<AnsweredTicketViewModel>>> GetAnswered(string id)
+        {
+            List<AnsweredTicketViewModel> viewModels = new List<AnsweredTicketViewModel>();
+
+            var tickets = await _context.Answers.Where(p => p.AnswerId == int.Parse(id)).ToListAsync();
+            tickets.ForEach(ticket =>
+            {
+                viewModels.Add(new AnsweredTicketViewModel()
+                {
+                    Id = ticket.AnswerId,
+                    Description = ticket.Description,
+                    Email = ticket.Email,
+                    IsManager = ticket.IsManager
+                });
+            });
+
+            return viewModels;
+
+        }
+
+        public class AnsweredTicketPostModel
+        {
+            public int TicketId { get; set; }
+            public string Email { get; set; }
+            public bool IsManager { get; set; }
+            public string Answer { get; set; }
+
+        }
+        [HttpPost]
+        [Route("answer/post")]
+        public async Task<object> SendAnswer(AnsweredTicketPostModel model)
+        {
+            var ticket = await _context.Tickets.Where(p => p.TicketId == model.TicketId).FirstAsync();
+            Models.Answer CreateAnswer = new Models.Answer
+            {
+                ticket = ticket,
+                Created = DateTime.Now.ToString("dd.MM.yyyy"),
+                Description = model.Answer,
+                Email = model.Email,
+                IsManager = model.IsManager
+            };
+            try
+            {
+                _context.Add(CreateAnswer);
+                var result = await _context.SaveChangesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
     }
 }
 

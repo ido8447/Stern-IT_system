@@ -70,4 +70,13 @@ export class TicketService {
   PutTicket(ticket: any) {
     return this.httpClient.put(this.baseURL + this.apiURL + ticket.Id, ticket);
   }
+
+
+SendAnswer(answer:any){
+  return this.httpClient.post(this.baseURL + this.apiURL + "answer/post", answer);
+
+}
+  GetAnswer(Id: string){
+    return this.httpClient.get(this.baseURL+ this.apiURL + "answer/"+ Id);
+  }
 }
