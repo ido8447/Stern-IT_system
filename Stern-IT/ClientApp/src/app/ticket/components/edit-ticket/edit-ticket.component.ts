@@ -44,6 +44,8 @@ export class EditTicketComponent implements OnInit {
       (error: any) => {
         console.log(error);
       };
+
+    this.GetAnswer(id);
   }
 
   public error(control: string, error: string) {
@@ -76,7 +78,8 @@ export class EditTicketComponent implements OnInit {
   GetAnswer(ID: string) {
     this.service
       .GetAnswer(ID)
-      .subscribe((arg) => (this.modelList = arg as Answer[]));
+      .subscribe((arg) => (this.modelList = arg as Answer[]
+      ));
   }
 
   SendAnswer(form: NgForm) {
@@ -100,4 +103,6 @@ export class EditTicketComponent implements OnInit {
     IsManager: this.isManager(),
     TicketId: parseInt(this.activedRoute.snapshot.paramMap.get("id")),
   };
+
+ 
 }

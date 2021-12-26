@@ -39,6 +39,9 @@ namespace Stern_IT.Controllers
         /// </summary>
         public class UserRegisterModel
         {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -62,6 +65,8 @@ namespace Stern_IT.Controllers
         {
             var applicationUser = new Models.User()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber
@@ -168,6 +173,9 @@ namespace Stern_IT.Controllers
         public class UserViewModel
         {
             public string Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string[] Roles { get; set; }
@@ -191,6 +199,8 @@ namespace Stern_IT.Controllers
                 viewModels.Add(new UserViewModel()
                 {
                     Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     Roles = _userManager.GetRolesAsync(user).Result.ToArray()
@@ -214,6 +224,8 @@ namespace Stern_IT.Controllers
             UserViewModel userViewModel = new UserViewModel()
             {
                 Id = applicationUser.Id,
+                FirstName = applicationUser.FirstName,
+                LastName = applicationUser.LastName,
                 Email = applicationUser.Email,
                 PhoneNumber = applicationUser.PhoneNumber,
                 Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray()
@@ -312,7 +324,7 @@ namespace Stern_IT.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles()
         {
-           var roles = await _context.Roles.ToListAsync();
+            var roles = await _context.Roles.ToListAsync();
             return roles;
         }
 

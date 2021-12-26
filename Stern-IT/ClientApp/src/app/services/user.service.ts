@@ -27,6 +27,8 @@ export class UserService {
 
   //the model of the register page, with
   formRegisterModel = this.formBuilder.group({
+    FirstName:["",Validators.required],
+    LastName:["",Validators.required],
     Email: ["", Validators.email],
     PhoneNumber: ["", Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],
     Passwords: this.formBuilder.group(
@@ -45,12 +47,16 @@ export class UserService {
     var PhoneNumber = this.formRegisterModel.value.PhoneNumber;
     if (PhoneNumber != "") {
       body = {
+        FirstName: this.formRegisterModel.value.FirstName,
+        LastName: this.formRegisterModel.value.LastName,
         Email: this.formRegisterModel.value.Email,
         Password: this.formRegisterModel.value.Passwords.Password,
         PhoneNumber: this.formRegisterModel.value.PhoneNumber,
       };
     } else {
       body = {
+        FirstName: this.formRegisterModel.value.FirstName,
+        LastName: this.formRegisterModel.value.LastName,
         Email: this.formRegisterModel.value.Email,
         Password: this.formRegisterModel.value.Passwords.Password,
       };

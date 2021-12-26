@@ -4,22 +4,22 @@
     <div class="form-group">
       <label for="inputStatus">Status</label>
       <input
-      type="text"
+        type="text"
         id="inputStatus"
         class="form-control"
         name="Status"
         formControlName="Status"
-      >
+      />
     </div>
     <div class="form-group">
       <label for="inputState">Priority</label>
       <input
-      type="text"
+        type="text"
         id="inputState"
         class="form-control"
         name="Priority"
         formControlName="Priority"
-      >
+      />
     </div>
 
     <div class="form-group">
@@ -31,54 +31,63 @@
         name="Description"
         formControlName="Description"
       >
-    </textarea>
+      </textarea>
     </div>
   </form>
-  <div class="">
-    
-  </div>
+  <div>
+    <div *ngFor="let item of modelList" class="row">
+      <div class="row" *ngIf="item.IsManager">
+        <p id="manager">{{ item.Email }}</p>
+        <p> : </p>
+        <textarea rows="10" cols="50" id="manager">{{ item.Description }}</textarea>
 
+      </div>
+      <div class="row" *ngIf="!item.IsManager">
+        <textarea rows="10" cols="50" id="user">{{ item.Description }}</textarea>
+      </div>
+      
+    </div>
+  </div>
   <form #form="ngForm" (submit)="SendAnswer(form)">
     <div class="form-group">
       <label for="inputAnswer">Answer</label>
       <textarea
-      id="inputAnswer"
-      class="form-control"
-      rows="10"
-      name="Answer"
-      [(ngModel)]="formTicketModel.Answer"
-      #Answer="ngModel"
+        id="inputAnswer"
+        class="form-control"
+        rows="10"
+        name="Answer"
+        [(ngModel)]="formTicketModel.Answer"
+        #Answer="ngModel"
       >
-    </textarea>
-    <div class="form-group">
-      <input
-        id="inputIsManager"
-        name="IsManager"
-        type="hidden"
-        [(ngModel)]="formTicketModel.IsManager"
-        #IsManager="ngModel"
-      />
+      </textarea>
+      <div class="form-group">
+        <input
+          id="inputIsManager"
+          name="IsManager"
+          type="hidden"
+          [(ngModel)]="formTicketModel.IsManager"
+          #IsManager="ngModel"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          id="inputEmail"
+          name="Email"
+          type="hidden"
+          [(ngModel)]="formTicketModel.Email"
+          #Email="ngModel"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          id="inputTicketId"
+          name="TicketId"
+          type="hidden"
+          [(ngModel)]="formTicketModel.TicketId"
+          #TicketId="ngModel"
+        />
+      </div>
     </div>
-    <div class="form-group">
-      <input
-        id="inputEmail"
-        name="Email"
-        type="hidden"
-        [(ngModel)]="formTicketModel.Email"
-        #Email="ngModel"
-      />
-    </div>
-    <div class="form-group">
-      <input
-        id="inputTicketId"
-        name="TicketId"
-        type="hidden"
-        [(ngModel)]="formTicketModel.TicketId"
-        #TicketId="ngModel"
-      />
-    </div>
-
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-  </form> 
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </div>

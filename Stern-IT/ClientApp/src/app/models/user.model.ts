@@ -1,5 +1,7 @@
 export class User {
   Id: string;
+  FirstName: string;
+  LastName: string;
   Email: string;
   PhoneNumber: string;
   Roles: string[];

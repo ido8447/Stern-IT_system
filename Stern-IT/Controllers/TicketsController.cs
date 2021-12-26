@@ -306,7 +306,7 @@ namespace Stern_IT.Controllers
         {
             List<AnsweredTicketViewModel> viewModels = new List<AnsweredTicketViewModel>();
 
-            var tickets = await _context.Answers.Where(p => p.AnswerId == int.Parse(id)).ToListAsync();
+            var tickets = await _context.Answers.Where(p => p.ticket.TicketId == int.Parse(id)).ToListAsync();
             tickets.ForEach(ticket =>
             {
                 viewModels.Add(new AnsweredTicketViewModel()

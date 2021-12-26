@@ -13,6 +13,7 @@ namespace Stern_IT.Models
         public DbSet<Answer> Answers { get; set; }
 
 
+
         public SternItContext(DbContextOptions options) : base(options)
         {
 

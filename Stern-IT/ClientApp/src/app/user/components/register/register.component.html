@@ -10,6 +10,68 @@
       (submit)="register()"
       autocomplete="off"
     >
+
+
+
+     <!-- FirstName -->
+     <div class="form-group">
+      <div class="row">
+        <p><i class="text-danger">*</i> FirstName :</p>
+        <input
+          type="text"
+          placeholder="first name"
+          id="FirstName"
+          class="form-control"
+          formControlName="FirstName"
+          required
+        />
+        <label
+          class="text-danger"
+          *ngIf="
+            userService.formRegisterModel.get('FirstName').touched &&
+            userService.formRegisterModel.get('FirstName').errors?.required
+          "
+        >
+          FirstName is required
+        </label>
+        <label
+          class="text-danger"
+          *ngIf="userService.formRegisterModel.get('FirstName').errors?.email"
+        >
+          FirstName is invalid
+        </label>
+      </div>
+    </div>
+     <!-- LastName -->
+     <div class="form-group">
+      <div class="row">
+        <p><i class="text-danger">*</i> LastName :</p>
+        <input
+          type="text"
+          placeholder="last name"
+          id="LastName"
+          class="form-control"
+          formControlName="LastName"
+          required
+        />
+        <label
+          class="text-danger"
+          *ngIf="
+            userService.formRegisterModel.get('LastName').touched &&
+            userService.formRegisterModel.get('LastName').errors?.required
+          "
+        >
+          LastName is required
+        </label>
+        <label
+          class="text-danger"
+          *ngIf="userService.formRegisterModel.get('LastName').errors?.email"
+        >
+          LastName is invalid
+        </label>
+      </div>
+    </div>
+
       <!-- Email -->
       <div class="form-group">
         <div class="row">

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stern_IT.Models;
@@ -9,9 +10,10 @@ using Stern_IT.Models;
 namespace Stern_IT.Migrations
 {
     [DbContext(typeof(SternItContext))]
-    partial class SternItContextModelSnapshot : ModelSnapshot
+    [Migration("20211225213326_person class")]
+    partial class personclass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,6 +184,27 @@ namespace Stern_IT.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("Stern_IT.Models.Person", b =>
+                {
+                    b.Property<int>("userId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.HasKey("userId");
+
+                    b.ToTable("Persons");
+                });
+
             modelBuilder.Entity("Stern_IT.Models.Ticket", b =>
                 {
                     b.Property<int>("TicketId")
@@ -236,12 +259,6 @@ namespace Stern_IT.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -271,6 +288,9 @@ namespace Stern_IT.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("User")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserName")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
@@ -283,6 +303,9 @@ namespace Stern_IT.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("User")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers");
                 });
@@ -350,6 +373,13 @@ namespace Stern_IT.Migrations
                     b.HasOne("Stern_IT.Models.User", "user")
                         .WithMany("Tickets")
                         .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("Stern_IT.Models.User", b =>
+                {
+                    b.HasOne("Stern_IT.Models.Person", "Person")
+                        .WithOne("User")
+                        .HasForeignKey("Stern_IT.Models.User", "User");
                 });
 #pragma warning restore 612, 618
         }

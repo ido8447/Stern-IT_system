@@ -12,7 +12,6 @@ namespace Stern_IT.Models
         public string Description { get; set; }
         public bool IsManager { get; set; }
         public string Created { get; set; }
-
         public  Ticket ticket { get; set; }
     }
 }
