@@ -71,4 +71,9 @@ export class ShowTicketsComponent implements OnInit {
       );
     }
   }
+
+  Refresh(){
+    this.get();
+
+  }
 }

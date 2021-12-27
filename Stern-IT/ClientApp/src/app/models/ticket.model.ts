@@ -6,6 +6,7 @@ export class Ticket {
   Priority: string;
   Description: string;
   Created: string;
+  ToManagerName:string;
 }
 
 export class TicketInfo {

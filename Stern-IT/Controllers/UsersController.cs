@@ -328,12 +328,35 @@ namespace Stern_IT.Controllers
             return roles;
         }
 
-        // [HttpGet("GetUserRoles/{email}")]
-        // public async Task<object> GetUserRoles(string email)
-        // {
-        //     var user = await _userManager.FindByEmailAsync(email);
-        //     return await _userManager.GetRolesAsync(user);
-        // }
+        [HttpGet("GetUserName/{email}")]
+        public async Task<object> GetUserName(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user.FirstName + " " + user.LastName;
+        }
+
+
+        [HttpGet("ManagersList")]
+        public async Task<object> GetManagers()
+        {
+            var users = await _context.Users.ToListAsync();
+            var roles = await _context.UserRoles.ToListAsync();
+            List<object> objects = new List<object>();
+            foreach (var user in users)
+            {
+                foreach (var rol in roles)
+                {
+                    if (rol.UserId == user.Id)
+                    {
+                        objects.Add(user);
+                    }
+                }
+            }
+            var newObjects = objects.Distinct().Select(p => p).ToArray();
+            return newObjects;
+           
+        }
+
     }
 }
 

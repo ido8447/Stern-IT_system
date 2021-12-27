@@ -38,6 +38,7 @@ namespace Stern_IT.Controllers
             public string Priority { get; set; }
             public string Description { get; set; }
             public string Created = DateTime.Now.ToString("dd/MM/yyyy");
+            public string ToManagerName { get; set; }
 
         }
 
@@ -55,7 +56,8 @@ namespace Stern_IT.Controllers
                 Description = model.Description,
                 user = user,
                 Email = user.Email,
-                Created = model.Created
+                Created = model.Created,
+                ToManagerName = model.ToManagerName,
             };
             try
             {
@@ -125,7 +127,30 @@ namespace Stern_IT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
-            if (roles.Contains("Moderator") || roles.Contains("Administrator"))
+            if (roles.Contains("Moderator") && !roles.Contains("Administrator"))
+            {
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                //List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").Where(ticket=> ticket.ToManagerName == user.FirstName + " " + user.LastName && ticket.ToManagerName == "All").ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open" && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
+
+                foreach (Models.Ticket ticket in tickets)
+                {
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
+
+                }
+
+                return viewModels;
+            }
+            else if (roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").ToListAsync();
@@ -180,10 +205,31 @@ namespace Stern_IT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
-            if (roles.Count == 0)
+
+            if (roles.Contains("Moderator") && !roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed" && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
+                tickets.ForEach(ticket =>
+                {
+                    viewModels.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject,
+                        Priority = ticket.Priority,
+                        Description = ticket.Description,
+                        Email = ticket.Email,
+                        Created = ticket.Created,
+                    });
+                });
+
+                return viewModels;
+            }
+            else if (roles.Contains("Administrator"))
+            {
+                List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
                 tickets.ForEach(ticket =>
                 {
                     viewModels.Add(new TicketViewModel()
@@ -203,7 +249,7 @@ namespace Stern_IT.Controllers
             else
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
                 tickets.ForEach(ticket =>
                 {
                     viewModels.Add(new TicketViewModel()
@@ -231,7 +277,9 @@ namespace Stern_IT.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<TicketViewModel>> DeleteTicket(int id)
         {
+            await DeleteAnswer(id);
             var applicationTicket = await _context.Tickets.FindAsync(id);
+
             if (applicationTicket == null)
             {
                 return NotFound();
@@ -249,6 +297,30 @@ namespace Stern_IT.Controllers
                 Description = applicationTicket.Description
             };
 
+        }
+
+        public async Task<ActionResult<AnsweredTicketViewModel>> DeleteAnswer(int id)
+        {
+            var applicationAnswers = await _context.Answers.Where(p => p.ticket.TicketId == id).ToListAsync();
+
+            if (applicationAnswers == null)
+            {
+                return NotFound();
+            }
+            foreach (var answer in applicationAnswers)
+            {
+                _context.Answers.Remove(answer);
+
+            }
+            await _context.SaveChangesAsync();
+
+            return new AnsweredTicketViewModel()
+            {
+                Email = "",
+                Description = "",
+                IsManager = false,
+                Id =0,
+            };
         }
 
 

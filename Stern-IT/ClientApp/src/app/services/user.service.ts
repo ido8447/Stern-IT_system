@@ -5,6 +5,7 @@ import { registerLocaleData } from "@angular/common";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
+import { User } from "../models/user.model";
 
 @Injectable({
   providedIn: "root",
@@ -27,8 +28,8 @@ export class UserService {
 
   //the model of the register page, with
   formRegisterModel = this.formBuilder.group({
-    FirstName:["",Validators.required],
-    LastName:["",Validators.required],
+    FirstName: ["", Validators.required],
+    LastName: ["", Validators.required],
     Email: ["", Validators.email],
     PhoneNumber: ["", Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],
     Passwords: this.formBuilder.group(
@@ -205,8 +206,14 @@ export class UserService {
   //   return this.httpClient.get(this.baseURL + this.apiURL + "GetUserRoles/" + Email);
   // }
   public GetRoles() {
-    return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles" );
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetRoles");
   }
+
+  public GetManagers(): any {
+    return this.httpClient.get(this.baseURL + this.apiURL + "ManagersList");
+  }
+
+
 }
 
 export interface AuthorizedUser {

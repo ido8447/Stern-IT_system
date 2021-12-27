@@ -55,6 +55,9 @@ export class ClosedticketsComponent implements OnInit {
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
- 
+  Refresh(){
+    this.get();
+
+  }
 
 }

@@ -5,6 +5,7 @@ import { Answer } from "src/app/models/Answer";
 import { TicketInfo } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
+import { User } from "../../../models/user.model";
 
 @Component({
   selector: "app-edit-ticket",
@@ -46,6 +47,7 @@ export class EditTicketComponent implements OnInit {
       };
 
     this.GetAnswer(id);
+
   }
 
   public error(control: string, error: string) {

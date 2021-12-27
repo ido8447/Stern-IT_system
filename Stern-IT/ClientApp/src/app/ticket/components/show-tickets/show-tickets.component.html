@@ -1,4 +1,8 @@
 <form autocomplete="off">
+  <a class="btn" (click)="Refresh()" matTooltip="Refresh" >
+    <i class="material-icons">refresh</i>
+  </a>
+  
   <mat-form-field>
     <input
       matInput
@@ -60,7 +64,7 @@
           <a class="btn" [routerLink]="['/tickets/edit', item.Id]" matTooltip="Edit">
             <i class="material-icons">edit</i>
           </a>
-          <a class="btn" matTooltip="Delete" (click)="deleteTicket(item.Id)">
+          <a *ngIf="userService.allowedRole(['Administrator'])" class="btn" matTooltip="Delete" (click)="deleteTicket(item.Id)">
             <i class="material-icons">delete</i>
           </a>
         </td>

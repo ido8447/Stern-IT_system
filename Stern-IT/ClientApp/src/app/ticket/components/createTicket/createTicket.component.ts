@@ -1,8 +1,10 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { FormGroup, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { User } from "src/app/models/user.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
+
 
 
 @Component({
@@ -17,12 +19,20 @@ export class CreateTicketComponent implements OnInit {
     Priority: "",
     Subject: "",
     Description: "",
+    ToManagerName: "All",
   };
   srcResault: any;
   fileName: any;
+  managers: Array<User>;
+
   constructor(private ticketService: TicketService, private userService: UserService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.GetManagers().subscribe(res => {
+      this.managers = res as User[]
+    });
+
+  }
 
   onFileSelected() {
     const InputNode: any = document.querySelector("#file");

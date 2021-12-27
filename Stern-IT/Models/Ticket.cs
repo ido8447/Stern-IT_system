@@ -15,7 +15,8 @@ namespace Stern_IT.Models
          public string Priority { get; set; }
          public string Description { get; set; }
          public string Created { get; set; }
-         public User user { get; set; }
+        public string ToManagerName { get; set; }
+        public User user { get; set; }
          public List<Answer> answer { get; set; }
     }
 }
