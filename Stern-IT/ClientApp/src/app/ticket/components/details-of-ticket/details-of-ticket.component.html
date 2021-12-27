@@ -26,6 +26,16 @@
       <dd>
         {{ ticket?.Description }}
       </dd>
+
+      <div *ngFor="let item of modelList" class="row">
+        <dt>{{ item.Email }}:</dt>
+        <dd>
+          <textarea rows="10" cols="50" id="user">
+         {{ item.Description }}
+        </textarea
+          >
+        </dd>
+      </div>
     </dl>
     <a class="btn" [routerLink]="['/tickets']" matTooltip="Back">
       <i class="material-icons">arrow_back</i>
