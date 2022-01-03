@@ -47,7 +47,6 @@ export class EditTicketComponent implements OnInit {
       };
 
     this.GetAnswer(id);
-
   }
 
   public error(control: string, error: string) {
@@ -80,14 +79,15 @@ export class EditTicketComponent implements OnInit {
   GetAnswer(ID: string) {
     this.service
       .GetAnswer(ID)
-      .subscribe((arg) => (this.modelList = arg as Answer[]
-      ));
+      .subscribe((arg) => (this.modelList = arg as Answer[]));
   }
 
   SendAnswer(form: NgForm) {
-    this.service.SendAnswer(form.value).subscribe((res) => {
-      alert("Send Ansewer"), this.router.navigateByUrl("tickets");
-    });
+    if (form.value.Answer.length != 0) {
+      this.service.SendAnswer(form.value).subscribe((res) => {
+        alert("Send Ansewer"), this.router.navigateByUrl("tickets");
+      });
+    }
   }
 
   isManager() {
@@ -106,5 +106,33 @@ export class EditTicketComponent implements OnInit {
     TicketId: parseInt(this.activedRoute.snapshot.paramMap.get("id")),
   };
 
- 
+  /**
+   * ShowAnswers
+   */
+  Showed: boolean = this.ShowAnswers();
+  public text: string = "Show";
+  public arrowClass: string = "arrow_drop_down";
+  public ShowAnswers() {
+    if (this.Showed == null) {
+      this.text = "Show";
+      this.arrowClass = "arrow_drop_down";
+
+      return (this.Showed = false);
+    } else if (this.Showed) {
+      this.arrowClass = "arrow_drop_down";
+      this.text = "Show";
+
+      return (this.Showed = false);
+    }
+    this.arrowClass = "arrow_drop_up";
+    this.text = "Hide";
+    return (this.Showed = true);
+  }
+
+  CloseTicket() {
+    this.service.CloseTicket(
+      parseInt(this.activedRoute.snapshot.paramMap.get("id"))
+    );
+    this.router.navigateByUrl('tickets')
+  }
 }

@@ -42,7 +42,7 @@ namespace Stern_IT.Controllers
 
         }
 
-        //POST: api/Users/create-Ticket
+        //POST: api/tickets/create-Ticket
         [HttpPost]
         [Route("create-ticket")]
         public async Task<object> CreateTicket(CreateTicketModel model)
@@ -90,7 +90,7 @@ namespace Stern_IT.Controllers
 
         }
 
-        //GET: api/Tickets/5
+        //GET: api/tickets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TicketViewModel>> GetTicket(int id)
         {
@@ -121,7 +121,7 @@ namespace Stern_IT.Controllers
         /// Function to show tickets on table from postgresSql
         /// </summary>
         /// <returns>List of models with parameters</returns>
-        //GET: api/Tickets
+        //GET: api/tickets
         [HttpGet("tickets/{email}")]
         public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets(string email)
         {
@@ -199,7 +199,7 @@ namespace Stern_IT.Controllers
 
 
 
-        //GET: api/Tickets/closedtickets/{email}
+        //GET: api/tickets/closedtickets/{email}
         [HttpGet("closedtickets/{email}")]
         public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetClosedTickets(string email)
         {
@@ -319,25 +319,30 @@ namespace Stern_IT.Controllers
                 Email = "",
                 Description = "",
                 IsManager = false,
-                Id =0,
+                Id = 0,
             };
         }
 
 
-        //PUT: api/Ticket/5
+        public class TicketChangeStatusModel
+        {
+            public int Id { get; set; }
+            public string Status { get; set; }
+
+
+        }
+
+        //PUT: api/Ticket/ChangeStatus/5
         /// <summary>
         /// </summary>
         /// <param name="id">user id</param>
         /// <param name="model">model of user</param>
         /// <returns>new user model</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutTicketr(string id, TicketViewModel model)
+        public async Task<ActionResult> PutTicketr(TicketChangeStatusModel tcsm)
         {
-            if (int.Parse(id) != model.Id)
-            {
-                return BadRequest();
-            }
-            var applicationTicket = await _context.Users.FindAsync(id);
+
+            var applicationTicket = await _context.Tickets.FindAsync(tcsm.Id);
             if (applicationTicket == null)
             {
                 return NotFound();
@@ -346,6 +351,19 @@ namespace Stern_IT.Controllers
             _context.Entry(applicationTicket).State = EntityState.Modified;
             try
             {
+                var ticket = await _context.Tickets.FindAsync(tcsm.Id);
+                ticket = new Models.Ticket
+                {
+                    Status = tcsm.Status,
+                    Priority = ticket.Priority,
+                    Subject = ticket.Subject,
+                    Description = ticket.Description,
+                    user = ticket.user,
+                    Email = ticket.Email,
+                    Created = ticket.Created,
+                    ToManagerName = ticket.ToManagerName,
+                };
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -428,6 +446,40 @@ namespace Stern_IT.Controllers
 
 
         }
+
+        [HttpGet("status/{TicketID}")]
+        public async Task<object> GETStatus(int TicketID)
+        {
+            var ticket = await _context.Tickets.Where(p => p.TicketId == TicketID).FirstAsync();
+            return ticket.Status;
+        }
+
+        [HttpPost("ChangeStatus/{TicketID}")]
+        public async Task<object> ChangeStatus(int TicketID)
+        {
+            var ticket = await _context.Tickets.Where(p => p.TicketId == TicketID).FirstAsync();
+            var status = ticket.Status;
+
+            if (status == "Open")
+            {
+                ticket.Status = "Closed";
+            }
+            else
+            {
+                ticket.Status = "Open";
+
+            }
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
 

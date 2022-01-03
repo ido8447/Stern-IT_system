@@ -40,5 +40,7 @@
     <a class="btn" [routerLink]="['/tickets']" matTooltip="Back">
       <i class="material-icons">arrow_back</i>
     </a>
+    <button *ngIf="!ticketStatusIsOpen" class="btn btn-primary" (click)="CloseTicket()">Open Ticket</button>
+
   </div>
 </div>
