@@ -326,8 +326,10 @@ namespace Stern_IT.Controllers
 
         public class TicketChangeStatusModel
         {
-            public int Id { get; set; }
+            public int TicketId { get; set; }
             public string Status { get; set; }
+            public string Priority { get; set; }
+
 
 
         }
@@ -338,11 +340,11 @@ namespace Stern_IT.Controllers
         /// <param name="id">user id</param>
         /// <param name="model">model of user</param>
         /// <returns>new user model</returns>
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutTicketr(TicketChangeStatusModel tcsm)
+        [HttpPut("{TicketId}")]
+        public async Task<ActionResult> PutTicketr(TicketChangeStatusModel tcsm, int TicketId)
         {
 
-            var applicationTicket = await _context.Tickets.FindAsync(tcsm.Id);
+            var applicationTicket = await _context.Tickets.FindAsync(TicketId);
             if (applicationTicket == null)
             {
                 return NotFound();
@@ -351,18 +353,20 @@ namespace Stern_IT.Controllers
             _context.Entry(applicationTicket).State = EntityState.Modified;
             try
             {
-                var ticket = await _context.Tickets.FindAsync(tcsm.Id);
-                ticket = new Models.Ticket
-                {
-                    Status = tcsm.Status,
-                    Priority = ticket.Priority,
-                    Subject = ticket.Subject,
-                    Description = ticket.Description,
-                    user = ticket.user,
-                    Email = ticket.Email,
-                    Created = ticket.Created,
-                    ToManagerName = ticket.ToManagerName,
-                };
+                //var ticket = await _context.Tickets.FindAsync(tcsm.TicketId);
+                //ticket = new Models.Ticket
+                //{
+                //    Status = tcsm.Status,
+                //    Priority = ticket.Priority,
+                //    Subject = ticket.Subject,
+                //    Description = ticket.Description,
+                //    user = ticket.user,
+                //    Email = ticket.Email,
+                //    Created = ticket.Created,
+                //    ToManagerName = ticket.ToManagerName,
+                //};
+                applicationTicket.Status = tcsm.Status;
+                applicationTicket.Priority = tcsm.Priority;
 
                 await _context.SaveChangesAsync();
             }

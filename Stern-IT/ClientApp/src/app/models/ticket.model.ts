@@ -17,3 +17,9 @@ export class TicketInfo {
   Priority: string;
   Description: string;
 }
+
+export class TicketStatusInfo {
+  Id: string;
+  Status: string;
+  Priority: string;
+}

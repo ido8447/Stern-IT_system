@@ -1,26 +1,43 @@
 <h1>Edit Ticket</h1>
 <div>
-  <form [formGroup]="ticketForm" autocomplete="off" novalidate>
+  <form
+    [formGroup]="ticketForm"
+    (submit)="save(ticketForm.value)"
+    autocomplete="off"
+    novalidate
+  >
     <div class="form-group">
       <label for="inputStatus">Status</label>
-      <input
-        type="text"
+      <select
         id="inputStatus"
         class="form-control"
         name="Status"
         formControlName="Status"
-      />
+      >
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+      </select>
     </div>
+
     <div class="form-group">
-      <label for="inputState">Priority</label>
-      <input
-        type="text"
-        id="inputState"
+      <label for="inputPriority">Priority</label>
+      <select
+        id="inputPriority"
         class="form-control"
         name="Priority"
         formControlName="Priority"
-      />
+      >
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Immoderate">Immoderate</option>
+
+      </select>
     </div>
+
+  
+
+
 
     <div class="form-group">
       <label for="inputDescription">Description</label>
@@ -35,8 +52,9 @@
     </div>
 
     <!--  -->
+    <button type="submit" class="btn btn-primary">Submit</button>
 
-    <button (click)="ShowAnswers()" class="btn btn-info">
+    <button type="button" (click)="ShowAnswers()" class="btn btn-info">
       {{ text }} <i class="material-icons">{{ arrowClass }}</i>
     </button>
     <div *ngIf="Showed">
@@ -106,10 +124,10 @@
             />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button class="btn btn-primary" (click)="CloseTicket()">
+        <button type="submit" class="btn btn-primary">Send</button>
+        <!-- <button class="btn btn-primary" (click)="CloseTicket()">
           Close Ticket
-        </button>
+        </button> -->
       </form>
     </div>
   </div>

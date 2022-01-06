@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Answer } from "src/app/models/Answer";
-import { TicketInfo } from "src/app/models/ticket.model";
+import { TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
 import { User } from "../../../models/user.model";
@@ -32,9 +32,9 @@ export class EditTicketComponent implements OnInit {
     this.ticketForm = this.formBuilder.group({
       TicketId: new FormControl(),
       Email: [{ value: "", disabled: true }],
-      Status: [{ value: "", disabled: true }],
+      Status: [{ value: "", disabled: false }],
       Subject: [{ value: "", disabled: true }],
-      Priority: [{ value: "", disabled: true }],
+      Priority: [{ value: "", disabled: false }],
       Description: [{ value: "", disabled: true }],
     });
 
@@ -53,19 +53,16 @@ export class EditTicketComponent implements OnInit {
     return this.ticketForm.controls[control].hasError(error);
   }
   public cancel() {
-    this.router.navigateByUrl("/users");
+    this.router.navigateByUrl("/tickets");
   }
   public save(ticketFormValue) {
     if (this.ticketForm.valid) {
-      const user: TicketInfo = {
-        TicketId: ticketFormValue.Id,
-        Email: ticketFormValue.Email,
+      const ticket: TicketStatusInfo = {
+        Id: this.activedRoute.snapshot.paramMap.get("id"),
         Status: ticketFormValue.Status,
-        Subject: ticketFormValue.Sucject,
         Priority: ticketFormValue.Priority,
-        Description: ticketFormValue.Description,
       };
-      this.service.PutTicket(user).subscribe(
+      this.service.PutTicket(ticket).subscribe(
         () => {
           this.router.navigateByUrl("/tickets");
         },
@@ -85,7 +82,7 @@ export class EditTicketComponent implements OnInit {
   SendAnswer(form: NgForm) {
     if (form.value.Answer.length != 0) {
       this.service.SendAnswer(form.value).subscribe((res) => {
-        alert("Send Ansewer"), this.router.navigateByUrl("tickets");
+        alert("Send Ansewer"), form.reset();
       });
     }
   }
@@ -135,4 +132,6 @@ export class EditTicketComponent implements OnInit {
     );
     this.router.navigateByUrl('tickets')
   }
+
+
 }

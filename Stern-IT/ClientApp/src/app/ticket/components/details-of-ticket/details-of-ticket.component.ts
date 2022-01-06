@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { log } from "console";
 import { Answer } from "src/app/models/Answer";
 import { Ticket } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
@@ -74,10 +73,10 @@ export class DetailsOfTicketComponent implements OnInit {
     TicketId: parseInt(this.activedRoute.snapshot.paramMap.get("id")),
   };
 
-  CloseTicket() {
-    this.ticketService.CloseTicket(
-      parseInt(this.activedRoute.snapshot.paramMap.get("id"))
-    );
-    this.router.navigateByUrl("closed-ticket");
-  }
+  // CloseTicket() {
+  //   this.ticketService.CloseTicket(
+  //     parseInt(this.activedRoute.snapshot.paramMap.get("id"))
+  //   );
+  //   this.router.navigateByUrl("closed-ticket");
+  // }
 }
