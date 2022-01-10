@@ -31,13 +31,8 @@
         <option value="Medium">Medium</option>
         <option value="High">High</option>
         <option value="Immoderate">Immoderate</option>
-
       </select>
     </div>
-
-  
-
-
 
     <div class="form-group">
       <label for="inputDescription">Description</label>
@@ -54,26 +49,36 @@
     <!--  -->
     <button type="submit" class="btn btn-primary">Submit</button>
 
+    <!-- Show conversation -->
     <button type="button" (click)="ShowAnswers()" class="btn btn-info">
       {{ text }} <i class="material-icons">{{ arrowClass }}</i>
     </button>
+
+    <!-- ShowAnswers -->
+    <button type="button" (click)="AddAnswer()" class="btn btn-info">
+      {{ textb }} <i class="material-icons">{{ barrowClass }}</i>
+    </button>
+
+
+
+
     <div *ngIf="Showed">
       <div *ngFor="let item of modelList" class="row">
         <div class="card">
           <div class="row" *ngIf="item.IsManager; else elseBlock">
             <div class="card-header">{{ item.Email }}</div>
             <div class="card-body">
-              <textarea rows="10" cols="50" class="card-text">
-              {{ item.Description }}</textarea
-              >
+              <textarea rows="10" cols="50" class="card-text">{{
+                item.Description
+              }}</textarea>
             </div>
           </div>
           <ng-template #elseBlock>
             <div class="card-header">{{ item.Email }}</div>
             <div class="card-body">
-              <textarea rows="10" cols="50" class="card-text">
-              {{ item.Description }}</textarea
-              >
+              <textarea rows="10" cols="50" class="card-text">{{
+                item.Description
+              }}</textarea>
             </div>
           </ng-template>
         </div>
@@ -82,7 +87,7 @@
     <!--  -->
   </form>
 
-  <div class="card">
+  <div  *ngIf="AddAnswerShow" class="card">
     <div class="card-header">Add Answer</div>
     <div class="card-body">
       <form #form="ngForm" (submit)="SendAnswer(form)">

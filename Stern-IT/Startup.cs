@@ -156,11 +156,11 @@ namespace Stern_IT
             if (userAdmin != null)
             {
                 await userManager.AddToRoleAsync(userAdmin, "Administrator");
-                await userManager.AddToRoleAsync(userAdmin, "Moderator");
             }
             Models.User userModerator = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "eyal@stern-it.com");
             if (userModerator != null)
             {
+                await userManager.AddToRoleAsync(userAdmin, "Administrator");
                 await userManager.AddToRoleAsync(userModerator, "Moderator");
             }
         }

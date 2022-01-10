@@ -107,17 +107,17 @@ export class EditTicketComponent implements OnInit {
    * ShowAnswers
    */
   Showed: boolean = this.ShowAnswers();
-  public text: string = "Show";
+  public text: string = "Show Answers";
   public arrowClass: string = "arrow_drop_down";
   public ShowAnswers() {
     if (this.Showed == null) {
-      this.text = "Show";
+      this.text = "Show Answers";
       this.arrowClass = "arrow_drop_down";
 
       return (this.Showed = false);
     } else if (this.Showed) {
       this.arrowClass = "arrow_drop_down";
-      this.text = "Show";
+      this.text = "Show Answers";
 
       return (this.Showed = false);
     }
@@ -126,12 +126,33 @@ export class EditTicketComponent implements OnInit {
     return (this.Showed = true);
   }
 
+  /**
+   * ShowSendAnswers
+   */
+  AddAnswerShow: boolean = this.AddAnswer();
+  public textb: string = "Add Answer";
+  public barrowClass: string = "arrow_drop_down";
+
+  public AddAnswer() {
+    if (this.AddAnswerShow == null) {
+      this.textb = "Add Answer";
+      this.barrowClass = "arrow_drop_down";
+      return (this.AddAnswerShow = false);
+    } else if (this.AddAnswerShow) {
+      this.textb = "Add Answer";
+      this.barrowClass = "arrow_drop_down";
+      return (this.AddAnswerShow = false);
+    }
+    this.textb = "Hide";
+    this.barrowClass = "arrow_drop_up";
+
+    return (this.AddAnswerShow = true);
+  }
+
   CloseTicket() {
     this.service.CloseTicket(
       parseInt(this.activedRoute.snapshot.paramMap.get("id"))
     );
-    this.router.navigateByUrl('tickets')
+    this.router.navigateByUrl("tickets");
   }
-
-
 }
