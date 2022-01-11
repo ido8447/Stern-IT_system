@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Stern_IT.Models
 {
-    public class User : IdentityUser
+    public class Customer
     {
-        public List<Ticket> Tickets { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Customer customer { get; set; }
-
+        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
+        public List<User> user { get; set; }
     }
 }

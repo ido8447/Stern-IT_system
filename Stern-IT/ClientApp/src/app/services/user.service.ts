@@ -213,7 +213,18 @@ export class UserService {
     return this.httpClient.get(this.baseURL + this.apiURL + "ManagersList");
   }
 
+  public AddCustomer(customerName: string) {
+    return this.httpClient.post(
+      this.baseURL + this.apiURL + "addCustomer/" + customerName,
+      customerName
+    );
+  }
 
+  public GetCustomer() {
+    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomer");
+  }
+
+ 
 }
 
 export interface AuthorizedUser {

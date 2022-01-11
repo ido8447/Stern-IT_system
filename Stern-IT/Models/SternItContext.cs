@@ -11,6 +11,8 @@ namespace Stern_IT.Models
     {
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+
 
 
 

@@ -15,6 +15,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatListModule } from "@angular/material/list";
+import { MatRadioModule } from "@angular/material/radio";
 import "hammerjs";
 //
 import { AppComponent } from "./app.component";
@@ -39,6 +40,7 @@ import { TicketService } from "./services/ticket.service";
 import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/details-of-ticket.component";
 import { ClosedticketsComponent } from './ticket/components/closedtickets/closedtickets.component';
 import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket.component';
+import { CustomerListComponent } from './user/components/customer-list/customer-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
     DetailsOfTicketComponent,
     ClosedticketsComponent,
     EditTicketComponent,
+    CustomerListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -103,6 +106,12 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
         data: { allowedRoles: ["Administrator"] },
       },
       {
+        path: "customers",
+        component: CustomerListComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator"] },
+      },
+      {
         path: "users/edit/:id",
         component: UserEditComponent,
         canActivate: [AuthorizeGuard],
@@ -134,6 +143,7 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
     MatButtonModule,
     MatDividerModule,
     MatListModule,
+    MatRadioModule,
   ],
   providers: [
     UserService,

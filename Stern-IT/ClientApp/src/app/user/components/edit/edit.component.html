@@ -37,6 +37,38 @@
           </mat-list-option>
         </mat-selection-list>
       </mat-form-field>
+
+      <br />
+      <!--  -->
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="Customer"
+          formControlName="Customer"
+          id="customers"
+          hidden="hidden"
+        />
+        <br />
+        <mat-selection-list
+          #Customer
+          formControlName="CustomerSelected"
+        >
+          <div class="row">
+            <mat-radio-button value="custom.CustomerId" *ngFor="let custom of customers">{{
+              custom.CustomerName
+            }}</mat-radio-button>
+          </div>
+        </mat-selection-list>
+        <!-- <input
+            type="radio"
+            *ngFor="let custom of customers"
+            [value]="custom.CustomerName"
+            value="{{ custom.CustomerName }}"
+          /> -->
+        <!-- {{ custom.CustomerName }}   -->
+      </mat-form-field>
+      <!--  -->
     </mat-card-content>
     <mat-card-actions align="center">
       <button mat-raised-button color="primary" [disabled]="!userForm.valid">

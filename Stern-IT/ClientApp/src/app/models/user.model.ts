@@ -1,3 +1,5 @@
+import { Customer } from "./customer";
+
 export class User {
   Id: string;
   FirstName: string;
@@ -14,4 +16,5 @@ export class UserInfo {
     Id: string;
     Email: string;
     Roles: string[];
+    Customer: Customer;
   }

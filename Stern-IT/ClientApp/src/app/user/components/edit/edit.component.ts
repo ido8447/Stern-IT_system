@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Customer } from "src/app/models/customer";
 import { Role, UserInfo } from "src/app/models/user.model";
 import { UserService } from "../../../services/user.service";
 
@@ -12,6 +13,7 @@ export class UserEditComponent implements OnInit{
     public userForm: FormGroup;
     public allRoles;
     public selectedRoles =[];
+    customers: Array<Customer>
 
     /**
      *
@@ -22,8 +24,13 @@ export class UserEditComponent implements OnInit{
         private formBuilder: FormBuilder) {
         
     }
-    
+ 
     ngOnInit(): void {
+        this.service.GetCustomer().subscribe(res=>{
+            this.customers = res as Customer[]
+        })
+
+
         this.service.GetRoles().subscribe(res=>{
             this.allRoles = res as Role;
             this.allRoles.forEach(role => {
@@ -35,7 +42,10 @@ export class UserEditComponent implements OnInit{
             Email: [{ value: '',disabled: true}],
             PhoneNumber: [{ value: '',disabled: true}],
             Roles: [],
-            RolesSelected: []
+            RolesSelected: [],
+            Customer: [{value: ''}],
+            CustomerSelected: [{value: ''}],
+
         });
 
         const id = this.activateRoute.snapshot.paramMap.get('id');
@@ -64,7 +74,8 @@ export class UserEditComponent implements OnInit{
             const user: UserInfo = {
                 Id: userFormValue.Id,
                 Email: userFormValue.Email,
-                Roles: userFormValue.RolesSelected
+                Roles: userFormValue.RolesSelected,
+              Customer: userFormValue.Customer,
             };
             this.service.put(user).subscribe(()=>{
                 this.router.navigateByUrl('/users')
@@ -72,6 +83,10 @@ export class UserEditComponent implements OnInit{
             error=>{
                 console.log(error);
             })
+
+            //put customer
         }
+
+
     }
 }

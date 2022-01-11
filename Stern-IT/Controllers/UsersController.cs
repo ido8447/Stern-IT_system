@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stern_IT.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -179,6 +180,8 @@ namespace Stern_IT.Controllers
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string[] Roles { get; set; }
+
+            public string CustomerId { get; set; }
         }
 
 
@@ -296,6 +299,9 @@ namespace Stern_IT.Controllers
                 await _userManager.RemoveFromRolesAsync(applicationUser, userRoles.ToArray());
                 await _userManager.AddToRolesAsync(applicationUser, model.Roles);
                 await _context.SaveChangesAsync();
+
+                var customerChose = await _context.Customers.FindAsync(model.CustomerId);
+                applicationUser.customer = customerChose;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -354,10 +360,58 @@ namespace Stern_IT.Controllers
             }
             var newObjects = objects.Distinct().Select(p => p).ToArray();
             return newObjects;
-           
+
         }
 
+
+
+
+
+        //addCustomer
+        [HttpPost("addCustomer/{customerName}")]
+        public async Task<object> AddCustomer(string customerName)
+        {
+            var customers = await _context.Customers.ToListAsync();
+            foreach (var customer in customers)
+            {
+                if (customerName == customer.CustomerName)
+                {
+                    return false;
+                }
+            }
+            Models.Customer customer1 = new Models.Customer
+            {
+                CustomerName = customerName,
+            };
+            try
+            {
+                _context.Add(customer1);
+                var result = await _context.SaveChangesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        [HttpGet("getCustomer")]
+        public async Task<object> GetCustomers()
+        {
+            var customer = await _context.Customers.ToListAsync();
+            return customer;
+
+
+        }
+
+
+
+
+
+
     }
+
 }
 
 
