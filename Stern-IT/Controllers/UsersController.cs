@@ -407,8 +407,17 @@ namespace Stern_IT.Controllers
 
 
 
+        // "DeleteCustomer/"+customerId
+        [HttpDelete("DeleteCustomer/{customerId}")]
+        public async Task<object> DeleteCustomer(int customerId)
+        {
+            var customer = await _context.Customers.FindAsync(customerId);
 
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
 
+            return Ok();
+        }
 
     }
 

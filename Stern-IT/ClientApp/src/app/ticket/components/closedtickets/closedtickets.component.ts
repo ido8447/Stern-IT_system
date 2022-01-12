@@ -59,5 +59,16 @@ export class ClosedticketsComponent implements OnInit {
     this.get();
 
   }
-
+  deleteTicket(Id: any) {
+    if (confirm("Are you sure to delete this ticket?")) {
+      this.ticketService.DeleteTicket(Id).subscribe(
+        () => {
+          this.ticketService.getTicket();
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    }
+  }
 }

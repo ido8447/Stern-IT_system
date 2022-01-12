@@ -224,7 +224,11 @@ export class UserService {
     return this.httpClient.get(this.baseURL + this.apiURL + "getCustomer");
   }
 
- 
+public deleteCustomer(customerId){
+  return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/"+customerId);
+}
+  
+
 }
 
 export interface AuthorizedUser {

@@ -25,7 +25,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
   // columns: string[] = ["Name", "details-edit-delete"];
-  columns: string[] = ["Name"];
+  columns: string[] = ["Name","Delete"];
   dataSource = new MatTableDataSource<Customer>();
 
   ngAfterViewInit(): void {
@@ -45,16 +45,18 @@ export class CustomerListComponent implements OnInit {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
-  // delete(Id: any) {
-  //   if (confirm("Are you sure to delete this record?")) {
-  //     this.userService.delete(Id).subscribe(
-  //       () => {
-  //         this.get();
-  //       },
-  //       (err: any) => {
-  //         console.log(err);
-  //       }
-  //     );
-  //   }
-  // }
+  delete(Id: any) {
+    if (confirm("Are you sure to delete this record?")) {
+      this.userService.deleteCustomer(Id).subscribe(
+        () => {
+          this.get();
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    }
+    // console.log(Id);
+    
+  }
 }
