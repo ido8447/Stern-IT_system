@@ -12,7 +12,8 @@ namespace Stern_IT.Models
         public List<Ticket> Tickets { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Customer customer { get; set; }
+        public int CustomerId { get; set; }
+
 
     }
 }

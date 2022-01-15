@@ -13,8 +13,8 @@ export class Role {
   Name: string;
 }
 export class UserInfo {
-    Id: string;
-    Email: string;
-    Roles: string[];
-    Customer: Customer;
-  }
+  Id: string;
+  Email: string;
+  Roles: string[];
+  CustomerId: number;
+}

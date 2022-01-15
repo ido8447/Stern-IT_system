@@ -176,12 +176,10 @@ namespace Stern_IT.Controllers
             public string Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
-
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string[] Roles { get; set; }
-
-            public string CustomerId { get; set; }
+            public int CustomerId { get; set; }
         }
 
 
@@ -199,6 +197,10 @@ namespace Stern_IT.Controllers
             List<Models.User> users = await _context.Users.ToListAsync();
             foreach (Models.User user in users)
             {
+                //if (user.CustomerId == null)
+                //{
+                //    user.CustomerId = 1;
+                //}
                 viewModels.Add(new UserViewModel()
                 {
                     Id = user.Id,
@@ -206,8 +208,8 @@ namespace Stern_IT.Controllers
                     LastName = user.LastName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
-                    Roles = _userManager.GetRolesAsync(user).Result.ToArray()
-
+                    Roles = _userManager.GetRolesAsync(user).Result.ToArray(),
+                    CustomerId = user.CustomerId
                 });
             }
             return viewModels;
@@ -224,6 +226,10 @@ namespace Stern_IT.Controllers
             {
                 return NotFound();
             }
+            //if (applicationUser.CustomerId == null)
+            //{
+            //   applicationUser.CustomerId =1;
+            //}
             UserViewModel userViewModel = new UserViewModel()
             {
                 Id = applicationUser.Id,
@@ -231,7 +237,8 @@ namespace Stern_IT.Controllers
                 LastName = applicationUser.LastName,
                 Email = applicationUser.Email,
                 PhoneNumber = applicationUser.PhoneNumber,
-                Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray()
+                Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray(),
+                CustomerId = applicationUser.CustomerId
             };
 
             return userViewModel;
@@ -295,13 +302,18 @@ namespace Stern_IT.Controllers
             _context.Entry(applicationUser).State = EntityState.Modified;
             try
             {
-                var userRoles = await _userManager.GetRolesAsync(applicationUser);
-                await _userManager.RemoveFromRolesAsync(applicationUser, userRoles.ToArray());
-                await _userManager.AddToRolesAsync(applicationUser, model.Roles);
-                await _context.SaveChangesAsync();
+                if (model.CustomerId != 0)
+                {
+                    var customerChose = await _context.Customers.FindAsync(model.CustomerId);
+                    applicationUser.CustomerId = customerChose.CustomerId;
+                }
 
-                var customerChose = await _context.Customers.FindAsync(model.CustomerId);
-                applicationUser.customer = customerChose;
+                var userRoles = await _userManager.GetRolesAsync(applicationUser);
+                if (userRoles.Count != 0)
+                    await _userManager.RemoveFromRolesAsync(applicationUser, userRoles.ToArray());
+                if (model.Roles != null)
+                    await _userManager.AddToRolesAsync(applicationUser, model.Roles);
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -401,9 +413,15 @@ namespace Stern_IT.Controllers
         {
             var customer = await _context.Customers.ToListAsync();
             return customer;
-
-
         }
+
+        [HttpGet("getCustomerById/{id}")]
+        public async Task<object> GetCustomers(int id)
+        {
+            var customer = await _context.Customers.Where(p => p.CustomerId == id).FirstAsync();
+            return customer;
+        }
+
 
 
 

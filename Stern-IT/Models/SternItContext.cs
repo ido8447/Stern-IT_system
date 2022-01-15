@@ -21,7 +21,18 @@ namespace Stern_IT.Models
 
         }
 
-       
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    builder.Entity<Customer>(entity =>
+        //    {
+        //        entity.HasKey(x => x.CustomerId);
+        //    });
+        //    builder.Entity<User>(entity =>
+        //    {
+        //        entity.HasKey(x => x.Id);
+        //        entity.HasOne<Customer>().WithMany(c => c.user).HasForeignKey(c => c.CustomerId);
+        //    });
+        //}
 
     }
 

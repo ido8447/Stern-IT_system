@@ -224,6 +224,12 @@ export class UserService {
     return this.httpClient.get(this.baseURL + this.apiURL + "getCustomer");
   }
 
+  //getCustomerById/{id}
+
+  public GetCustomerById(id: number) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerById/"+id);
+  }
+
 public deleteCustomer(customerId){
   return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/"+customerId);
 }
