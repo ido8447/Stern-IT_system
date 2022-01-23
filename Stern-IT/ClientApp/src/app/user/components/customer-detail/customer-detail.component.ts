@@ -15,6 +15,7 @@ export class CustomerDetailComponent implements OnInit {
   columns: string[] = ["Email","PhoneNumber", "details-edit-delete"];
 
   dataSource = new MatTableDataSource<User>();
+  CustomerName: any;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -35,7 +36,9 @@ export class CustomerDetailComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit() {
-
+    this.userService.GetCustomerById(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe(res =>{
+      this.CustomerName = res;
+    })
     this.get();
 
     const id = this.activedRoute.snapshot.paramMap.get("id");

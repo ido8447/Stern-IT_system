@@ -1,15 +1,5 @@
-<!-- <div class="card">
-    <div class="card-body">
-        <h4 class="card-title">{{ Customer.CustomerName }}</h4>
-        <p class="card-text">Customer Users List</p>
-    </div>
-    <ul class="list-group list-group-flush" *ngFor="let item of Users">
-        <li class="list-group-item" >{{ item.Email + ": " + item.FirstName + " " + item.LastName }}</li>
-
-    </ul>
-</div> -->
 <form autocomplete="off">
-<h1>Users</h1>
+<h1> {{Customer.CustomerName}} Users</h1>
     <a class="btn" [routerLink]="['/users/register']" matTooltip="Register" >
       <i class="material-icons">add</i>
     </a>

@@ -136,8 +136,8 @@ namespace Stern_IT.Controllers
 
                 foreach (Models.Ticket ticket in tickets)
                 {
-                    var ticketsUser = await _userManager.Users.Where(u=>u.Email == ticket.Email).FirstOrDefaultAsync();
-                    var customerName = await _context.Customers.Where(p=>p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -509,26 +509,33 @@ namespace Stern_IT.Controllers
         }
 
 
+        // customersTicket
+        //"https://localhost:5001/api/tickets/customersTicket/2"
+        [HttpGet("customersTicket/{CustomerId}")]
+        public async Task<object> customersTicket(string CustomerId)
+        {
+            List<TicketViewModel> tvm_list = new List<TicketViewModel>();
+            var users = await _userManager.Users.Where(p => p.CustomerId.ToString() == CustomerId).ToListAsync();
+            foreach (var user in users)
+            {
+                var tickets = await _context.Tickets.Where(p => p.user.Id == user.Id).ToListAsync();
+                foreach (var ticket in tickets)
+                {
+                    tvm_list.Add(new TicketViewModel()
+                    {
+                        Id = ticket.TicketId,
+                        Created = ticket.Created,
+                        Email = ticket.Email,
+                        Description = ticket.Description,
+                        Priority = ticket.Priority,
+                        Status = ticket.Status,
+                        Subject = ticket.Subject
+                    });
+                }
+            }
 
-
-        // [HttpGet("CustomerFromTicket/{open}")]
-        // public async Task<object> GetCustomerFromTicketAsDict(bool open)
-        // {
-        //     var ticket = await _context.Tickets.Where(p => p.Status == "Closed").ToListAsync();
-        //     if (open)
-        //         ticket = await _context.Tickets.Where(p => p.Status == "Open").ToListAsync();
-            
-
-        //     var ticketsDict = new Dictionary<string, string>();
-        //     foreach (var tick in ticket)
-        //     {
-        //         var user = await _userManager.Users.Where(p => p.Email == tick.Email).FirstAsync();
-        //         var customer = await _context.Customers.Where(p => p.CustomerId == user.CustomerId).FirstAsync();
-        //         ticketsDict[tick.TicketId.ToString()] = customer.CustomerName;
-        //     }
-        //     return ticketsDict;
-        // }
-
+            return tvm_list;
+        }
     }
 }
 

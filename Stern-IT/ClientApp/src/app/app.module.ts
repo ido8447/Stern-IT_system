@@ -42,6 +42,7 @@ import { ClosedticketsComponent } from './ticket/components/closedtickets/closed
 import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket.component';
 import { CustomerListComponent } from './user/components/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './user/components/customer-detail/customer-detail.component';
+import { CustomerTicketsComponent } from './ticket/components/customer-tickets/customer-tickets.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { CustomerDetailComponent } from './user/components/customer-detail/custo
     EditTicketComponent,
     CustomerListComponent,
     CustomerDetailComponent,
+    CustomerTicketsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -106,6 +108,11 @@ import { CustomerDetailComponent } from './user/components/customer-detail/custo
         component: CustomerDetailComponent,
         canActivate: [AuthorizeGuard],
         data: { allowedRoles: ["Administrator", "Moderator"] },
+      },
+      {
+        path: "customer-tickets/:id",
+        component: CustomerTicketsComponent,
+        canActivate: [AuthorizeGuard],
       },
       {
         path: "users/:id",

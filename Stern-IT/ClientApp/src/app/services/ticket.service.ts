@@ -92,5 +92,11 @@ export class TicketService {
     );
   }
 
+  getCustomerTickets(CustomerID: string){
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "customersTicket/" + CustomerID
+    );
+  }
+
   
 }

@@ -1,27 +1,31 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { ActivatedRoute } from "@angular/router";
 import { Ticket } from "src/app/models/ticket.model";
-import { UserService } from "src/app/services/user.service";
-import { map, filter } from "rxjs/operators";
 import { TicketService } from "src/app/services/ticket.service";
-import { Dictionary } from "lodash";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
-  selector: "app-show-tickets",
-  templateUrl: "./show-tickets.component.html",
-  styleUrls: ["./show-tickets.component.css"],
+  selector: "app-customer-tickets",
+  templateUrl: "./customer-tickets.component.html",
+  styleUrls: ["./customer-tickets.component.css"],
 })
-export class ShowTicketsComponent implements OnInit {
+export class CustomerTicketsComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
   customerDict: any;
+  Customer: any;
 
   columnsFunc() {
-
-    if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
-      return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
-    }
-    return ["Subject","Customer", "Status", "Priority", "Date", "details-delete"];
+    return [
+      "Email",
+      "Customer",
+      "Subject",
+      "Status",
+      "Priority",
+      "Date",
+      "details-delete",
+    ];
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -29,7 +33,8 @@ export class ShowTicketsComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private userService: UserService
+    private userService: UserService,
+    private activedRoute: ActivatedRoute
   ) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
@@ -46,24 +51,28 @@ export class ShowTicketsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
+    this.userService.GetCustomerById(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe(res =>{
+      this.Customer = res;
+    })
     this.get();
+
   }
-
-
-
 
   get() {
     this.ticketService
-      .getTickets(this.userService.getAuthorizedUserEmail(), "Open")
+      .getCustomerTickets(this.activedRoute.snapshot.paramMap.get("id"))
       .subscribe((res) => {
         this.dataSource.data = res as Ticket[];
+        
       });
   }
 
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
-
+  Refresh() {
+    this.get();
+  }
   deleteTicket(Id: any) {
     if (confirm("Are you sure to delete this ticket?")) {
       this.ticketService.DeleteTicket(Id).subscribe(
@@ -75,10 +84,5 @@ export class ShowTicketsComponent implements OnInit {
         }
       );
     }
-  }
-
-  Refresh(){
-    this.get();
-
   }
 }

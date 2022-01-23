@@ -64,7 +64,7 @@ export class EditTicketComponent implements OnInit {
       };
       this.service.PutTicket(ticket).subscribe(
         () => {
-          this.router.navigateByUrl("/tickets");
+         this.cancel();
         },
         (error) => {
           console.log(error);
@@ -81,10 +81,11 @@ export class EditTicketComponent implements OnInit {
 
   SendAnswer(form: NgForm) {
     if (form.value.Answer.length != 0) {
-      this.service.SendAnswer(form.value).subscribe((res) => {
+      this.service.SendAnswer(form.value).subscribe(() => {
         alert("Send Ansewer"), form.reset();
       });
     }
+    this.cancel();
   }
 
   isManager() {
@@ -156,6 +157,6 @@ export class EditTicketComponent implements OnInit {
     this.service.CloseTicket(
       parseInt(this.activedRoute.snapshot.paramMap.get("id"))
     );
-    this.router.navigateByUrl("tickets");
+   this.cancel();
   }
 }
