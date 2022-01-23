@@ -22,6 +22,16 @@
           {{ item.Email }}
         </td>
       </ng-container>
+      <!-- Customer -->
+      <ng-container matColumnDef="Customer">
+        <th mat-header-cell *matHeaderCellDef  >
+          Customer
+        </th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.CustomerName }}
+
+        </td>
+      </ng-container>
       <ng-container matColumnDef="PhoneNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header >
           Phone
@@ -51,7 +61,7 @@
 
 
       <ng-container matColumnDef="details-edit-delete">
-        <th mat-header-cell *matHeaderCellDef>Details-Edit-Delete
+        <th mat-header-cell *matHeaderCellDef>Details-Edit
         </th>
         <td mat-cell *matCellDef="let item">
           <a class="btn" [routerLink]="['/users', item.Id]" matTooltip="Details">
@@ -60,9 +70,9 @@
           <a class="btn" [routerLink]="['/users/edit', item.Id]" matTooltip="Edit">
             <i class="material-icons">edit</i>
           </a>
-          <a class="btn" matTooltip="Delete" (click) = "delete(item.Id)">
+          <!-- <a class="btn" matTooltip="Delete" (click) = "delete(item.Id)">
             <i class="material-icons">delete</i>
-          </a>
+          </a> -->
         </td>
       </ng-container>
     </tr>

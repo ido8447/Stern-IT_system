@@ -12,14 +12,15 @@ import { UserService } from 'src/app/services/user.service';
 export class ClosedticketsComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
+    customerDict: any;
 
 
   columnsFunc() {
 
     if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
-      return ["Email","Subject", "Status", "Priority", "Date", "details-delete"];
+      return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
     }
-    return ["Subject", "Status", "Priority", "Date", "details-delete"];
+    return ["Subject", "Customer", "Status", "Priority", "Date", "details-delete"];
   }
 
 
@@ -43,9 +44,9 @@ export class ClosedticketsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
-      this.get();
+    this.get();
   }
-
+  
   get() {
     this.ticketService.getTickets(this.userService.getAuthorizedUserEmail(),"Closed").subscribe((res) => {
       this.dataSource.data = res as Ticket[];

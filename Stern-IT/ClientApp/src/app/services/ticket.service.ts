@@ -87,7 +87,10 @@ export class TicketService {
       .subscribe((arg) => console.log(arg));
   }
   GetTicketStatus(TicketID: number) {
-    return this.httpClient
-      .get(this.baseURL + this.apiURL + "status/" + TicketID);
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "status/" + TicketID
+    );
   }
+
+  
 }

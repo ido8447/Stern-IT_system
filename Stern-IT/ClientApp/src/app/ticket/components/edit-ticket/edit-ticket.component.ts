@@ -6,6 +6,7 @@ import { TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
 import { User } from "../../../models/user.model";
+import {Location} from '@angular/common';
 
 @Component({
   selector: "app-edit-ticket",
@@ -25,7 +26,8 @@ export class EditTicketComponent implements OnInit {
     private service: TicketService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private activedRoute: ActivatedRoute
+    private activedRoute: ActivatedRoute,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -52,9 +54,7 @@ export class EditTicketComponent implements OnInit {
   public error(control: string, error: string) {
     return this.ticketForm.controls[control].hasError(error);
   }
-  public cancel() {
-    this.router.navigateByUrl("/tickets");
-  }
+  
   public save(ticketFormValue) {
     if (this.ticketForm.valid) {
       const ticket: TicketStatusInfo = {
@@ -148,7 +148,10 @@ export class EditTicketComponent implements OnInit {
 
     return (this.AddAnswerShow = true);
   }
+   cancel() {
+    this._location.back()
 
+  }
   CloseTicket() {
     this.service.CloseTicket(
       parseInt(this.activedRoute.snapshot.paramMap.get("id"))

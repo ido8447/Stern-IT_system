@@ -70,7 +70,9 @@ namespace Stern_IT.Controllers
                 LastName = model.LastName,
                 UserName = model.Email,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                CustomerId = 1
+
             };
             try
             {
@@ -179,7 +181,9 @@ namespace Stern_IT.Controllers
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string[] Roles { get; set; }
-            public int CustomerId { get; set; }
+            public string CustomerName { get; set; }
+            public string CustomerId { get; set; }
+
         }
 
 
@@ -197,10 +201,7 @@ namespace Stern_IT.Controllers
             List<Models.User> users = await _context.Users.ToListAsync();
             foreach (Models.User user in users)
             {
-                //if (user.CustomerId == null)
-                //{
-                //    user.CustomerId = 1;
-                //}
+                var name = await _context.Customers.Where(c => c.CustomerId == user.CustomerId).FirstOrDefaultAsync();
                 viewModels.Add(new UserViewModel()
                 {
                     Id = user.Id,
@@ -209,7 +210,7 @@ namespace Stern_IT.Controllers
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     Roles = _userManager.GetRolesAsync(user).Result.ToArray(),
-                    CustomerId = user.CustomerId
+                    CustomerName = name.CustomerName
                 });
             }
             return viewModels;
@@ -230,6 +231,8 @@ namespace Stern_IT.Controllers
             //{
             //   applicationUser.CustomerId =1;
             //}
+            var name = await _context.Customers.Where(c => c.CustomerId == applicationUser.CustomerId).FirstOrDefaultAsync();
+
             UserViewModel userViewModel = new UserViewModel()
             {
                 Id = applicationUser.Id,
@@ -238,7 +241,8 @@ namespace Stern_IT.Controllers
                 Email = applicationUser.Email,
                 PhoneNumber = applicationUser.PhoneNumber,
                 Roles = _userManager.GetRolesAsync(applicationUser).Result.ToArray(),
-                CustomerId = applicationUser.CustomerId
+                CustomerId = applicationUser.CustomerId.ToString(),
+                CustomerName = name.CustomerName
             };
 
             return userViewModel;
@@ -302,7 +306,7 @@ namespace Stern_IT.Controllers
             _context.Entry(applicationUser).State = EntityState.Modified;
             try
             {
-                if (model.CustomerId != 0)
+                if (model.CustomerId != "0")
                 {
                     var customerChose = await _context.Customers.FindAsync(model.CustomerId);
                     applicationUser.CustomerId = customerChose.CustomerId;
@@ -408,12 +412,50 @@ namespace Stern_IT.Controllers
         }
 
 
+        public class Customer
+        {
+            public int CustomerID { get; set; }
+            public string CustomerName { get; set; }
+            public int OpenTickets { get; set; }
+            public int Users { get; set; }
+        }
+
         [HttpGet("getCustomer")]
         public async Task<object> GetCustomers()
         {
+            var tickets = await _context.Tickets.Where(p => p.Status == "Open").ToListAsync();
             var customer = await _context.Customers.ToListAsync();
-            return customer;
+
+
+            List<Customer> customers = new List<Customer>();
+            foreach (var item in customer)
+            {
+
+                var users = await _context.Users.Where(p => p.CustomerId == item.CustomerId).ToListAsync();
+                int counter = 0;
+                foreach (var user in users)
+                {
+                    foreach (var ticket in tickets)
+                    {
+                        if (user.Email == ticket.Email)
+                        {
+                            counter++;
+                        }
+                    }
+                }
+
+                customers.Add(new Customer
+                {
+                    CustomerID = item.CustomerId,
+                    CustomerName = item.CustomerName,
+                    OpenTickets = counter,
+                    Users = users.Count
+
+                });
+            }
+            return customers;
         }
+
 
         [HttpGet("getCustomerById/{id}")]
         public async Task<object> GetCustomers(int id)
@@ -422,6 +464,14 @@ namespace Stern_IT.Controllers
             return customer;
         }
 
+
+        //get all users from this customer
+        [HttpGet("getCustomerUsersById/{id}")]
+        public async Task<object> GetCustomerUsers(int id)
+        {
+            var users = await _userManager.Users.Where(p => p.CustomerId == id).ToListAsync();
+            return users;
+        }
 
 
 
@@ -435,6 +485,43 @@ namespace Stern_IT.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+
+        // [HttpGet("OpenTicketsByCustomer")]
+        // public async Task<object> GetOpenTicketsByCustomer()
+        // {
+        //     var openTickets = new Dictionary<string, string>();
+        //     var customers = await _context.Customers.ToListAsync();
+        //     var tickets = await _context.Tickets.Where(p => p.Status == "Open").ToListAsync();
+        //     foreach (var custom in customers)
+        //     {
+        //         var users = await _context.Users.Where(p => p.CustomerId == custom.CustomerId).ToListAsync();
+        //         int counter = 0;
+        //         foreach (var user in users)
+        //         {
+        //             foreach (var ticket in tickets)
+        //             {
+        //                 if (user.Email == ticket.Email)
+        //                 {
+        //                     counter++;
+        //                 }
+        //             }
+        //         }
+        //         openTickets[custom.CustomerName] = counter.ToString();
+        //     }
+        //     return openTickets;
+
+        // }
+
+        [HttpGet("GetMyCustomerByEmail/{UserEmail}")]
+        public async Task<object> GetMyCustomerByEmail(string UserEmail)
+        {
+            string name = "";
+            var user = await _context.Users.Where(p => p.Email == UserEmail).FirstOrDefaultAsync();
+            var customer = await _context.Customers.Where(p => p.CustomerId == user.CustomerId).FirstOrDefaultAsync();
+            name = customer.CustomerName;
+            return name;
         }
 
     }

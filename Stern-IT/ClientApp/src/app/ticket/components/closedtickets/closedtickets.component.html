@@ -15,11 +15,17 @@
     <table mat-table [dataSource]="dataSource" matSort class="table table-hover">
       <tr>
         <ng-container matColumnDef="Email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-            <td mat-cell *matCellDef="let item">
-              {{ item.Email }}
-            </td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let item">
+            {{ item.Email }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Customer">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
+          <td mat-cell *matCellDef="let item">
+            {{  item.CustomerName }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="Subject">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
           <td mat-cell *matCellDef="let item">
@@ -32,7 +38,7 @@
             {{ item.Status }}
           </td>
         </ng-container>
-        
+
         <ng-container matColumnDef="Priority">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
           <td mat-cell *matCellDef="let item">
@@ -52,15 +58,13 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="details-delete">
-          <th mat-header-cell *matHeaderCellDef>Details - Edit -Delete</th>
+          <th mat-header-cell *matHeaderCellDef>Edit -Delete</th>
           <td mat-cell *matCellDef="let item">
-            <a
-              class="btn"
-              [routerLink]="['/tickets', item.Id]"
-              matTooltip="Details"
-            >
+            <!-- <a class="btn"
+               [routerLink]="['/tickets', item.Id]"
+               matTooltip="Details">
               <i class="material-icons">info</i>
-            </a>
+            </a> -->
             <a class="btn" [routerLink]="['/tickets/edit', item.Id]" matTooltip="Edit">
               <i class="material-icons">edit</i>
             </a>
@@ -80,4 +84,3 @@
       showFirstLastButtons
     ></mat-paginator>
   </form>
-  

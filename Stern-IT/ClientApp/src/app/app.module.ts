@@ -41,6 +41,7 @@ import { DetailsOfTicketComponent } from "./ticket/components/details-of-ticket/
 import { ClosedticketsComponent } from './ticket/components/closedtickets/closedtickets.component';
 import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket.component';
 import { CustomerListComponent } from './user/components/customer-list/customer-list.component';
+import { CustomerDetailComponent } from './user/components/customer-detail/customer-detail.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { CustomerListComponent } from './user/components/customer-list/customer-
     ClosedticketsComponent,
     EditTicketComponent,
     CustomerListComponent,
+    CustomerDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -91,7 +93,7 @@ import { CustomerListComponent } from './user/components/customer-list/customer-
         path: "tickets/:id",
         component: DetailsOfTicketComponent,
         canActivate: [AuthorizeGuard],
-        // data: { allowedRoles: ["Administrator", "Moderator"] },
+        // 
       },
       {
         path: "tickets/edit/:id",
@@ -99,6 +101,12 @@ import { CustomerListComponent } from './user/components/customer-list/customer-
         canActivate: [AuthorizeGuard],
       },
       { path: "users/login", component: LoginComponent },
+      {
+        path: "customer/:id",
+        component: CustomerDetailComponent,
+        canActivate: [AuthorizeGuard],
+        data: { allowedRoles: ["Administrator", "Moderator"] },
+      },
       {
         path: "users/:id",
         component: UserDetailsComponent,
@@ -109,7 +117,7 @@ import { CustomerListComponent } from './user/components/customer-list/customer-
         path: "customers",
         component: CustomerListComponent,
         canActivate: [AuthorizeGuard],
-        data: { allowedRoles: ["Administrator"] },
+        data: { allowedRoles: ["Administrator", "Moderator"] },
       },
       {
         path: "users/edit/:id",

@@ -37,8 +37,7 @@
   <li
     *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Administrator']) &&
-      userService.allowedRole(['Moderator'])
+      userService.allowedRole(['Administrator'])
     "
   >
     <a class="nav-link text-white" [routerLink]="['/users']">
@@ -60,8 +59,7 @@
   <li
     *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Administrator']) &&
-      userService.allowedRole(['Moderator'])
+      userService.allowedRole(['Moderator']) 
     "
   >
     <a class="nav-link text-white" [routerLink]="['/customers']">

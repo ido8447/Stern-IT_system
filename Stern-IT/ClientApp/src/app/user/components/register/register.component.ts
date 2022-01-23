@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
         this.userService.formRegisterModel.reset();
         alert("New User Registered!");
         // this.userService.login(form.value);
+        this.router.navigateByUrl('')
       } else {
         res.errors.forEach((error: any) => {
           console.log(error.description);

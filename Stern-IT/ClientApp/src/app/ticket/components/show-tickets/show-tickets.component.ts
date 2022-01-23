@@ -4,6 +4,7 @@ import { Ticket } from "src/app/models/ticket.model";
 import { UserService } from "src/app/services/user.service";
 import { map, filter } from "rxjs/operators";
 import { TicketService } from "src/app/services/ticket.service";
+import { Dictionary } from "lodash";
 
 @Component({
   selector: "app-show-tickets",
@@ -13,13 +14,14 @@ import { TicketService } from "src/app/services/ticket.service";
 export class ShowTicketsComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
+  customerDict: any;
 
   columnsFunc() {
 
     if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
-      return ["Email","Subject", "Status", "Priority", "Date", "details-delete"];
+      return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
     }
-    return ["Subject", "Status", "Priority", "Date", "details-delete"];
+    return ["Subject","Customer", "Status", "Priority", "Date", "details-delete"];
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -47,11 +49,15 @@ export class ShowTicketsComponent implements OnInit {
     this.get();
   }
 
+
+
+
   get() {
     this.ticketService
       .getTickets(this.userService.getAuthorizedUserEmail(), "Open")
       .subscribe((res) => {
         this.dataSource.data = res as Ticket[];
+        console.log("Tickets");
       });
   }
 

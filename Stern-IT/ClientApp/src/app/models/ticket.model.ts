@@ -7,6 +7,7 @@ export class Ticket {
   Description: string;
   Created: string;
   ToManagerName:string;
+  CustomerName:string;
 }
 
 export class TicketInfo {

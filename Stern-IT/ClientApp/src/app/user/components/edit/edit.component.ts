@@ -6,6 +6,7 @@ import { Log } from "oidc-client";
 import { Customer } from "src/app/models/customer";
 import { Role, UserInfo } from "src/app/models/user.model";
 import { log } from "util";
+import {Location} from '@angular/common';
 import { UserService } from "../../../services/user.service";
 
 @Component({
@@ -28,20 +29,22 @@ export class UserEditComponent implements OnInit {
   constructor(private router: Router,
     private activateRoute: ActivatedRoute,
     private service: UserService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private _location: Location) {
 
   }
 
   ngOnInit(): void {
     this.service.GetCustomer().subscribe(res => {
-      this.customers = res as Customer[]
+      this.customers = res as Customer[];
     })
  
     const id = this.activateRoute.snapshot.paramMap.get('id');
     // GetCustomerById
     this.service.get(id).subscribe(res=>{
       this.CurrentCustomer = res;
-      console.log(res)
+      
+
     })
     this.service.GetRoles().subscribe(res => {
       this.allRoles = res as Role;
@@ -77,7 +80,8 @@ export class UserEditComponent implements OnInit {
     return this.userForm.controls[control].hasError(error);
   }
   public cancel() {
-    this.router.navigateByUrl('/users')
+    this._location.back()
+
   }
   public save(userFormValue) {
     var customer = userFormValue.CustomerSelected;
@@ -100,7 +104,8 @@ export class UserEditComponent implements OnInit {
 
       //put customer
     }
-
-
+    
+    
   }
+  
 }

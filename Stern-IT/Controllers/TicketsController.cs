@@ -87,6 +87,7 @@ namespace Stern_IT.Controllers
             public string Priority { get; set; }
             public string Description { get; set; }
             public string Created { get; set; }
+            public string CustomerName { get; set; }
 
         }
 
@@ -135,6 +136,8 @@ namespace Stern_IT.Controllers
 
                 foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u=>u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p=>p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -144,6 +147,7 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
                     });
 
                 }
@@ -157,6 +161,8 @@ namespace Stern_IT.Controllers
 
                 foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -166,6 +172,7 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
                     });
 
                 }
@@ -176,8 +183,13 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Open").ToListAsync();
-                tickets.ForEach(ticket =>
+                //
+
+                foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
+
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -187,8 +199,9 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
                     });
-                });
+                }
 
                 return viewModels;
             }
@@ -210,8 +223,10 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed" && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
-                tickets.ForEach(ticket =>
+                foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -221,8 +236,10 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
+
                     });
-                });
+                }
 
                 return viewModels;
             }
@@ -230,8 +247,10 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
-                tickets.ForEach(ticket =>
+                foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -241,8 +260,10 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
+
                     });
-                });
+                }
 
                 return viewModels;
             }
@@ -250,8 +271,10 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
-                tickets.ForEach(ticket =>
+                foreach (Models.Ticket ticket in tickets)
                 {
+                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
+                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
                         Id = ticket.TicketId,
@@ -261,8 +284,9 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
+                        CustomerName = customerName.CustomerName
                     });
-                });
+                }
 
                 return viewModels;
             }
@@ -483,6 +507,27 @@ namespace Stern_IT.Controllers
                 throw ex;
             }
         }
+
+
+
+
+        // [HttpGet("CustomerFromTicket/{open}")]
+        // public async Task<object> GetCustomerFromTicketAsDict(bool open)
+        // {
+        //     var ticket = await _context.Tickets.Where(p => p.Status == "Closed").ToListAsync();
+        //     if (open)
+        //         ticket = await _context.Tickets.Where(p => p.Status == "Open").ToListAsync();
+            
+
+        //     var ticketsDict = new Dictionary<string, string>();
+        //     foreach (var tick in ticket)
+        //     {
+        //         var user = await _userManager.Users.Where(p => p.Email == tick.Email).FirstAsync();
+        //         var customer = await _context.Customers.Where(p => p.CustomerId == user.CustomerId).FirstAsync();
+        //         ticketsDict[tick.TicketId.ToString()] = customer.CustomerName;
+        //     }
+        //     return ticketsDict;
+        // }
 
     }
 }

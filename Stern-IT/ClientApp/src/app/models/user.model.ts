@@ -7,6 +7,7 @@ export class User {
   Email: string;
   PhoneNumber: string;
   Roles: string[];
+  CustomerName: string;
 }
 export class Role {
   Id: string;

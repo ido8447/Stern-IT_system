@@ -230,13 +230,32 @@ export class UserService {
     return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerById/"+id);
   }
 
+  
+
 public deleteCustomer(customerId){
   return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/"+customerId);
 }
   
 
+//getCustomerUsersById/{id}
+public GetCustomerUsersById(id: number) {
+  return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerUsersById/"+id);
+}
+
+  public GetOpenTicketsByCustomer() {
+    return this.httpClient.get(this.baseURL + this.apiURL + "OpenTicketsByCustomer");
+  }
+
+  //GetMyCustomerByEmail
+  public GetMyCustomerByEmail(Email:string) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetMyCustomerByEmail/"+Email);
+  }
 }
 
 export interface AuthorizedUser {
   Email: string;
+}
+
+export interface UserCustomer {
+  Customer: string;
 }

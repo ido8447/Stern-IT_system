@@ -1,17 +1,15 @@
 <header>
-  <nav
-    id="navup"
-    class="
+  <nav id="navup"
+       class="
       navbar navbar-expand-sm navbar-toggleable-sm navbar-light
       bg-white
       border-bottom
       box-shadow
       mb-3
       p-3
-    "
-  >
+    ">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Stern IT System</a>
+      <a class="navbar-brand" [routerLink]="['/']">Welcome To Stern IT Help Desk</a>
       <!-- <img
         src="http://www.stern-it.com/wp-content/uploads/2016/01/Logo-stetn-IT.png"
         height="100"
@@ -19,74 +17,65 @@
         alt="stern-it"
         title=""
       /> -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
+
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+           [ngClass]="{ show: isExpanded }">
+
         <ul class="navbar-nav flex-grow">
-        
-        
+          <!--  -->
+          <!-- <li *ngIf="userService.authorizedUser()"
+          class="nav-item"
+          [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark">{{customer}}</a>
+      </li> -->
+          <!--  -->
+
           <!--  -->
           <!-- navigate to register page -->
           <!-- see only if unconnected -->
-          <li
-            *ngIf="!userService.authorizedUser()"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/users/register']"
-              >Register</a
-            >
+          <li *ngIf="!userService.authorizedUser()"
+              class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/users/register']">Register</a>
           </li>
           <!--  -->
           <!-- navigate to login page -->
           <!-- see only if unconnected -->
-          <li
-            *ngIf="!userService.authorizedUser()"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/users/login']"
-              >Log in</a
-            >
+          <li *ngIf="!userService.authorizedUser()"
+              class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/users/login']">Log in</a>
           </li>
           <!--  -->
           <!-- Show Email for this user -->
           <!-- see only if connected -->
-          <li
-            *ngIf="userService.authorizedUser() && authorizedUser"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">{{
+          <li *ngIf="userService.authorizedUser() && authorizedUser"
+              class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/']">
+              {{
               authorizedUser.Email
-            }}</a>
+              }}
+            </a>
           </li>
           <!--  -->
           <!-- Log out from this user -->
           <!-- see only if connected -->
-          <li
-            *ngIf="userService.authorizedUser()"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a
-              class="nav-link text-dark"
-              [routerLink]="['/']"
-              (click)="userService.logout()"
-              >Log out</a
-            >
+          <li *ngIf="userService.authorizedUser()"
+              class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark"
+               [routerLink]="['/']"
+               (click)="userService.logout()">Log out</a>
           </li>
         </ul>
       </div>

@@ -23,7 +23,7 @@
         {{ user?.Roles }}
       </dd>
     </dl>
-    <a class="btn" [routerLink]="['/users']" matTooltip="Back">
+    <a class="btn" (click)="Back()" matTooltip="Back">
       <i class="material-icons">arrow_back</i>
     </a>
   </div>

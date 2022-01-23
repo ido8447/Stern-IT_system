@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { Dictionary, forEach } from "lodash";
 import { Customer } from "src/app/models/customer";
 import { UserService } from "src/app/services/user.service";
 
@@ -10,9 +11,13 @@ import { UserService } from "src/app/services/user.service";
   styleUrls: ["./customer-list.component.css"],
 })
 export class CustomerListComponent implements OnInit {
+  // public OpenTicketByCustomer: any;
+
+ 
+
   constructor(private userService: UserService) {}
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  //@ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   AddCustomer(name: string) {
@@ -25,25 +30,46 @@ export class CustomerListComponent implements OnInit {
     });
   }
   // columns: string[] = ["Name", "details-edit-delete"];
-  columns: string[] = ["Name","Delete"];
+  columns: string[] = ["Name", "Users","Tickets","Delete"];
   dataSource = new MatTableDataSource<Customer>();
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
     this.get();
+    // this.TicketsByCustomer();
   }
   get() {
     this.userService.GetCustomer().subscribe((res) => {
       this.dataSource.data = res as Customer[];
+      
+      
     });
   }
 
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
+  //GetOpenTickets(name: string) {
+  //  var arr = this.OpenTicketByCustomer;
+  //  const keys = Object.keys(arr);
+  //  for (var i = 0; i < keys.length; i++) {
+  //    if (name == keys[i]) {
+  //      return arr[i];
+  //    }
+  //  }
+  //}
+
+
+  // TicketsByCustomer(){
+  //   this.userService.GetOpenTicketsByCustomer().subscribe(res=>{
+  //      this.OpenTicketByCustomer =  res;
+       
+  //   })
+  // }
+
 
   delete(Id: any) {
     if (confirm("Are you sure to delete this record?")) {
@@ -57,6 +83,5 @@ export class CustomerListComponent implements OnInit {
       );
     }
     // console.log(Id);
-    
   }
 }

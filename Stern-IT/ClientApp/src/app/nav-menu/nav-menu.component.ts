@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthorizedUser, UserService } from "../services/user.service";
+import { UserCustomer, AuthorizedUser, UserService } from "../services/user.service";
 
 @Component({
   selector: "app-nav-menu",
@@ -9,10 +9,12 @@ import { AuthorizedUser, UserService } from "../services/user.service";
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
   authorizedUser: AuthorizedUser;
+  customer: UserCustomer;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   ngOnInit(): void {
-    
+
+
     this.userService.authorizedUser$.subscribe(
       (authorizedUser: AuthorizedUser) => {
         this.authorizedUser = authorizedUser;
@@ -25,9 +27,23 @@ export class NavMenuComponent implements OnInit {
       this.authorizedUser = {
         Email: this.userService.getAuthorizedUserEmail(),
       };
+      // this.GetMyCustomer();
     }
+
+
+
   }
 
+
+  GetMyCustomer() {
+    this.userService.GetMyCustomerByEmail(this.userService.getAuthorizedUserEmail()).subscribe(res => {
+      this.customer ={
+        Customer: res.toString(),
+      };
+      
+      console.log(res as string);
+    })
+  }
   collapse() {
     this.isExpanded = false;
   }
