@@ -93,10 +93,10 @@ export class UserEditComponent implements OnInit {
         Id: userFormValue.Id,
         Email: userFormValue.Email,
         Roles: userFormValue.RolesSelected,
-        CustomerId: customer,
+        CustomerId: customer.toString(),
       };
       this.service.put(user).subscribe(() => {
-        this.router.navigateByUrl('/users')
+        this.cancel();
       },
         error => {
           console.log(error);

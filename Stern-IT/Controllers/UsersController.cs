@@ -308,7 +308,7 @@ namespace Stern_IT.Controllers
             {
                 if (model.CustomerId != "0")
                 {
-                    var customerChose = await _context.Customers.FindAsync(model.CustomerId);
+                    var customerChose = await _context.Customers.FindAsync(int.Parse(model.CustomerId));
                     applicationUser.CustomerId = customerChose.CustomerId;
                 }
 

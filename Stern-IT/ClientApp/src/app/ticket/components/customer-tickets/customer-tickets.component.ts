@@ -19,7 +19,6 @@ export class CustomerTicketsComponent implements OnInit {
   columnsFunc() {
     return [
       "Email",
-      "Customer",
       "Subject",
       "Status",
       "Priority",
