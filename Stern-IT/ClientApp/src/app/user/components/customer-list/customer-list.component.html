@@ -22,7 +22,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Tickets">
-        <th mat-header-cell *matHeaderCellDef >Tickets</th>
+        <th mat-header-cell *matHeaderCellDef >Open Tickets</th>
         <td mat-cell *matCellDef="let item">
           <a  [routerLink]="[ '/customer-tickets', item.CustomerID ]">{{item.OpenTickets}}</a>
         </td>

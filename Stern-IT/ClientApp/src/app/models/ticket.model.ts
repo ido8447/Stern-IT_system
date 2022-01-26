@@ -24,3 +24,9 @@ export class TicketStatusInfo {
   Status: string;
   Priority: string;
 }
+
+
+export class TicketModel {
+  Status: string;
+  Email: string;
+}

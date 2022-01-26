@@ -1,9 +1,27 @@
-<div *ngIf="userService.authorizedUser() && !userService.allowedRole(['Administrator']) && !userService.allowedRole(['Moderator'])">
-  <h5>Welcome To The System</h5>
-  <a [routerLink]="['/tickets']" class="btn btn-primary">Tickets</a>
+<div
+  *ngIf="
+    userService.authorizedUser() &&
+    !userService.allowedRole(['Administrator']) &&
+    !userService.allowedRole(['Moderator'])
+  "
+>
+
+  <div class="block">Open Tickets: <p class="badge badge-pill badge-primary ml-1">{{OpenTickets.length}}</p></div>
+  <div class="block">Pending Tickets: <p class="badge badge-pill badge-warning ml-1">{{PendingTickets.length}}</p></div>
+  <div class="block">Closed Tickets: <p class="badge badge-pill badge-danger ml-1">{{ClosedTickets.length}}</p></div>
+  <div class="block">All Tickets: {{ClosedTickets.length + OpenTickets.length + PendingTickets.length}}</div>
 </div>
 
+<div *ngIf="
+    userService.authorizedUser() &&
+    userService.allowedRole(['Administrator']) &&
+    userService.allowedRole(['Moderator'])
+  ">
+  Managers:
+  <br />
+  <div class="block">Open Tickets: {{OpenTickets.length}}</div>
+  <div class="block">Pending Tickets: {{PendingTickets.length}}</div>
+  <div class="block">Closed Tickets: {{ClosedTickets.length}}</div>
+  <div class="block">All Tickets: {{ClosedTickets.length + OpenTickets.length + PendingTickets.length}}</div>
 
-<div *ngIf="userService.authorizedUser() && userService.allowedRole(['Administrator']) && userService.allowedRole(['Moderator'])">
-  Managers
 </div>

@@ -42,13 +42,16 @@
       <!--  -->
       <!--mat-form-field-->
       <mat-radio-group #CustomerSelected formControlName="CustomerSelected">
+        
         <mat-radio-button
           *ngFor="let custom of customers"
           [value]="custom.CustomerID"
-          [checked]="CurrentCustomer.CustomerId == custom.CustomerID "
+          [checked]="CurrentCustomer.CustomerId == custom.CustomerID"
         >
-          {{ custom.CustomerName }} + "\n" + "/n"
-        </mat-radio-button>
+        <div class="container">
+            {{ custom.CustomerName }}
+          </div>
+          </mat-radio-button>
       </mat-radio-group>
       <!--</mat-form-field>-->
     </mat-card-content>
@@ -60,6 +63,5 @@
         Cancel
       </button>
     </mat-card-actions>
-    
   </form>
 </mat-card>

@@ -117,14 +117,19 @@ namespace Stern_IT.Controllers
 
 
 
+        public class GetTicketsModel
+        {
+            public string Status { get; set; }
+            public string Email { get; set; }
+        }
 
         /// <summary>
         /// Function to show tickets on table from postgresSql
         /// </summary>
         /// <returns>List of models with parameters</returns>
         //GET: api/tickets
-        [HttpGet("tickets/{email}")]
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets(string email)
+        [HttpGet("tickets/{email}/{status}")]
+        public async Task<ActionResult<IEnumerable<TicketViewModel>>> Tickets(string email, string status)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
@@ -132,7 +137,7 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 //List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").Where(ticket=> ticket.ToManagerName == user.FirstName + " " + user.LastName && ticket.ToManagerName == "All").ToListAsync();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open" && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
                 {
@@ -157,7 +162,7 @@ namespace Stern_IT.Controllers
             else if (roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
                 {
@@ -182,7 +187,7 @@ namespace Stern_IT.Controllers
             else
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Open").ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == status).ToListAsync();
                 //
 
                 foreach (Models.Ticket ticket in tickets)
@@ -209,144 +214,7 @@ namespace Stern_IT.Controllers
 
         }
 
-
-
-
-        //GET: api/tickets/closedtickets/{email}
-        [HttpGet("closedtickets/{email}")]
-        public async Task<ActionResult<IEnumerable<TicketViewModel>>> GetClosedTickets(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            var roles = await _userManager.GetRolesAsync(user);
-
-            if (roles.Contains("Moderator") && !roles.Contains("Administrator"))
-            {
-                List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed" && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
-                foreach (Models.Ticket ticket in tickets)
-                {
-                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
-                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
-                    viewModels.Add(new TicketViewModel()
-                    {
-                        Id = ticket.TicketId,
-                        Status = ticket.Status,
-                        Subject = ticket.Subject,
-                        Priority = ticket.Priority,
-                        Description = ticket.Description,
-                        Email = ticket.Email,
-                        Created = ticket.Created,
-                        CustomerName = customerName.CustomerName
-
-                    });
-                }
-
-                return viewModels;
-            }
-            else if (roles.Contains("Administrator"))
-            {
-                List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Closed").ToListAsync();
-                foreach (Models.Ticket ticket in tickets)
-                {
-                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
-                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
-                    viewModels.Add(new TicketViewModel()
-                    {
-                        Id = ticket.TicketId,
-                        Status = ticket.Status,
-                        Subject = ticket.Subject,
-                        Priority = ticket.Priority,
-                        Description = ticket.Description,
-                        Email = ticket.Email,
-                        Created = ticket.Created,
-                        CustomerName = customerName.CustomerName
-
-                    });
-                }
-
-                return viewModels;
-            }
-            else
-            {
-                List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Email == email).Where(ticket => ticket.Status == "Closed").ToListAsync();
-                foreach (Models.Ticket ticket in tickets)
-                {
-                    var ticketsUser = await _userManager.Users.Where(u => u.Email == ticket.Email).FirstOrDefaultAsync();
-                    var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
-                    viewModels.Add(new TicketViewModel()
-                    {
-                        Id = ticket.TicketId,
-                        Status = ticket.Status,
-                        Subject = ticket.Subject,
-                        Priority = ticket.Priority,
-                        Description = ticket.Description,
-                        Email = ticket.Email,
-                        Created = ticket.Created,
-                        CustomerName = customerName.CustomerName
-                    });
-                }
-
-                return viewModels;
-            }
-        }
-
-        //DELETE: api/tickets/5
-        /// <summary>
-        /// Delete the current Ticket by his ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<TicketViewModel>> DeleteTicket(int id)
-        {
-            await DeleteAnswer(id);
-            var applicationTicket = await _context.Tickets.FindAsync(id);
-
-            if (applicationTicket == null)
-            {
-                return NotFound();
-            }
-            _context.Tickets.Remove(applicationTicket);
-            await _context.SaveChangesAsync();
-
-            return new TicketViewModel()
-            {
-                Id = applicationTicket.TicketId,
-                Email = applicationTicket.Email,
-                Status = applicationTicket.Status,
-                Subject = applicationTicket.Subject,
-                Priority = applicationTicket.Priority,
-                Description = applicationTicket.Description
-            };
-
-        }
-
-        public async Task<ActionResult<AnsweredTicketViewModel>> DeleteAnswer(int id)
-        {
-            var applicationAnswers = await _context.Answers.Where(p => p.ticket.TicketId == id).ToListAsync();
-
-            if (applicationAnswers == null)
-            {
-                return NotFound();
-            }
-            foreach (var answer in applicationAnswers)
-            {
-                _context.Answers.Remove(answer);
-
-            }
-            await _context.SaveChangesAsync();
-
-            return new AnsweredTicketViewModel()
-            {
-                Email = "",
-                Description = "",
-                IsManager = false,
-                Id = 0,
-            };
-        }
-
+     
 
         public class TicketChangeStatusModel
         {

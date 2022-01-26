@@ -14,7 +14,7 @@ export class CustomerTicketsComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
   customerDict: any;
-  Customer: any;
+  CustomerName: any = "No Group";
 
   columnsFunc() {
     return [
@@ -51,7 +51,7 @@ export class CustomerTicketsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.userService.GetCustomerById(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe(res =>{
-      this.Customer = res;
+      this.CustomerName = res;
     })
     this.get();
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Ticket } from 'src/app/models/ticket.model';
+import { Ticket, TicketModel } from 'src/app/models/ticket.model';
 import { TicketService } from 'src/app/services/ticket.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,13 +12,13 @@ import { UserService } from 'src/app/services/user.service';
 export class ClosedticketsComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
-    customerDict: any;
+  customerDict: any;
 
 
   columnsFunc() {
 
     if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
-      return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+      return ["Email", "Customer", "Subject", "Status", "Priority", "Date", "details-delete"];
     }
     return ["Subject", "Customer", "Status", "Priority", "Date", "details-delete"];
   }
@@ -32,9 +32,9 @@ export class ClosedticketsComponent implements OnInit {
       return (
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Status.toLowerCase().includes(filter.toLowerCase()) ||
-        ticket.Priority.toLowerCase().includes(filter.toLowerCase())||
+        ticket.Priority.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Email.toLowerCase().includes(filter.toLowerCase())
-     
+
       );
     };
   }
@@ -46,9 +46,17 @@ export class ClosedticketsComponent implements OnInit {
   ngOnInit(): void {
     this.get();
   }
+
+  private model: TicketModel = {
+    Status: "Closed",
+    Email: this.userService.getAuthorizedUserEmail()
+  };
+   
   
+
+
   get() {
-    this.ticketService.getTickets(this.userService.getAuthorizedUserEmail(),"Closed").subscribe((res) => {
+    this.ticketService.getTickets(this.model).subscribe((res) => {
       this.dataSource.data = res as Ticket[];
     });
   }
@@ -56,7 +64,7 @@ export class ClosedticketsComponent implements OnInit {
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
-  Refresh(){
+  Refresh() {
     this.get();
 
   }

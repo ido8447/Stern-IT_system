@@ -15,12 +15,12 @@ export class CustomerDetailComponent implements OnInit {
   columns: string[] = ["Email","PhoneNumber", "details-edit-delete"];
 
   dataSource = new MatTableDataSource<User>();
-  CustomerName: any;
+  CustomerName: any = "No Group";
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
-  public Customer;
+
   public Users =[];
   constructor(private activedRoute: ActivatedRoute,
     private userService: UserService) {
@@ -41,12 +41,7 @@ export class CustomerDetailComponent implements OnInit {
     })
     this.get();
 
-    const id = this.activedRoute.snapshot.paramMap.get("id");
-    this.userService.GetCustomerById(parseInt(id)).subscribe(res=>{
-      this.Customer = res as Customer;
-      
-    })
-
+    
    
   }
   get() {

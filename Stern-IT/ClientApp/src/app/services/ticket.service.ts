@@ -8,6 +8,8 @@ import { map } from "rxjs/operators";
 import { UserService } from "./user.service";
 import { convertActionBinding } from "@angular/compiler/src/compiler_util/expression_converter";
 import { each } from "lodash";
+import { stat } from "fs";
+import { TicketModel } from "src/app/models/ticket.model"
 
 @Injectable({
   providedIn: "root",
@@ -47,16 +49,8 @@ export class TicketService {
     //closedtickets
   }
 
-  public getTickets(Email: string, Status: string) {
-    if (Status == "Open") {
-      return this.httpClient.get(
-        this.baseURL + this.apiURL + "tickets/" + Email
-      );
-    } else if (Status == "Closed") {
-      return this.httpClient.get(
-        this.baseURL + this.apiURL + "closedtickets/" + Email
-      );
-    }
+  public getTickets(model: TicketModel) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "tickets/" + model.Email+"/"+model.Status);
   }
 
   DeleteTicket(Id: string) {
@@ -92,11 +86,11 @@ export class TicketService {
     );
   }
 
-  getCustomerTickets(CustomerID: string){
+  getCustomerTickets(CustomerID: string) {
     return this.httpClient.get(
       this.baseURL + this.apiURL + "customersTicket/" + CustomerID
     );
   }
 
-  
+
 }

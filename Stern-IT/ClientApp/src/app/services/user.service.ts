@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { User } from "../models/user.model";
+import { error } from "console";
 
 @Injectable({
   providedIn: "root",
@@ -88,7 +89,10 @@ export class UserService {
         } else {
           this.router.navigateByUrl("/");
         }
-      });
+      }, error => 
+        alert("Wrong Password")
+      );
+    
   }
 
   //loguot function

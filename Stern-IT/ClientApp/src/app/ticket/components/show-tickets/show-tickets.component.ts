@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { Ticket } from "src/app/models/ticket.model";
+import { Ticket, TicketModel } from "src/app/models/ticket.model";
 import { UserService } from "src/app/services/user.service";
 import { map, filter } from "rxjs/operators";
 import { TicketService } from "src/app/services/ticket.service";
@@ -50,11 +50,16 @@ export class ShowTicketsComponent implements OnInit {
   }
 
 
+  private model: TicketModel = {
+    Status: "Open",
+    Email: this.userService.getAuthorizedUserEmail()
+  };
+
 
 
   get() {
     this.ticketService
-      .getTickets(this.userService.getAuthorizedUserEmail(), "Open")
+      .getTickets(this.model)
       .subscribe((res) => {
         this.dataSource.data = res as Ticket[];
       });
