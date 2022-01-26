@@ -44,6 +44,7 @@ import { CustomerListComponent } from './user/components/customer-list/customer-
 import { CustomerDetailComponent } from './user/components/customer-detail/customer-detail.component';
 import { CustomerTicketsComponent } from './ticket/components/customer-tickets/customer-tickets.component';
 import { SendEmailService } from "./services/sendEmail.service";
+import { PendingTicketsComponent } from './ticket/components/pending-tickets/pending-tickets.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { SendEmailService } from "./services/sendEmail.service";
     CustomerListComponent,
     CustomerDetailComponent,
     CustomerTicketsComponent,
+    PendingTicketsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -113,6 +115,11 @@ import { SendEmailService } from "./services/sendEmail.service";
       {
         path: "customer-tickets/:id",
         component: CustomerTicketsComponent,
+        canActivate: [AuthorizeGuard],
+      },
+      {
+        path: "PendingTickets",
+        component: PendingTicketsComponent,
         canActivate: [AuthorizeGuard],
       },
       {

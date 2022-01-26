@@ -8,14 +8,14 @@
   >
     <div class="form-group">
       <label for="inputStatus">Status</label>
-      <select
-        id="inputStatus"
-        class="form-control"
-        name="Status"
-        formControlName="Status"
-      >
+      <select id="inputStatus"
+              class="form-control"
+              name="Status"
+              formControlName="Status">
         <option value="Open">Open</option>
         <option value="Closed">Closed</option>
+        <option *ngIf="userService.allowedRole(['Administrator','Moderator'])" value="Pending">Pending</option>
+
       </select>
     </div>
 

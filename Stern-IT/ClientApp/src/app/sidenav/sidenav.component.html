@@ -13,7 +13,21 @@
       <span class="ml-3">Admin</span>
     </a>
   </li>
-
+  <!--  -->
+  <!-- Show and route Administration Page -->
+  <!-- see only if this user has Administrator role -->
+  <li
+    *ngIf="
+      userService.authorizedUser() &&
+      userService.allowedRole(['Administrator'])
+    "
+  >
+    <a class="nav-link text-white" [routerLink]="['/users']">
+      <i class="fas fa-users"></i>
+      <span class="ml-3">Users</span>
+    </a>
+  </li>
+  
   <li class="nav-item">
     <a class="nav-link text-white" [routerLink]="['/tickets']">
       <i class="fas fa-ticket-alt"></i> <span class="ml-3">Tickets</span>
@@ -31,20 +45,7 @@
       <i class="far fa-paper-plane"></i> <span class="ml-3">Create</span>
     </a>
   </li>
-  <!--  -->
-  <!-- Show and route Administration Page -->
-  <!-- see only if this user has Administrator role -->
-  <li
-    *ngIf="
-      userService.authorizedUser() &&
-      userService.allowedRole(['Administrator'])
-    "
-  >
-    <a class="nav-link text-white" [routerLink]="['/users']">
-      <i class="fas fa-users"></i>
-      <span class="ml-3">Users</span>
-    </a>
-  </li>
+
   <!--  -->
   <!-- Show and route Administration Page -->
   <!-- see only if this user has Administrator role -->
@@ -55,6 +56,14 @@
   </li>
 
   <!--  -->
+  <!-- PendingTickets
+   -->
+   <li *ngIf="userService.authorizedUser()">
+    <a class="nav-link text-white" [routerLink]="['/PendingTickets']">
+      <i class="fab fa-creative-commons-nd"></i> <span class="ml-3">Pending</span>
+    </a>
+  </li>
+
 
   <li
     *ngIf="
