@@ -1,9 +1,12 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { FormGroup, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MailRequest } from "src/app/models/SendEmail";
 import { User } from "src/app/models/user.model";
+import { SendEmailService } from "src/app/services/sendEmail.service";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
+import { Ticket } from "../../../models/ticket.model";
 
 
 
@@ -25,7 +28,7 @@ export class CreateTicketComponent implements OnInit {
   fileName: any;
   managers: Array<User>;
 
-  constructor(private ticketService: TicketService, private userService: UserService, private router: Router) {}
+  constructor(private ticketService: TicketService, private userService: UserService, private router: Router, private sendEmailService: SendEmailService) {}
 
   ngOnInit() {
     this.userService.GetManagers().subscribe(res => {
@@ -47,5 +50,20 @@ export class CreateTicketComponent implements OnInit {
   }
   SendTicket(form: NgForm) {
     this.ticketService.SendTicket(form.value);
+    if (form.value.ToManagerName != "All") {
+      this.SendEmail(form.value.toManagerName, form.value.Email + " send new Ticket: \n" + "Subject" + form.value.Subject + "\n" + "Priority" + form.value.Priority + "\n" + "Description: " + form.value.Description + "\n");
+    }
+    else {
+      this.SendEmail("ido@stern-it.com", form.value.Email + " send new Ticket: \n" + "[Subject: " + form.value.Subject + "]\n" + "[Priority: " + form.value.Priority + "]\n" + "[Description: " + form.value.Description + "]\n");
+    }
+  }
+  SendEmail(toEmail: string, body: string){
+    this.mailrequest.Body = body
+    this.sendEmailService.SendEmail(this.mailrequest)
+  }
+  mailrequest:MailRequest = {
+    ToEmail: "ido@stern-it.com",
+    Subject: "New Ticket Has Opened!",
+    Body: ""
   }
 }

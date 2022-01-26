@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Answer } from "src/app/models/Answer";
+import { Answer } from "src/app/models/Answer ";
 import { Ticket } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";

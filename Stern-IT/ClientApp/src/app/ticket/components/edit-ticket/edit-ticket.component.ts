@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Answer } from "src/app/models/Answer";
+import { Answer } from "src/app/models/Answer ";
 import { TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";

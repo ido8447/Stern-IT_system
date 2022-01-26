@@ -537,6 +537,11 @@ namespace Stern_IT.Controllers
             return name;
         }
 
+    // [HttpPost("ForGotPassword")]
+    // public ActionResult<int> ForgotPassword(UserViewModel userlogin){
+    //    // var FilePath = 
+    // }
+
     }
 
 }

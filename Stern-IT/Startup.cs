@@ -12,7 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Stern_IT.Models;
+using Stern_IT.SendEmail.Services;
+using Stern_IT.SendEmail.Setting;
 
 namespace Stern_IT
 {
@@ -28,7 +31,13 @@ namespace Stern_IT
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService,MailService>();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
 
             //Connect to PostgreSQL
             services.AddDbContext<Models.SternItContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -52,6 +61,7 @@ namespace Stern_IT
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            
 
             ///Write Security Token
             var key = Encoding.UTF8.GetBytes(Configuration["JWTkey"].ToString());
@@ -76,6 +86,11 @@ namespace Stern_IT
             });
 
             //
+            //services.AddSwaggerGen(c=>{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title ="SendEmail", Version = "v1" });
+            //});
+
+
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
         }

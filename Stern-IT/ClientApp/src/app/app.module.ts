@@ -43,6 +43,7 @@ import { EditTicketComponent } from './ticket/components/edit-ticket/edit-ticket
 import { CustomerListComponent } from './user/components/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './user/components/customer-detail/customer-detail.component';
 import { CustomerTicketsComponent } from './ticket/components/customer-tickets/customer-tickets.component';
+import { SendEmailService } from "./services/sendEmail.service";
 
 @NgModule({
   declarations: [
@@ -163,6 +164,8 @@ import { CustomerTicketsComponent } from './ticket/components/customer-tickets/c
   providers: [
     UserService,
     TicketService,
+    SendEmailService,
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizeInterceptor,
