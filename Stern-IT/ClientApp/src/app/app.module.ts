@@ -45,6 +45,9 @@ import { CustomerDetailComponent } from './user/components/customer-detail/custo
 import { CustomerTicketsComponent } from './ticket/components/customer-tickets/customer-tickets.component';
 import { SendEmailService } from "./services/sendEmail.service";
 import { PendingTicketsComponent } from './ticket/components/pending-tickets/pending-tickets.component';
+import { ResetPasswordComponent } from './user/components/ResetPassword/reset-password/reset-password.component';
+import { ResetPasswordCodeComponent } from './user/components/ResetPassword/reset-password-code/reset-password-code.component';
+import { ResetPasswordNewPasswordComponent } from './user/components/ResetPassword/reset-password-new-password/reset-password-new-password.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,9 @@ import { PendingTicketsComponent } from './ticket/components/pending-tickets/pen
     CustomerDetailComponent,
     CustomerTicketsComponent,
     PendingTicketsComponent,
+    ResetPasswordComponent,
+    ResetPasswordCodeComponent,
+    ResetPasswordNewPasswordComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -106,6 +112,11 @@ import { PendingTicketsComponent } from './ticket/components/pending-tickets/pen
         canActivate: [AuthorizeGuard],
       },
       { path: "users/login", component: LoginComponent },
+      { path: "users/ResetPassword", component: ResetPasswordComponent },
+      { path: "users/ResetPasswordCode", component: ResetPasswordCodeComponent },
+      { path: "users/NewPassword", component: ResetPasswordNewPasswordComponent },
+
+
       {
         path: "customer/:id",
         component: CustomerDetailComponent,

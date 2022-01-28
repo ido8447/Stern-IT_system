@@ -484,12 +484,12 @@ namespace Stern_IT.Controllers
             _context.Customers.Remove(customer);
             try
             {
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
             }
             catch
             {
-                var users = await _userManager.Users.Where(p=>p.CustomerId == customerId).ToListAsync();
+                var users = await _userManager.Users.Where(p => p.CustomerId == customerId).ToListAsync();
                 foreach (var user in users)
                 {
                     user.CustomerId = 1;
@@ -537,10 +537,28 @@ namespace Stern_IT.Controllers
             return name;
         }
 
-    // [HttpPost("ForGotPassword")]
-    // public ActionResult<int> ForgotPassword(UserViewModel userlogin){
-    //    // var FilePath = 
-    // }
+        public class ChangePasswordModel
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<object> ForgotPassword(ChangePasswordModel model)
+        {
+            var user = await _userManager.Users.Where(p=>p.Email == model.Email).FirstOrDefaultAsync();
+            try
+            {
+                var token = await _userManager.RemovePasswordAsync(user);
+                
+                var result = await _userManager.AddPasswordAsync(user, model.Password);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 

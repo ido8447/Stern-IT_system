@@ -19,3 +19,8 @@ export class UserInfo {
   Roles: string[];
   CustomerId: number;
 }
+
+export class ChangePassword {
+  Email: string;
+  Password: string;
+}

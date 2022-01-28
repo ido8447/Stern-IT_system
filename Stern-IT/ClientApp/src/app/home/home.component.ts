@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
       this.authorizedUser = {
         Email: this.userService.getAuthorizedUserEmail(),
       };
-    }
     this.details();
+    }
   }
 
   private model: TicketModel = {

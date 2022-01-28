@@ -5,7 +5,7 @@ import { registerLocaleData } from "@angular/common";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
-import { User } from "../models/user.model";
+import { ChangePassword, User } from "../models/user.model";
 import { error } from "console";
 
 @Injectable({
@@ -254,6 +254,13 @@ public GetCustomerUsersById(id: number) {
   public GetMyCustomerByEmail(Email:string) {
     return this.httpClient.get(this.baseURL + this.apiURL + "GetMyCustomerByEmail/"+Email);
   }
+
+public ChangePassword(ChangePasswordModel:ChangePassword){
+  return this.httpClient.post(this.baseURL+this.apiURL+"ChangePassword",ChangePasswordModel);
+}
+
+public Email:string;
+
 }
 
 export interface AuthorizedUser {
