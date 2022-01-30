@@ -18,8 +18,11 @@ export class ShowTicketsComponent implements OnInit {
 
   columnsFunc() {
 
-    if (this.userService.allowedRole(['Moderator']) || this.userService.allowedRole(['Administrator'])) {
+    if (this.userService.allowedRole(['Moderator']) && !this.userService.allowedRole(['Administrator'])) {
       return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+    }
+    else if(this.userService.allowedRole(['Administrator'])){
+      return ["Email","TO","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
     }
     return ["Subject","Customer", "Status", "Priority", "Date", "details-delete"];
   }

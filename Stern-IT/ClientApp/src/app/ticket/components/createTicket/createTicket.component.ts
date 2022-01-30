@@ -50,11 +50,13 @@ export class CreateTicketComponent implements OnInit {
   }
   SendTicket(form: NgForm) {
     this.ticketService.SendTicket(form.value);
+    var body = "<h4>"+form.value.Email + " send new Ticket</h4><p>Subject: " + form.value.Subject + "</p><p>Priority: " + form.value.Priority + "</p><p>Description: " + form.value.Description + "</p>";
     if (form.value.ToManagerName != "All") {
-      this.SendEmail(form.value.toManagerName, form.value.Email + " send new Ticket: \n" + "Subject" + form.value.Subject + "\n" + "Priority" + form.value.Priority + "\n" + "Description: " + form.value.Description + "\n");
+      this.SendEmail(form.value.toManagerName,body);
     }
     else {
-      this.SendEmail("ido@stern-it.com", form.value.Email + " send new Ticket: \n" + "[Subject: " + form.value.Subject + "]\n" + "[Priority: " + form.value.Priority + "]\n" + "[Description: " + form.value.Description + "]\n");
+      //add option to revice message
+      this.SendEmail("ido@stern-it.com", body);
     }
   }
   SendEmail(toEmail: string, body: string){

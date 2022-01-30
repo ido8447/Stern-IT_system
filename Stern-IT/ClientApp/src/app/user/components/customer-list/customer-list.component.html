@@ -55,7 +55,8 @@
   <!--  -->
   <!-- End -->
 
-  <div class="form-group">
+
+  <div *ngIf="userService.allowedRole(['Administrator'])" class="form-group">
     <label for="customerName">Add Customer</label>
     <input
       type="text"

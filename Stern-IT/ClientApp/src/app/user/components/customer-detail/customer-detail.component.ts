@@ -12,7 +12,17 @@ import { UserService } from "src/app/services/user.service";
 })
 export class CustomerDetailComponent implements OnInit {
 
-  columns: string[] = ["Email","PhoneNumber", "details-edit-delete"];
+  columns: string[] = this.columnsFunc();
+
+
+
+  columnsFunc() {
+
+    if (this.userService.allowedRole(['Administrator'])) {
+      return["Email","PhoneNumber", "details-edit-delete"];
+    }
+    return ["Email","PhoneNumber"];
+  }
 
   dataSource = new MatTableDataSource<User>();
   CustomerName: any = "No Group";

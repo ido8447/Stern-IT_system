@@ -88,6 +88,7 @@ namespace Stern_IT.Controllers
             public string Description { get; set; }
             public string Created { get; set; }
             public string CustomerName { get; set; }
+            public string ToManager { get; set; }
 
         }
 
@@ -136,7 +137,7 @@ namespace Stern_IT.Controllers
             if (roles.Contains("Moderator") && !roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                //List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == "Open").Where(ticket=> ticket.ToManagerName == user.FirstName + " " + user.LastName && ticket.ToManagerName == "All").ToListAsync();
+                //moderator get only tickets by his manager name or all
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
@@ -162,6 +163,8 @@ namespace Stern_IT.Controllers
             else if (roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
+                
+                //administrator get all tickets
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
@@ -177,7 +180,9 @@ namespace Stern_IT.Controllers
                         Description = ticket.Description,
                         Email = ticket.Email,
                         Created = ticket.Created,
-                        CustomerName = customerName.CustomerName
+                        CustomerName = customerName.CustomerName,
+                        ToManager = ticket.ToManagerName
+                       
                     });
 
                 }
