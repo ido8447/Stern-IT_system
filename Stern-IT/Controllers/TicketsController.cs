@@ -219,7 +219,60 @@ namespace Stern_IT.Controllers
 
         }
 
-     
+        //DELETE: api/tickets/5
+        /// <summary>
+        /// Delete the current Ticket by his ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<TicketViewModel>> DeleteTicket(int id)
+        {
+            await DeleteAnswer(id);
+            var applicationTicket = await _context.Tickets.FindAsync(id);
+
+            if (applicationTicket == null)
+            {
+                return NotFound();
+            }
+            _context.Tickets.Remove(applicationTicket);
+            await _context.SaveChangesAsync();
+
+            return new TicketViewModel()
+            {
+                Id = applicationTicket.TicketId,
+                Email = applicationTicket.Email,
+                Status = applicationTicket.Status,
+                Subject = applicationTicket.Subject,
+                Priority = applicationTicket.Priority,
+                Description = applicationTicket.Description
+            };
+
+        }
+
+        public async Task<ActionResult<AnsweredTicketViewModel>> DeleteAnswer(int id)
+        {
+            var applicationAnswers = await _context.Answers.Where(p => p.ticket.TicketId == id).ToListAsync();
+
+            if (applicationAnswers == null)
+            {
+                return NotFound();
+            }
+            foreach (var answer in applicationAnswers)
+            {
+                _context.Answers.Remove(answer);
+
+            }
+            await _context.SaveChangesAsync();
+
+            return new AnsweredTicketViewModel()
+            {
+                Email = "",
+                Description = "",
+                IsManager = false,
+                Id = 0,
+            };
+        }
 
         public class TicketChangeStatusModel
         {
@@ -380,7 +433,7 @@ namespace Stern_IT.Controllers
                 throw ex;
             }
         }
-
+        
 
         // customersTicket
         //"https://localhost:5001/api/tickets/customersTicket/2"
