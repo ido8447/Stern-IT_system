@@ -25,7 +25,7 @@ export class EditTicketComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private service: TicketService,
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    public userService: UserService,
     private activedRoute: ActivatedRoute,
     private _location: Location
   ) {}

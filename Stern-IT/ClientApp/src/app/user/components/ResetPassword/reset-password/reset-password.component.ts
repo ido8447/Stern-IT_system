@@ -32,14 +32,15 @@ export class ResetPasswordComponent implements OnInit {
     Body: "",
   };
 
-  ResetPassword(form: NgForm) {
-    this.userServie.Email = form.value.Email;
+  ResetPassword() {
+    var form  = this.ResetPasswordModel.value;
+    this.userServie.Email = form.Email;
 
     this.mailrequest.Body =
       "<h1>Reset Password</h1><p>Please Enter this number</p>";
     this.mailrequest.Body += this.Number;
 
-    this.mailrequest.ToEmail = form.value.Email;
+    this.mailrequest.ToEmail = form.Email;
     this.sendEmailService.SendEmail(this.mailrequest);
     this.router.navigateByUrl("users/ResetPasswordCode");
   }

@@ -22,13 +22,14 @@ export class DetailsOfTicketComponent implements OnInit {
     private router: Router,
     private activedRoute: ActivatedRoute,
     private ticketService: TicketService,
-    private userService: UserService
+    public userService: UserService
   ) {}
   ngOnInit() {
     const id = parseInt(this.activedRoute.snapshot.paramMap.get("id"));
     this.ticketService.getTicket(id).subscribe(
       (res) => {
         this.ticket = res as Ticket;
+        
       },
       (error) => {
         console.log(error);

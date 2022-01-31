@@ -11,7 +11,7 @@ export class NavMenuComponent implements OnInit {
   isExpanded = false;
   authorizedUser: AuthorizedUser;
 
-  constructor(private userService: UserService, private activedRoute: ActivatedRoute) { }
+  constructor(public userService: UserService, private activedRoute: ActivatedRoute) { }
   ngOnInit(): void {
 
 

@@ -32,7 +32,7 @@ export class ShowTicketsComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private userService: UserService
+    public userService: UserService
   ) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (

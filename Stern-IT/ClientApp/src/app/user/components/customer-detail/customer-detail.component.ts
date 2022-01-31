@@ -33,7 +33,7 @@ export class CustomerDetailComponent implements OnInit {
 
   public Users =[];
   constructor(private activedRoute: ActivatedRoute,
-    private userService: UserService) {
+    public userService: UserService) {
     this.dataSource.filterPredicate = (user: User, filter: string) => {
       return (
         user.Email.toLowerCase().includes(filter.toLowerCase()) ||

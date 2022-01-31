@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   ClosedTickets= new Array;
   PendingTickets= new Array;
 
-  constructor(private userService: UserService,
+  constructor(public userService: UserService,
     private ticketService: TicketService) { }
 
 

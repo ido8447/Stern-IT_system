@@ -32,7 +32,7 @@ export class PendingTicketsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private ticketService: TicketService, private userService: UserService) {
+  constructor(private ticketService: TicketService, public userService: UserService) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||

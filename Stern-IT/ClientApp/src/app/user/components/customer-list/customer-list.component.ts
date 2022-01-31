@@ -15,7 +15,7 @@ export class CustomerListComponent implements OnInit {
 
  
 
-  constructor(private userService: UserService) {}
+  constructor(public userService: UserService) {}
 
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

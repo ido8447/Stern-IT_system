@@ -11,7 +11,7 @@ export class SidenavComponent implements OnInit {
   isExpanded = false;
   authorizedUser: AuthorizedUser;
 
-  constructor(private userService: UserService) {}
+  constructor(public userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.authorizedUser$.subscribe(
