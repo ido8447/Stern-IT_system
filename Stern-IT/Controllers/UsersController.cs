@@ -482,20 +482,13 @@ namespace Stern_IT.Controllers
             var customer = await _context.Customers.FindAsync(customerId);
 
             _context.Customers.Remove(customer);
-            try
+            var users = await _userManager.Users.Where(p => p.CustomerId == customerId).ToListAsync();
+            foreach (var user in users)
             {
-                await _context.SaveChangesAsync();
-
+                user.CustomerId = 1;
             }
-            catch
-            {
-                var users = await _userManager.Users.Where(p => p.CustomerId == customerId).ToListAsync();
-                foreach (var user in users)
-                {
-                    user.CustomerId = 1;
-                }
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+            
 
             return Ok();
         }

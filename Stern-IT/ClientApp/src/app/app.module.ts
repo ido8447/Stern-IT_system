@@ -16,6 +16,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatListModule } from "@angular/material/list";
 import { MatRadioModule } from "@angular/material/radio";
+
+
+
 import "hammerjs";
 //
 import { AppComponent } from "./app.component";
@@ -48,6 +51,7 @@ import { PendingTicketsComponent } from './ticket/components/pending-tickets/pen
 import { ResetPasswordComponent } from './user/components/ResetPassword/reset-password/reset-password.component';
 import { ResetPasswordCodeComponent } from './user/components/ResetPassword/reset-password-code/reset-password-code.component';
 import { ResetPasswordNewPasswordComponent } from './user/components/ResetPassword/reset-password-new-password/reset-password-new-password.component';
+import { FileService } from "./services/file.service";
 
 @NgModule({
   declarations: [
@@ -178,11 +182,13 @@ import { ResetPasswordNewPasswordComponent } from './user/components/ResetPasswo
     MatDividerModule,
     MatListModule,
     MatRadioModule,
+
   ],
   providers: [
     UserService,
     TicketService,
     SendEmailService,
+    FileService,
 
     {
       provide: HTTP_INTERCEPTORS,
