@@ -24,7 +24,7 @@
 
   <li *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Moderator'])
+      userService.allowedRole(['Administrator'])
     ">
     <a class="nav-link text-white" [routerLink]="['/customers']">
       <i class="fa fa-user-secret" aria-hidden="true"></i>

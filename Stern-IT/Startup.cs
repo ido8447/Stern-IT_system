@@ -40,7 +40,7 @@ namespace Stern_IT
             });
 
             //Connect to PostgreSQL
-            services.AddDbContext<Models.SternItContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Models.SternItContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>(option =>
             {
                 option.Password.RequireDigit = false;
