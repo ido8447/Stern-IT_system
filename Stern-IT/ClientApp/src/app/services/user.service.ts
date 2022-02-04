@@ -35,7 +35,7 @@ export class UserService {
     PhoneNumber: ["", Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")],
     Passwords: this.formBuilder.group(
       {
-        Password: ["", [Validators.required, Validators.minLength(4)]],
+        Password: ["", [Validators.required, Validators.minLength(5)]],
         ConfirmPassword: ["", Validators.required],
       },
       {
@@ -89,10 +89,10 @@ export class UserService {
         } else {
           this.router.navigateByUrl("/");
         }
-      }, error => 
+      }, error =>
         alert("Wrong Password")
       );
-    
+
   }
 
   //loguot function
@@ -231,35 +231,39 @@ export class UserService {
   //getCustomerById/{id}
 
   public GetCustomerById(id: number) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerById/"+id);
+    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerById/" + id);
   }
 
-  
 
-public deleteCustomer(customerId){
-  return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/"+customerId);
-}
-  
 
-//getCustomerUsersById/{id}
-public GetCustomerUsersById(id: number) {
-  return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerUsersById/"+id);
-}
+  public deleteCustomer(customerId) {
+    return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/" + customerId);
+  }
+
+
+  //getCustomerUsersById/{id}
+  public GetCustomerUsersById(id: number) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerUsersById/" + id);
+  }
 
   public GetOpenTicketsByCustomer() {
     return this.httpClient.get(this.baseURL + this.apiURL + "OpenTicketsByCustomer");
   }
 
   //GetMyCustomerByEmail
-  public GetMyCustomerByEmail(Email:string) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "GetMyCustomerByEmail/"+Email);
+  public GetMyCustomerByEmail(Email: string) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetMyCustomerByEmail/" + Email);
   }
 
-public ChangePassword(ChangePasswordModel:ChangePassword){
-  return this.httpClient.post(this.baseURL+this.apiURL+"ChangePassword",ChangePasswordModel);
-}
+  public ChangePassword(ChangePasswordModel: ChangePassword) {
+    return this.httpClient.post(this.baseURL + this.apiURL + "ChangePassword", ChangePasswordModel);
+  }
 
-public Email:string;
+  public GetManager(name: string) {
+    return this.httpClient.get(this.baseURL + this.apiURL + "GetManager/" + name);
+  }
+
+  public Email: string;
 
 }
 

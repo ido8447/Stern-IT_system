@@ -13,8 +13,6 @@ import { UserService } from "src/app/services/user.service";
 export class CustomerListComponent implements OnInit {
   // public OpenTicketByCustomer: any;
 
- 
-
   constructor(public userService: UserService) {}
 
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -30,7 +28,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
   // columns: string[] = ["Name", "details-edit-delete"];
-  columns: string[] = ["Name", "Users","Tickets","Delete"];
+  columns: string[] = ["Name", "Users", "Tickets", "Delete"];
   dataSource = new MatTableDataSource<Customer>();
 
   ngAfterViewInit(): void {
@@ -44,8 +42,6 @@ export class CustomerListComponent implements OnInit {
   get() {
     this.userService.GetCustomer().subscribe((res) => {
       this.dataSource.data = res as Customer[];
-      
-      
     });
   }
 
@@ -62,14 +58,19 @@ export class CustomerListComponent implements OnInit {
   //  }
   //}
 
-
   // TicketsByCustomer(){
   //   this.userService.GetOpenTicketsByCustomer().subscribe(res=>{
   //      this.OpenTicketByCustomer =  res;
-       
+
   //   })
   // }
 
+  ThisIsNoGroup(name: string) {
+    if (name == "No Group" || name == "Stern IT") {
+      return true;
+    }
+    return false;
+  }
 
   delete(Id: any) {
     if (confirm("Are you sure to delete this record?")) {

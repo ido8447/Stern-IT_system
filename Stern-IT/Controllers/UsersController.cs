@@ -71,7 +71,7 @@ namespace Stern_IT.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                CustomerId = 1
+                CustomerId = 3
 
             };
             try
@@ -485,7 +485,7 @@ namespace Stern_IT.Controllers
             var users = await _userManager.Users.Where(p => p.CustomerId == customerId).ToListAsync();
             foreach (var user in users)
             {
-                user.CustomerId = 1;
+                user.CustomerId = 3;
             }
             await _context.SaveChangesAsync();
             
@@ -553,6 +553,14 @@ namespace Stern_IT.Controllers
             }
         }
 
+
+        [HttpGet("GetManager/{name}")]
+        public async Task<object> GetManager(string name)
+        {
+            string[] FullName = name.Split(" ");
+            var manager = await _context.Users.Where(p => p.FirstName == FullName[0] && p.LastName == FullName[1]).FirstOrDefaultAsync();
+            return manager;
+        }
     }
 
 }

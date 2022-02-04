@@ -1,28 +1,27 @@
 <h1>Login</h1>
-  <p class="font-weight-normal">Login to Stern-IT account</p>
-  <hr />
+<p class="font-weight-normal">Login to Stern-IT account</p>
+<hr />
 
 <div class="row">
   <div class="col-2"></div>
   <div class="col-4">
     <form
-    #form = "ngForm"
+      #form="ngForm"
       novalidate="novalidate"
       autocomplete="off"
       (submit)="login(form)"
     >
-
       <div class="form-group mb-4">
-          <input
-            type="email"
-            placeholder="Email"
-            class="form-control"
-            name="Email"
-            #Email="ngModel"
-            [(ngModel)]="formLoginModel.Email"
-            required
-          />
-        </div>
+        <input
+          type="email"
+          placeholder="Email"
+          class="form-control"
+          name="Email"
+          #Email="ngModel"
+          [(ngModel)]="formLoginModel.Email"
+          required
+        />
+      </div>
 
       <div class="form-group mb-4">
         <input
@@ -35,12 +34,9 @@
           required
         />
       </div>
-
-
-
       <div class="form-group mb-4">
         <button
-        type="submit"
+          type="submit"
           [disabled]="form.invalid"
           class="btn btn-lg btn-primary btn-block"
         >
@@ -48,20 +44,12 @@
         </button>
       </div>
 
-
-      <p class="mt-5 text-center">
-        <a [routerLink]="['/users/register']">Register as a new user</a>
-      </p>
-      <p class="mt-5 text-center">
-        <a [routerLink]="['/users/ResetPassword']">Forgot Password</a>
-      </p>
-
-      <p id="pointer" (click)="openWEB()" class="mt-5 text-muted text-center">
-        &copy; Stern-IT company
-      </p>
-
-
-
+        <p class="mt-2 text-center">
+          <a [routerLink]="['/users/register']">Register as a new user</a>
+        </p>
+        <p class="mt-2 text-center">
+          <a [routerLink]="['/users/ResetPassword']">Forgot Password</a>
+        </p>
     </form>
   </div>
 </div>

@@ -2,7 +2,7 @@
 
 namespace Stern_IT.Migrations
 {
-    public partial class customerkey : Migration
+    public partial class azure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -7,6 +7,7 @@ import { FileService } from "src/app/services/file.service";
 import { SendEmailService } from "src/app/services/sendEmail.service";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
+import { log } from "util";
 import { Ticket } from "../../../models/ticket.model";
 
 @Component({
@@ -28,7 +29,6 @@ export class CreateTicketComponent implements OnInit {
   managers: Array<User>;
   fileSelected: any;
 
-
   constructor(
     private fileService: FileService,
     private ticketService: TicketService,
@@ -48,16 +48,15 @@ export class CreateTicketComponent implements OnInit {
   onFileSelected(files: FileList) {
     this.fileToUpload = files.item(0);
     console.log(files.item(0));
-         const InputNode: any = document.querySelector("#file");
-     if (typeof FileReader !== "undefined") {
-       const reader = new FileReader();
-       reader.onload = (e: any) => {
-         this.srcResault = e.target.result;
-       };
-       this.fileName = InputNode.files[0].name;
-       this.fileSelected = InputNode.files[0];
-      
-     }
+    const InputNode: any = document.querySelector("#file");
+    if (typeof FileReader !== "undefined") {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.srcResault = e.target.result;
+      };
+      this.fileName = InputNode.files[0].name;
+      this.fileSelected = InputNode.files[0];
+    }
   }
   //
   // upload() {
@@ -65,14 +64,19 @@ export class CreateTicketComponent implements OnInit {
   //   formData.append('MyFile', this.fileSelected)
   //   this.fileService.postFile(formData);
   // }
-  uploadFileToActivity() {
-    this.fileService.postFile(this.fileToUpload)
-  }
+  // uploadFileToActivity() {
+  //   this.fileService.postFile(this.fileToUpload)
+  // }
   //
+  sendToManeger(managers,body) {
+    for (var i = 0; i < managers.length; i++) {
+      this.SendEmail(managers[i].Email, body);
+    }
+  }
 
   SendTicket(form: NgForm) {
     this.ticketService.SendTicket(form.value);
-    this.uploadFileToActivity();
+    // this.uploadFileToActivity();
     var body =
       "<h4>" +
       form.value.Email +
@@ -83,19 +87,30 @@ export class CreateTicketComponent implements OnInit {
       "</p><p>Description: " +
       form.value.Description +
       "</p>";
-    if (form.value.ToManagerName != "All") {
-      this.SendEmail(form.value.toManagerName, body);
+    let managerName = form.value.ToManagerName;
+    if (managerName != "All") {
+      this.userService
+        .GetManager(managerName)
+        .subscribe(
+          (res:any) => this.SendEmail(res.Email, body)
+          );
+       
+
     } else {
-      //add option to revice message
-      this.SendEmail("ido@stern-it.com", body);
+      this.userService
+        .GetManagers()
+        .subscribe((res) => this.sendToManeger(res, body));
+      
+      
     }
   }
   SendEmail(toEmail: string, body: string) {
     this.mailrequest.Body = body;
+    this.mailrequest.ToEmail = toEmail;
     this.sendEmailService.SendEmail(this.mailrequest);
   }
   mailrequest: MailRequest = {
-    ToEmail: "ido@stern-it.com",
+    ToEmail: "eyal@stern-it.com",
     Subject: "New Ticket Has Opened!",
     Body: "",
   };

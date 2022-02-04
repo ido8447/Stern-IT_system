@@ -37,7 +37,7 @@
       <ng-container matColumnDef="Delete">
         <th mat-header-cell *matHeaderCellDef>Delete</th>
         <td mat-cell *matCellDef="let item">
-          <a class="btn" matTooltip="Delete" (click)="delete(item.CustomerID)">
+          <a class="btn" matTooltip="Delete" *ngIf="!ThisIsNoGroup(item.CustomerName)" (click)="delete(item.CustomerID)">
             <i class="material-icons">delete</i>
           </a>
         </td>

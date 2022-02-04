@@ -16,10 +16,9 @@
      <!-- FirstName -->
      <div class="form-group">
       <div class="row">
-        <p><i class="text-danger">*</i> FirstName :</p>
         <input
           type="text"
-          placeholder="first name"
+          placeholder="First Name"
           id="FirstName"
           class="form-control"
           formControlName="FirstName"
@@ -45,10 +44,9 @@
      <!-- LastName -->
      <div class="form-group">
       <div class="row">
-        <p><i class="text-danger">*</i> LastName :</p>
         <input
           type="text"
-          placeholder="last name"
+          placeholder="Last Name"
           id="LastName"
           class="form-control"
           formControlName="LastName"
@@ -75,10 +73,9 @@
       <!-- Email -->
       <div class="form-group">
         <div class="row">
-          <p><i class="text-danger">*</i> Email :</p>
           <input
             type="email"
-            placeholder="email"
+            placeholder="Email"
             id="Email"
             class="form-control"
             formControlName="Email"
@@ -106,16 +103,24 @@
       <!-- Phone -->
       <div class="form-group">
         <div class="row">
-          <p><i class="text-danger">*</i> Phone:</p>
           <input
             type="text"
-            placeholder="phone number"
+            placeholder="Phone Number"
             id="PhoneNumber"
             class="form-control"
             formControlName="PhoneNumber"
             required
 
           />
+          <label
+            class="text-danger"
+            *ngIf="
+              userService.formRegisterModel.get('PhoneNumber').touched &&
+              userService.formRegisterModel.get('PhoneNumber').errors?.required
+            "
+          >
+            Phone Number is required
+          </label>
         </div>
       </div>
 
@@ -123,10 +128,9 @@
       <div formGroupName="Passwords" class="form-group mb-4">
         <div class="form-group required">
           <div class="row">
-            <p><i class="text-danger">*</i> Password:</p>
             <input
               type="password"
-              placeholder="password"
+              placeholder="Password"
               class="form-control"
               formControlName="Password"
             />
@@ -146,10 +150,9 @@
 
         <div class="form-group required">
           <div class="row">
-            <p><i class="text-danger">*</i> Confirm Password:</p>
             <input
               type="password"
-              placeholder="confirm password"
+              placeholder="Confirm Password"
               class="form-control"
               formControlName="ConfirmPassword"
             />

@@ -46,7 +46,7 @@
         <mat-radio-button
           *ngFor="let custom of customers"
           [value]="custom.CustomerID"
-          [checked]="CurrentCustomer.CustomerId == custom.CustomerID"
+          [checked]="CurrentCustomer.CustomerId === custom.CustomerID.toString()"
         >
         <div class="container">
             {{ custom.CustomerName }}

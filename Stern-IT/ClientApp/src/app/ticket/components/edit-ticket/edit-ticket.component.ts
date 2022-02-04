@@ -85,7 +85,6 @@ export class EditTicketComponent implements OnInit {
         alert("Send Ansewer"), form.reset();
       });
     }
-    this.cancel();
   }
 
   isManager() {

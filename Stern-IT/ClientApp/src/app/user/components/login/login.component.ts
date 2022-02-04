@@ -30,4 +30,8 @@ export class LoginComponent implements OnInit {
   openWEB() {
     window.location.href = "http://www.stern-it.com";
   }
+
+  AddC(){
+    this.userService.AddCustomer("No Group").subscribe(()=>{})
+  }
 }

@@ -39,8 +39,8 @@ namespace Stern_IT
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
 
-            //Connect to PostgreSQL
-            services.AddDbContext<Models.SternItContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Connect to sql
+            services.AddDbContext<Models.SternItContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
             services.AddDefaultIdentity<User>(option =>
             {
                 option.Password.RequireDigit = false;

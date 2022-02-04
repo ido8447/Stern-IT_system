@@ -37,12 +37,13 @@ export class UserEditComponent implements OnInit {
   ngOnInit(): void {
     this.service.GetCustomer().subscribe(res => {
       this.customers = res as Customer[];
+
     })
  
     const id = this.activateRoute.snapshot.paramMap.get('id');
     // GetCustomerById
     this.service.get(id).subscribe(res=>{
-      this.CurrentCustomer = res;
+      this.CurrentCustomer = res as Customer;
       
 
     })

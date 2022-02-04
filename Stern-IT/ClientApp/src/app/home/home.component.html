@@ -1,27 +1,316 @@
-<div
-  *ngIf="
-    userService.authorizedUser() &&
-    !userService.allowedRole(['Administrator']) &&
-    !userService.allowedRole(['Moderator'])
-  "
->
+<div>
+  <div
+    *ngIf="
+      userService.authorizedUser() &&
+      !userService.allowedRole(['Administrator']) &&
+      !userService.allowedRole(['Moderator'])
+    "
+  >
+    <div class="card-deck">
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Open Tickets:</h4>
+          <p class="card-text badge badge-pill badge-primary ml-1">
+            {{ OpenTickets.length }}
+          </p>
+          <!-- class="" -->
+        </div>
+        <hr />
+      </div>
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Pending Tickets:</h4>
+          <p class="card-text badge badge-pill badge-warning ml-1">
+            {{ PendingTickets.length }}
+          </p>
+        </div>
+        <hr />
+      </div>
+    </div>
+    <div class="card-deck mt-5">
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Closed Tickets:</h4>
+          <p class="card-text badge badge-pill badge-danger ml-1">
+            {{ ClosedTickets.length }}
+          </p>
+        </div>
+        <hr />
+      </div>
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">All The Tickets:</h4>
+          <p class="card-text">
+            {{
+              ClosedTickets.length + OpenTickets.length + PendingTickets.length
+            }}
+          </p>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
 
-  <div class="block">Open Tickets: <p class="badge badge-pill badge-primary ml-1">{{OpenTickets.length}}</p></div>
-  <div class="block">Pending Tickets: <p class="badge badge-pill badge-warning ml-1">{{PendingTickets.length}}</p></div>
-  <div class="block">Closed Tickets: <p class="badge badge-pill badge-danger ml-1">{{ClosedTickets.length}}</p></div>
-  <div class="block">All Tickets: {{ClosedTickets.length + OpenTickets.length + PendingTickets.length}}</div>
-</div>
+  <!--  -->
 
-<div *ngIf="
-    userService.authorizedUser() &&
-    userService.allowedRole(['Administrator']) &&
-    userService.allowedRole(['Moderator'])
-  ">
-  Managers:
-  <br />
-  <div class="block">Open Tickets: {{OpenTickets.length}}</div>
-  <div class="block">Pending Tickets: {{PendingTickets.length}}</div>
-  <div class="block">Closed Tickets: {{ClosedTickets.length}}</div>
-  <div class="block">All Tickets: {{ClosedTickets.length + OpenTickets.length + PendingTickets.length}}</div>
+  <div
+    *ngIf="
+      userService.authorizedUser() &&
+      userService.allowedRole(['Administrator','Moderator'])
+    "
+  >
+    <div class="card-deck">
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Open Tickets:</h4>
+          <p class="card-text badge badge-pill badge-primary ml-1">
+            {{ OpenTickets.length }}
+          </p>
+          <!-- class="" -->
+        </div>
+        <hr />
+      </div>
 
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Pending Tickets:</h4>
+          <p class="card-text badge badge-pill badge-warning ml-1">
+            {{ PendingTickets.length }}
+          </p>
+        </div>
+        <hr />
+      </div>
+    </div>
+    <!--  -->
+    <div class="card-deck mt-5">
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">Closed Tickets:</h4>
+          <p class="card-text badge badge-pill badge-danger ml-1">
+            {{ ClosedTickets.length }}
+          </p>
+        </div>
+        <hr />
+      </div>
+      <div class="card col-5">
+        <img class="card-img-top" src="holder.js/100x180/" alt="" />
+        <div class="card-body">
+          <h4 class="card-title">All The Tickets:</h4>
+          <p class="card-text">
+            {{
+              ClosedTickets.length + OpenTickets.length + PendingTickets.length
+            }}
+          </p>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
+
+  <!--  -->
+  <div *ngIf="!userService.authorizedUser()">
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Welcome to Stern IT</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="stylesheet"
+          href="https://www.w3schools.com/w3css/4/w3.css"
+        />
+        <style>
+          body,
+          h1,
+          h2,
+          h3,
+          h4,
+          h5 {
+            font-family: "Raleway", sans-serif;
+          }
+        </style>
+      </head>
+      <body class="w3-light-grey">
+        <!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+        <div class="w3-content" style="max-width: 1400px">
+          <!-- Header -->
+          <header class="w3-container w3-center w3-padding-32">
+            <h1><b>Welcome to Stern IT</b></h1>
+            <p>Help Desk <span class="w3-tag">System</span></p>
+          </header>
+
+          <!-- Grid -->
+          <div class="w3-row">
+            <!-- Blog entries -->
+            <div class="w3-col l8 s12">
+              <!-- Blog entry -->
+              <div class="w3-card-4 w3-margin w3-white">
+                <img
+                  src="https://vastitservices.com/wp-content/uploads/2020/01/Backup-Office-365.jpg"
+                  alt="Nature"
+                  style="width: 100%"
+                  height="400"
+                />
+                <div class="w3-container">
+                  <h3><b>Ticket System</b></h3>
+                  <h5>
+                    System description,
+                    <span class="w3-opacity">Feb 4, 2022</span>
+                  </h5>
+                </div>
+
+                <div class="w3-container">
+                  <p>
+                    In this system you can send calls to STERN IT for any
+                    problem or request.
+                  </p>
+                  <div class="w3-row"></div>
+                </div>
+              </div>
+              <hr />
+
+              <!-- Blog entry -->
+              <div class="w3-card-4 w3-margin w3-white">
+                <a href="http://www.stern-it.com/">
+                  <img
+                    src="https://th.bing.com/th/id/OIP.fGpxSdLHBuv7UUQNwAv-VgHaEK?pid=ImgDet&w=716&h=402&rs=1"
+                    alt="Norway"
+                    style="width: 100%"
+                  />
+
+                  <!--  -->
+                  <div class="w3-container">
+                    <h3><b>Visit Us</b></h3>
+                    <h5>On Stern IT website</h5>
+                  </div>
+                </a>
+              </div>
+              <!-- END BLOG ENTRIES -->
+            </div>
+
+            <!-- Introduction menu -->
+            <div class="w3-col l4">
+              <!-- About Card -->
+              <div class="w3-card w3-margin w3-margin-top">
+                <img
+                  src="https://www.bing.com/images/blob?bcid=REiWT.Dwb8gDxQ"
+                  style="width: 100%"
+                />
+                <div class="w3-container w3-white">
+                  <h4><b>Stern IT</b></h4>
+                  <p>
+                    SternIT provides exceptional IT management and support for
+                    global chip designers, communications service providers and
+                    next-generation equipment providers.
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <!-- Posts -->
+              <div class="w3-card w3-margin">
+                <div class="w3-container w3-padding">
+                  <h4>Popular Posts</h4>
+                </div>
+                <ul class="w3-ul w3-hoverable w3-white">
+                  <li class="w3-padding-16">
+                    <img
+                      src="https://www.bing.com/images/blob?bcid=RFtqTW4.IsgDqxcxoNWLuD9SqbotqVTdP3w"
+                      alt="Image"
+                      class="w3-left w3-margin-right"
+                      style="width: 50px"
+                    />
+                    <span class="w3-large">DevOps</span><br />
+                    <span
+                      >DevOps Consulting Services help you construct your DevOps
+                      strategy and roadmap to create much greater business value
+                      to your organization as measured by productivity and
+                      profitability</span
+                    >
+                  </li>
+                  <li class="w3-padding-16">
+                    <img
+                      src="https://www.bing.com/images/blob?bcid=RFl11s92YcgDQQ"
+                      alt="Image"
+                      class="w3-left w3-margin-right"
+                      style="width: 50px"
+                    />
+                    <span class="w3-large">CAD</span><br />
+                    <span
+                      >CAD workflow automation enables new levels of
+                      scalability, reliability and performance for your total
+                      design environment</span
+                    >
+                  </li>
+                  <li class="w3-padding-16">
+                    <img
+                      src="https://www.bing.com/images/blob?bcid=RB7yDXu05MgDnA"
+                      alt="Image"
+                      class="w3-left w3-margin-right"
+                      style="width: 50px"
+                    />
+                    <span class="w3-large">IT</span><br />
+                    <span
+                      >Stern-IT offers its customers professional and skilled
+                      team of service professionals and support. Team of
+                      consultants computing technologies, Linux and
+                      virtualization most advanced, suitable for the service
+                      structure needs.</span
+                    >
+                  </li>
+                </ul>
+              </div>
+              <hr />
+
+              <!-- Labels / tags -->
+              <div class="w3-card w3-margin">
+                <div class="w3-container w3-padding">
+                  <h4>Tags</h4>
+                </div>
+                <div class="w3-container w3-white">
+                  <p>
+                    <span class="w3-tag w3-black w3-margin-bottom"
+                      >Software</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >Linux</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >Windows</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >DevOps</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >CAD</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >IT</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >Storage</span
+                    >
+                    <span class="w3-tag w3-light-grey w3-small w3-margin-bottom"
+                      >Service & Support</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <!-- END Introduction Menu -->
+            </div>
+
+            <p class="mt-5 text-muted text-left">&copy; Ido Sternheim</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  </div>
 </div>
