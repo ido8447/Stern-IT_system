@@ -11,9 +11,9 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Open Tickets:</h4>
-          <p class="card-text badge badge-pill badge-primary ml-1">
+          <a [routerLink]="['/tickets']" class="card-text badge badge-pill badge-primary ml-1">
             {{ OpenTickets.length }}
-          </p>
+          </a>
           <!-- class="" -->
         </div>
         <hr />
@@ -22,9 +22,9 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Pending Tickets:</h4>
-          <p class="card-text badge badge-pill badge-warning ml-1">
+          <a [routerLink]="['/PendingTickets']" class="card-text badge badge-pill badge-warning ml-1">
             {{ PendingTickets.length }}
-          </p>
+          </a>
         </div>
         <hr />
       </div>
@@ -34,9 +34,9 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Closed Tickets:</h4>
-          <p class="card-text badge badge-pill badge-danger ml-1">
+          <a  [routerLink]="['/closed-ticket']" class="card-text badge badge-pill badge-danger ml-1">
             {{ ClosedTickets.length }}
-          </p>
+          </a>
         </div>
         <hr />
       </div>
@@ -53,6 +53,8 @@
         <hr />
       </div>
     </div>
+
+    
   </div>
 
   <!--  -->
@@ -63,14 +65,15 @@
       userService.allowedRole(['Administrator','Moderator'])
     "
   >
+  
     <div class="card-deck">
       <div class="card col-5">
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Open Tickets:</h4>
-          <p class="card-text badge badge-pill badge-primary ml-1">
+          <a [routerLink]="['/tickets']" class="card-text badge badge-pill badge-primary ml-1">
             {{ OpenTickets.length }}
-          </p>
+          </a>
           <!-- class="" -->
         </div>
         <hr />
@@ -80,9 +83,9 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Pending Tickets:</h4>
-          <p class="card-text badge badge-pill badge-warning ml-1">
+          <a  [routerLink]="['/PendingTickets']" class="card-text badge badge-pill badge-warning ml-1">
             {{ PendingTickets.length }}
-          </p>
+          </a>
         </div>
         <hr />
       </div>
@@ -93,9 +96,9 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Closed Tickets:</h4>
-          <p class="card-text badge badge-pill badge-danger ml-1">
+          <a [routerLink]="['/closed-ticket']" class="card-text badge badge-pill badge-danger ml-1">
             {{ ClosedTickets.length }}
-          </p>
+          </a>
         </div>
         <hr />
       </div>
