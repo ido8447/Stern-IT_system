@@ -71,7 +71,7 @@ namespace Stern_IT.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                CustomerId = 3
+                CustomerId = 1
 
             };
             try
@@ -494,7 +494,7 @@ namespace Stern_IT.Controllers
             var users = await _userManager.Users.Where(p => p.CustomerId == customerId).ToListAsync();
             foreach (var user in users)
             {
-                user.CustomerId = 3;
+                user.CustomerId = 1;
             }
             await _context.SaveChangesAsync();
             

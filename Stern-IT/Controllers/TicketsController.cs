@@ -38,7 +38,7 @@ namespace Stern_IT.Controllers
             public string Priority { get; set; }
             public string Description { get; set; }
             public string Created = DateTime.Now.ToString("dd/MM/yyyy");
-            public string ToManagerName { get; set; }
+            public string ToManager { get; set; }
 
         }
 
@@ -57,7 +57,7 @@ namespace Stern_IT.Controllers
                 user = user,
                 Email = user.Email,
                 Created = model.Created,
-                ToManagerName = model.ToManagerName,
+                ToManager = model.ToManager,
             };
             try
             {
@@ -138,7 +138,7 @@ namespace Stern_IT.Controllers
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
                 //Operator get only tickets by his manager name or all
-                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
+                List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status && (ticket.ToManager == user.FirstName + " " + user.LastName || ticket.ToManager == "All")).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
                 {
@@ -181,7 +181,7 @@ namespace Stern_IT.Controllers
                         Email = ticket.Email,
                         Created = ticket.Created,
                         CustomerName = customerName.CustomerName,
-                        ToManager = ticket.ToManagerName
+                        ToManager = ticket.ToManager
 
                     });
 
@@ -313,7 +313,7 @@ namespace Stern_IT.Controllers
                 //    user = ticket.user,
                 //    Email = ticket.Email,
                 //    Created = ticket.Created,
-                //    ToManagerName = ticket.ToManagerName,
+                //    ToManager = ticket.ToManager,
                 //};
                 applicationTicket.Status = tcsm.Status;
                 applicationTicket.Priority = tcsm.Priority;

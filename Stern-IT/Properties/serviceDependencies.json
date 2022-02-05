@@ -1,16 +1,16 @@
 {
   "dependencies": {
     "secrets1": {
-      "type": "secrets",
-      "connectionId": "",
+      "ignored": "true",
       "suggestion": "true",
-      "ignored": "true"
+      "type": "secrets",
+      "connectionId": ""
     },
     "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:AzureConnection",
+      "ignored": "true",
       "suggestion": "true",
-      "ignored": "true"
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:AzureConnection"
     },
     "mssql2": {
       "type": "mssql",

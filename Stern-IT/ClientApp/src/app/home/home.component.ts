@@ -68,7 +68,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
+addCustomer(){
+  this.userService.AddCustomer("No Group").subscribe();
+}
  
 
 
