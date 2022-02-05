@@ -1,17 +1,21 @@
-<div>
-  <div
+<div style="height: 95vh; padding-left: 10%;"
+class="nav flex-column pt-4">
+  <div 
     *ngIf="
       userService.authorizedUser() &&
       !userService.allowedRole(['Administrator']) &&
       !userService.allowedRole(['Moderator'])
     "
-  >
+  > 
     <div class="card-deck">
       <div class="card col-5">
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Open Tickets:</h4>
-          <a [routerLink]="['/tickets']" class="card-text badge badge-pill badge-primary ml-1">
+          <a
+            [routerLink]="['/tickets']"
+            class="card-text badge badge-pill badge-primary ml-1"
+          >
             {{ OpenTickets.length }}
           </a>
           <!-- class="" -->
@@ -22,7 +26,10 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Pending Tickets:</h4>
-          <a [routerLink]="['/PendingTickets']" class="card-text badge badge-pill badge-warning ml-1">
+          <a
+            [routerLink]="['/PendingTickets']"
+            class="card-text badge badge-pill badge-warning ml-1"
+          >
             {{ PendingTickets.length }}
           </a>
         </div>
@@ -34,7 +41,10 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Closed Tickets:</h4>
-          <a  [routerLink]="['/closed-ticket']" class="card-text badge badge-pill badge-danger ml-1">
+          <a
+            [routerLink]="['/closed-ticket']"
+            class="card-text badge badge-pill badge-danger ml-1"
+          >
             {{ ClosedTickets.length }}
           </a>
         </div>
@@ -53,25 +63,25 @@
         <hr />
       </div>
     </div>
-
-    
   </div>
 
   <!--  -->
 
-  <div
+  <div 
     *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Administrator','Moderator'])
+      userService.allowedRole(['Administrator', 'Moderator'])
     "
   >
-  
     <div class="card-deck">
       <div class="card col-5">
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Open Tickets:</h4>
-          <a [routerLink]="['/tickets']" class="card-text badge badge-pill badge-primary ml-1">
+          <a
+            [routerLink]="['/tickets']"
+            class="card-text badge badge-pill badge-primary ml-1"
+          >
             {{ OpenTickets.length }}
           </a>
           <!-- class="" -->
@@ -83,7 +93,10 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Pending Tickets:</h4>
-          <a  [routerLink]="['/PendingTickets']" class="card-text badge badge-pill badge-warning ml-1">
+          <a
+            [routerLink]="['/PendingTickets']"
+            class="card-text badge badge-pill badge-warning ml-1"
+          >
             {{ PendingTickets.length }}
           </a>
         </div>
@@ -96,7 +109,10 @@
         <img class="card-img-top" src="holder.js/100x180/" alt="" />
         <div class="card-body">
           <h4 class="card-title">Closed Tickets:</h4>
-          <a [routerLink]="['/closed-ticket']" class="card-text badge badge-pill badge-danger ml-1">
+          <a
+            [routerLink]="['/closed-ticket']"
+            class="card-text badge badge-pill badge-danger ml-1"
+          >
             {{ ClosedTickets.length }}
           </a>
         </div>
@@ -141,6 +157,35 @@
         </style>
       </head>
       <body class="w3-light-grey">
+        <nav class="navbar navbar-expand-sm bg-light">
+          <div class="container-fluid">
+            <ul class="navbar-nav">
+              <li
+                *ngIf="!userService.authorizedUser()"
+                class="nav-item"
+                [routerLinkActive]="['link-active']"
+              >
+                <a class="nav-link text-dark" [routerLink]="['/users/register']"
+                  >Register</a
+                >
+              </li>
+              <!--  -->
+              <!-- navigate to login page -->
+              <!-- see only if unconnected -->
+              <li
+                *ngIf="!userService.authorizedUser()"
+                class="nav-item"
+                [routerLinkActive]="['link-active']"
+              >
+                <a class="nav-link text-dark" [routerLink]="['/users/login']"
+                  >Log in</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!--  -->
+
         <!-- w3-content defines a container for fixed size centered content, 
 and is wrapped around the whole page content, except for the footer in this example -->
         <div class="w3-content" style="max-width: 1400px">
@@ -191,7 +236,6 @@ and is wrapped around the whole page content, except for the footer in this exam
 
                   <!--  -->
                   <div class="w3-container">
-                    <h3><b>Visit Us</b></h3>
                     <h5>On Stern IT website</h5>
                   </div>
                 </a>
@@ -225,7 +269,7 @@ and is wrapped around the whole page content, except for the footer in this exam
                 <ul class="w3-ul w3-hoverable w3-white">
                   <li class="w3-padding-16">
                     <img
-                      src="https://www.bing.com/images/blob?bcid=RFtqTW4.IsgDqxcxoNWLuD9SqbotqVTdP3w"
+                      src="https://www.bing.com/images/blob?bcid=RFtqTW4.IskDqxcxoNWLuD9SqbotqVTdP9s"
                       alt="Image"
                       class="w3-left w3-margin-right"
                       style="width: 50px"

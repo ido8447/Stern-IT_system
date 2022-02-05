@@ -8,14 +8,20 @@
   >
     <div class="form-group">
       <label for="inputStatus">Status</label>
-      <select id="inputStatus"
-              class="form-control"
-              name="Status"
-              formControlName="Status">
+      <select
+        id="inputStatus"
+        class="form-control"
+        name="Status"
+        formControlName="Status"
+      >
         <option value="Open">Open</option>
         <option value="Closed">Closed</option>
-        <option *ngIf="userService.allowedRole(['Administrator','Moderator'])" value="Pending">Pending</option>
-
+        <option
+          *ngIf="userService.allowedRole(['Administrator', 'Moderator'])"
+          value="Pending"
+        >
+          Pending
+        </option>
       </select>
     </div>
 
@@ -50,19 +56,37 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 
     <!-- Show conversation -->
-    <button type="button" (click)="ShowAnswers()" class="btn btn-info">
+    <button
+      type="button"
+      (click)="ShowComments()"
+      style="margin-right: 5px; margin-left: 5px"
+      class="btn btn-info"
+    >
       {{ text }} <i class="material-icons">{{ arrowClass }}</i>
     </button>
 
     <!-- ShowAnswers -->
-    <button type="button" (click)="AddAnswer()" class="btn btn-info">
-      {{ textb }} <i class="material-icons">{{ barrowClass }}</i>
+    <!-- (click)="AddComment()" -->
+    <button
+      data-toggle="modal"
+      data-target="#myModal"
+      type="button"
+      style="color: white; background-color: darkcyan; border-color: darkcyan"
+      class="btn"
+    >
+      <!-- {{ textb }} <i class="material-icons">{{ barrowClass }}</i> -->
+      Add Comment
     </button>
 
-    <button type="button" mat-raised-button color="warn" (click)="cancel()">
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      style="margin-left: 5px"
+      (click)="cancel()"
+    >
       Cancel
     </button>
-
 
     <div *ngIf="Showed">
       <div *ngFor="let item of modelList" class="row">
@@ -89,53 +113,71 @@
     <!--  -->
   </form>
 
-  <div  *ngIf="AddAnswerShow" class="card">
-    <div class="card-header">Add Answer</div>
-    <div class="card-body">
-      <form #form="ngForm" (submit)="SendAnswer(form)">
-        <div class="form-group">
-          <textarea
-            id="inputAnswer"
-            class="form-control"
-            rows="10"
-            name="Answer"
-            [(ngModel)]="formTicketModel.Answer"
-            #Answer="ngModel"
-          >
-          </textarea>
-          <div class="form-group">
-            <input
-              id="inputIsManager"
-              name="IsManager"
-              type="hidden"
-              [(ngModel)]="formTicketModel.IsManager"
-              #IsManager="ngModel"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              id="inputEmail"
-              name="Email"
-              type="hidden"
-              [(ngModel)]="formTicketModel.Email"
-              #Email="ngModel"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              id="inputTicketId"
-              name="TicketId"
-              type="hidden"
-              [(ngModel)]="formTicketModel.TicketId"
-              #TicketId="ngModel"
-            />
-          </div>
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Comment</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
-        <!-- <button class="btn btn-primary" (click)="CloseTicket()">
-          Close Ticket
-        </button> -->
-      </form>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+           <form #form="ngForm" (submit)="SendComment(form)">
+             <div class="card">
+              <div class="card-header">Add Comment To The Ticket</div>
+              <div class="card-body">
+                <div class="form-group">
+                  <textarea
+                    id="inputAnswer"
+                    class="form-control"
+                    rows="10"
+                    name="Answer"
+                    [(ngModel)]="formTicketModel.Answer"
+                    #Answer="ngModel"
+                  >
+                  </textarea>
+                  <div class="form-group">
+                    <input
+                      id="inputIsManager"
+                      name="IsManager"
+                      type="hidden"
+                      [(ngModel)]="formTicketModel.IsManager"
+                      #IsManager="ngModel"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      id="inputEmail"
+                      name="Email"
+                      type="hidden"
+                      [(ngModel)]="formTicketModel.Email"
+                      #Email="ngModel"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      id="inputTicketId"
+                      name="TicketId"
+                      type="hidden"
+                      [(ngModel)]="formTicketModel.TicketId"
+                      #TicketId="ngModel"
+                    />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+                
+              </div>
+           </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

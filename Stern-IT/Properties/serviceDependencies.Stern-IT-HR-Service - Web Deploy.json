@@ -3,14 +3,8 @@
     "mssql2": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/stern-itdbserver/databases/sternit-db",
       "type": "mssql.azure",
-      "connectionId": "ConnectionStrings",
+      "connectionId": "AzureConnection",
       "secretStore": "AzureAppSettings"
-    },
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:AzureConnection",
-      "suggestion": "true",
-      "ignored": "true"
     }
   }
 }

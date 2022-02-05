@@ -1,14 +1,15 @@
 <header>
-  <app-nav-menu></app-nav-menu>
+  <app-nav-menu
+    *ngIf="userService.authorizedUser() || homePage()"
+  ></app-nav-menu>
 </header>
-<main>
+<main class="v">
   <div class="container-fluid mt-auto">
     <div class="row">
       <div class="col-2 pl-0">
-        <app-sidenav></app-sidenav>
-
+          <app-sidenav *ngIf="userService.authorizedUser()"></app-sidenav>
       </div>
-      <div class="col-10">
+      <div class="col-10 pl-0">
         <router-outlet></router-outlet>
       </div>
     </div>

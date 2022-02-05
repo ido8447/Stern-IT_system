@@ -44,6 +44,7 @@
       <mat-radio-group #CustomerSelected formControlName="CustomerSelected">
         
         <mat-radio-button
+        class="radio"
           *ngFor="let custom of customers"
           [value]="custom.CustomerID"
           [checked]="CurrentCustomer.CustomerId === custom.CustomerID.toString()"

@@ -4,3 +4,10 @@
     background-attachment: fixed; 
     background-size: 100% 100%;
 }
+
+.blue{
+    background-image: url("https://th.bing.com/th/id/R.2e6358991703a0a447336395ceeb1c25?rik=cGNLgCld6sdimQ&riu=http%3a%2f%2fwww.satodayscatholic.org%2fwp-content%2fuploads%2f2018%2f09%2fblue-background-023.jpg&ehk=KohT7NSjaHpOC6keA76IlB7hX20LvXLYfGETME9eZx8%3d&risl=&pid=ImgRaw&r=0");
+}
+.white{
+    background-color: white;
+}

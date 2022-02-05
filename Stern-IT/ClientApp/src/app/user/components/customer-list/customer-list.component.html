@@ -60,13 +60,13 @@
     <label for="customerName">Add Customer</label>
     <input
       type="text"
-      class="form-control"
+      class="form-control addTxt"
       name="customerName"
       id="customerID"
       aria-describedby="helpId"
       placeholder="Customer Name"
       #CustomerName
     />
-    <button (click)="AddCustomer(CustomerName.value)">Add</button>
+    <button class="addBtn" (click)="AddCustomer(CustomerName.value)">Add</button>
   </div>
 </form>

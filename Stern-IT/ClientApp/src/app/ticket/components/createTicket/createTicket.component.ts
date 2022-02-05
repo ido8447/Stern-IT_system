@@ -77,6 +77,7 @@ export class CreateTicketComponent implements OnInit {
   SendTicket(form: NgForm) {
     this.ticketService.SendTicket(form.value);
     // this.uploadFileToActivity();
+    let url = "https://stern-it-hr-service.azurewebsites.net/tickets";
     var body =
       "<h4>" +
       form.value.Email +
@@ -86,7 +87,8 @@ export class CreateTicketComponent implements OnInit {
       form.value.Priority +
       "</p><p>Description: " +
       form.value.Description +
-      "</p>";
+      "</p>"+
+      "<p>Ticktes:"+url+"  </p>";
     let managerName = form.value.ToManagerName;
     if (managerName != "All") {
       this.userService

@@ -10,7 +10,8 @@ import {Location} from '@angular/common';
 import { UserService } from "../../../services/user.service";
 
 @Component({
-  templateUrl: "edit.component.html"
+  templateUrl: "edit.component.html",
+  styleUrls: ['./edit.component.css']
 })
 
 export class UserEditComponent implements OnInit {

@@ -28,14 +28,11 @@ export class NavMenuComponent implements OnInit {
         Email: this.userService.getAuthorizedUserEmail(),
       };
      
-
+    
     }
-
-
-
-
   }
 
+ 
 
   collapse() {
     this.isExpanded = false;

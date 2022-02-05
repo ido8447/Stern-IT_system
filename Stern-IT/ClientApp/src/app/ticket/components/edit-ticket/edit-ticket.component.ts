@@ -48,7 +48,7 @@ export class EditTicketComponent implements OnInit {
         console.log(error);
       };
 
-    this.GetAnswer(id);
+    this.GetComment(id);
   }
 
   public error(control: string, error: string) {
@@ -73,16 +73,16 @@ export class EditTicketComponent implements OnInit {
     }
   }
 
-  GetAnswer(ID: string) {
+  GetComment(ID: string) {
     this.service
       .GetAnswer(ID)
       .subscribe((arg) => (this.modelList = arg as Answer[]));
   }
 
-  SendAnswer(form: NgForm) {
+  SendComment(form: NgForm) {
     if (form.value.Answer.length != 0) {
       this.service.SendAnswer(form.value).subscribe(() => {
-        alert("Send Ansewer"), form.reset();
+        alert("Send Comment"), window.location.reload();
       });
     }
   }
@@ -106,18 +106,18 @@ export class EditTicketComponent implements OnInit {
   /**
    * ShowAnswers
    */
-  Showed: boolean = this.ShowAnswers();
-  public text: string = "Show Answers";
+  Showed: boolean = this.ShowComments();
+  public text: string = "Show Comments";
   public arrowClass: string = "arrow_drop_down";
-  public ShowAnswers() {
+  public ShowComments() {
     if (this.Showed == null) {
-      this.text = "Show Answers";
+      this.text = "Show Comments";
       this.arrowClass = "arrow_drop_down";
 
       return (this.Showed = false);
     } else if (this.Showed) {
       this.arrowClass = "arrow_drop_down";
-      this.text = "Show Answers";
+      this.text = "Show Comments";
 
       return (this.Showed = false);
     }
@@ -129,17 +129,17 @@ export class EditTicketComponent implements OnInit {
   /**
    * ShowSendAnswers
    */
-  AddAnswerShow: boolean = this.AddAnswer();
-  public textb: string = "Add Answer";
+  AddAnswerShow: boolean = this.AddComment();
+  public textb: string = "Add Comment";
   public barrowClass: string = "arrow_drop_down";
 
-  public AddAnswer() {
+  public AddComment() {
     if (this.AddAnswerShow == null) {
-      this.textb = "Add Answer";
+      this.textb = "Add Comment";
       this.barrowClass = "arrow_drop_down";
       return (this.AddAnswerShow = false);
     } else if (this.AddAnswerShow) {
-      this.textb = "Add Answer";
+      this.textb = "Add Comment";
       this.barrowClass = "arrow_drop_down";
       return (this.AddAnswerShow = false);
     }
