@@ -24,7 +24,6 @@ export class FileService {
     this.httpClient
       .post(this.baseURL + this.apiURL + "UploadFile", file)
       .subscribe((res) => {
-        console.log(res);
       });
   }
 }

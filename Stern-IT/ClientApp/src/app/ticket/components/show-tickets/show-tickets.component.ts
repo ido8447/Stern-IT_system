@@ -18,13 +18,13 @@ export class ShowTicketsComponent implements OnInit {
 
   columnsFunc() {
 
-    if (this.userService.allowedRole(['Moderator']) && !this.userService.allowedRole(['Administrator'])) {
-      return ["Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+    if (this.userService.allowedRole(['Operator']) && !this.userService.allowedRole(['Administrator'])) {
+      return ["Id","Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
     }
     else if(this.userService.allowedRole(['Administrator'])){
-      return ["Email","TO","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+      return ["Id","Email","TO","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
     }
-    return ["Subject", "Status", "Priority", "Date", "details-delete"];
+    return ["Id","Subject", "Status", "Priority", "Date", "details-delete"];
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -36,6 +36,8 @@ export class ShowTicketsComponent implements OnInit {
   ) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
+        ticket.TicketId.toLowerCase().includes(filter.toLowerCase()) ||
+        ticket.CustomerName.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Status.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Priority.toLowerCase().includes(filter.toLowerCase()) ||

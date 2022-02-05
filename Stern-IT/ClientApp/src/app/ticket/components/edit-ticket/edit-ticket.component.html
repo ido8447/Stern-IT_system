@@ -17,7 +17,7 @@
         <option value="Open">Open</option>
         <option value="Closed">Closed</option>
         <option
-          *ngIf="userService.allowedRole(['Administrator', 'Moderator'])"
+          *ngIf="userService.allowedRole(['Administrator', 'Operator'])"
           value="Pending"
         >
           Pending

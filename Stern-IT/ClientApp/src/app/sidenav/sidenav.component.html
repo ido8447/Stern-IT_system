@@ -24,7 +24,7 @@
 
   <li *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Administrator'])
+      userService.allowedRole(['Administrator','Operator'])
     ">
     <a class="nav-link text-white" [routerLink]="['/customers']">
       <i class="fa fa-user-secret" aria-hidden="true"></i>
@@ -36,7 +36,7 @@
   *ngIf="
   userService.authorizedUser() &&
   !userService.allowedRole(['Administrator']) &&
-  !userService.allowedRole(['Moderator'])
+  !userService.allowedRole(['Operator'])
   ">
   <a class="nav-link text-white" [routerLink]="['/create-ticket']">
     <i class="far fa-paper-plane"></i> <span class="ml-3">Create</span>

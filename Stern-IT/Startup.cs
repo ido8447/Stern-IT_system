@@ -151,13 +151,13 @@ namespace Stern_IT
         /// create role
         /// </summary>
         /// <param name="serviceProvider"></param>
-        /// <returns>2 type of role: administrator and moderator</returns>
+        /// <returns>2 type of role: administrator and Operator</returns>
         /// and put 2 users to roles
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<Models.User>>();
-            string[] roleNames = { "Administrator", "Moderator" };
+            string[] roleNames = { "Administrator", "Operator" };
             IdentityResult roleResault;
             foreach (var roleName in roleNames)
             {
@@ -172,11 +172,11 @@ namespace Stern_IT
             {
                 await userManager.AddToRoleAsync(userAdmin, "Administrator");
             }
-            Models.User userModerator = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "eyal@stern-it.com");
-            if (userModerator != null)
+            Models.User userOperator = await userManager.Users.FirstOrDefaultAsync(u => u.Email == "eyal@stern-it.com");
+            if (userOperator != null)
             {
                 await userManager.AddToRoleAsync(userAdmin, "Administrator");
-                await userManager.AddToRoleAsync(userModerator, "Moderator");
+                await userManager.AddToRoleAsync(userOperator, "Operator");
             }
         }
     }

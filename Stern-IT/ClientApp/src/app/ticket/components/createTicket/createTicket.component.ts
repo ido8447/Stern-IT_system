@@ -47,7 +47,6 @@ export class CreateTicketComponent implements OnInit {
 
   onFileSelected(files: FileList) {
     this.fileToUpload = files.item(0);
-    console.log(files.item(0));
     const InputNode: any = document.querySelector("#file");
     if (typeof FileReader !== "undefined") {
       const reader = new FileReader();
@@ -68,7 +67,7 @@ export class CreateTicketComponent implements OnInit {
   //   this.fileService.postFile(this.fileToUpload)
   // }
   //
-  sendToManeger(managers,body) {
+  sendToManeger(managers, body) {
     for (var i = 0; i < managers.length; i++) {
       this.SendEmail(managers[i].Email, body);
     }
@@ -87,25 +86,37 @@ export class CreateTicketComponent implements OnInit {
       form.value.Priority +
       "</p><p>Description: " +
       form.value.Description +
-      "</p>"+
-      "<p>Ticktes:"+url+"  </p>";
+      "</p>" +
+      "<p>Ticktes:" +
+      url +
+      "  </p>";
     let managerName = form.value.ToManagerName;
     if (managerName != "All") {
       this.userService
         .GetManager(managerName)
-        .subscribe(
-          (res:any) => this.SendEmail(res.Email, body)
-          );
-       
-
+        .subscribe((res: any) => this.SendEmail(res.Email, body));
     } else {
       this.userService
         .GetManagers()
         .subscribe((res) => this.sendToManeger(res, body));
-      
-      
     }
+    body =
+      "<h4>New Ticket has Created!</h4>" +
+      "<p>We will get back to you as soon as possible</p>"+
+      "<p>Subject: " +
+      form.value.Subject +
+      "</p><p>Priority: " +
+      form.value.Priority +
+      "</p><p>Description: " +
+      form.value.Description +
+      "</p>" +
+      "<p>Ticktes:" +
+      url +
+      "  </p>";
+    //send to this user
+    this.SendEmail(this.userService.getAuthorizedUserEmail(), body);
   }
+
   SendEmail(toEmail: string, body: string) {
     this.mailrequest.Body = body;
     this.mailrequest.ToEmail = toEmail;

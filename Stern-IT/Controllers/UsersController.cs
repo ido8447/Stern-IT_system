@@ -267,8 +267,17 @@ namespace Stern_IT.Controllers
             {
                 return NotFound();
             }
+            try
+            {
             _context.Users.Remove(applicationUser);
             await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
 
             return new UserViewModel()
             {

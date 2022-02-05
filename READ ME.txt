@@ -1,0 +1,11 @@
+Stern -IT Tickets System
+
+פרוייקט הסיום שלי הוא מערכת שרת לקוח מסוג Help Desk
+
+טכנולוגיה:
+Angular CLI: 13.1.2
+Node: 16.13.2
+DotNet: 6.0.101
+SQL Server 2019
+
+https://github.com/ido8447/Stern-IT_system

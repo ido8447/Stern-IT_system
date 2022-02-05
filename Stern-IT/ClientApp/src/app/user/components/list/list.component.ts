@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { Ticket } from "src/app/models/ticket.model";
 import { User } from "src/app/models/user.model";
+import { TicketService } from "src/app/services/ticket.service";
 import { Customer } from "../../../models/customer";
 import { UserService } from "../../../services/user.service";
 
@@ -9,7 +11,13 @@ import { UserService } from "../../../services/user.service";
   templateUrl: "./list.component.html",
 })
 export class ListComponent implements OnInit, AfterViewInit {
-  columns: string[] = ["Email", "Customer","PhoneNumber", "Roles", "details-edit-delete"];
+  columns: string[] = [
+    "Email",
+    "Customer",
+    "PhoneNumber",
+    "Roles",
+    "details-edit-delete",
+  ];
   // columns: string[] = ["Email", "PhoneNumber", "Roles","Customer", "details-edit-delete"];
 
   dataSource = new MatTableDataSource<User>();
@@ -17,7 +25,10 @@ export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private ticketService: TicketService,
+    private userService: UserService
+  ) {
     this.dataSource.filterPredicate = (user: User, filter: string) => {
       return (
         user.Email.toLowerCase().includes(filter.toLowerCase()) ||
@@ -36,7 +47,6 @@ export class ListComponent implements OnInit, AfterViewInit {
   get() {
     this.userService.get().subscribe((res) => {
       this.dataSource.data = res as User[];
-      
     });
   }
 
@@ -44,18 +54,33 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
- 
+  ticketModel = {
+    Email: "",
+    Status: "",
+  };
+  tickets: any;
 
-
-
-  delete(Id: any) {
+  delete(Id: any, email: string) {
     if (confirm("Are you sure to delete this record?")) {
       this.userService.delete(Id).subscribe(
         () => {
           this.get();
         },
         (err: any) => {
-          console.log(err);
+          if (
+            confirm(
+              "This user can not be deleted because he has tickets or comments Want to delete with all tickets?"
+            )
+          ) {
+            //
+            this.ticketService.DeleteTicketsByUser(email).subscribe((res) => {
+              this.userService.delete(Id).subscribe(() => {
+                this.get();
+              });
+            });
+
+            //
+          }
         }
       );
     }

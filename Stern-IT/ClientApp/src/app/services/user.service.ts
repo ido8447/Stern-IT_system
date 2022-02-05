@@ -83,7 +83,7 @@ export class UserService {
         if (
           this.authorizedUser() &&
           !this.allowedRole(["Administrator"]) &&
-          !this.allowedRole(["Moderator"])
+          !this.allowedRole(["Operator"])
         ) {
           this.router.navigateByUrl("tickets");
         } else {

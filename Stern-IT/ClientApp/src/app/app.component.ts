@@ -14,7 +14,6 @@ export class AppComponent {
 
   homePage(){
     let url = window.location.pathname;
-    console.log(url);
     
     if(url==="/" ){
       return false;

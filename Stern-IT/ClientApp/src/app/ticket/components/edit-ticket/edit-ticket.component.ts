@@ -2,11 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Answer } from "src/app/models/Answer ";
-import { TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
+import { Ticket, TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
 import { User } from "../../../models/user.model";
-import {Location} from '@angular/common';
+import { Location } from "@angular/common";
+import { SendEmailService } from "src/app/services/sendEmail.service";
+import { MailRequest } from "src/app/models/SendEmail";
 
 @Component({
   selector: "app-edit-ticket",
@@ -26,9 +28,10 @@ export class EditTicketComponent implements OnInit {
     private service: TicketService,
     private formBuilder: FormBuilder,
     public userService: UserService,
+    private emailService: SendEmailService,
     private activedRoute: ActivatedRoute,
     private _location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ticketForm = this.formBuilder.group({
@@ -54,7 +57,7 @@ export class EditTicketComponent implements OnInit {
   public error(control: string, error: string) {
     return this.ticketForm.controls[control].hasError(error);
   }
-  
+
   public save(ticketFormValue) {
     if (this.ticketForm.valid) {
       const ticket: TicketStatusInfo = {
@@ -64,7 +67,12 @@ export class EditTicketComponent implements OnInit {
       };
       this.service.PutTicket(ticket).subscribe(
         () => {
-         this.cancel();
+          this.cancel();
+          if (ticketFormValue.Status == "Closed") {
+            this.service.getTicket(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe((res: Ticket) => this.SendEmail(res.Email, this.mailrequest.Body));
+
+
+          }
         },
         (error) => {
           console.log(error);
@@ -82,14 +90,26 @@ export class EditTicketComponent implements OnInit {
   SendComment(form: NgForm) {
     if (form.value.Answer.length != 0) {
       this.service.SendAnswer(form.value).subscribe(() => {
+        // this.SendEmail(this.WhoToSend(), form.value);
         alert("Send Comment"), window.location.reload();
       });
     }
   }
 
+  SendEmail(toEmail: string, body: string) {
+    this.mailrequest.Body = body;
+    this.mailrequest.ToEmail = toEmail;
+    this.emailService.SendEmail(this.mailrequest);
+  }
+  mailrequest: MailRequest = {
+    ToEmail: "________",
+    Subject: "Your ticket has been closed",
+    Body: "<p>Sign in to view comments</p><p>https://stern-it-hr-service.azurewebsites.net/closed-ticket</p>",
+  };
+
   isManager() {
     if (
-      this.userService.allowedRole(["Moderator"]) ||
+      this.userService.allowedRole(["Operator"]) ||
       this.userService.allowedRole(["Administrator"])
     ) {
       return true;
@@ -148,14 +168,13 @@ export class EditTicketComponent implements OnInit {
 
     return (this.AddAnswerShow = true);
   }
-   cancel() {
-    this._location.back()
-
+  cancel() {
+    this._location.back();
   }
   CloseTicket() {
     this.service.CloseTicket(
       parseInt(this.activedRoute.snapshot.paramMap.get("id"))
     );
-   this.cancel();
+    this.cancel();
   }
 }

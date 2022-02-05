@@ -92,5 +92,9 @@ export class TicketService {
     );
   }
 
-
+  DeleteTicketsByUser(email:string){
+    return this.httpClient.delete(
+      this.baseURL + this.apiURL + "DeleteTicketsByUser/" + email
+    );
+  }
 }

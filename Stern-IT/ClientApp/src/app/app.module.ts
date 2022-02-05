@@ -125,7 +125,7 @@ import { FileService } from "./services/file.service";
         path: "customer/:id",
         component: CustomerDetailComponent,
         canActivate: [AuthorizeGuard],
-        data: { allowedRoles: ["Administrator", "Moderator"] },
+        data: { allowedRoles: ["Administrator", "Operator"] },
       },
       {
         path: "customer-tickets/:id",
@@ -147,7 +147,7 @@ import { FileService } from "./services/file.service";
         path: "customers",
         component: CustomerListComponent,
         canActivate: [AuthorizeGuard],
-        data: { allowedRoles: ["Administrator", "Moderator"] },
+        data: { allowedRoles: ["Administrator", "Operator"] },
       },
       {
         path: "users/edit/:id",

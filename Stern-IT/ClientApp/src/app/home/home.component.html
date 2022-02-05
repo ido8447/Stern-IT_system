@@ -4,7 +4,7 @@ class="nav flex-column pt-4">
     *ngIf="
       userService.authorizedUser() &&
       !userService.allowedRole(['Administrator']) &&
-      !userService.allowedRole(['Moderator'])
+      !userService.allowedRole(['Operator'])
     "
   > 
     <div class="card-deck">
@@ -70,7 +70,7 @@ class="nav flex-column pt-4">
   <div 
     *ngIf="
       userService.authorizedUser() &&
-      userService.allowedRole(['Administrator', 'Moderator'])
+      userService.allowedRole(['Administrator', 'Operator'])
     "
   >
     <div class="card-deck">
@@ -268,12 +268,12 @@ and is wrapped around the whole page content, except for the footer in this exam
                 </div>
                 <ul class="w3-ul w3-hoverable w3-white">
                   <li class="w3-padding-16">
-                    <img
+                    <!-- <img
                       src="https://www.bing.com/images/blob?bcid=RFtqTW4.IskDqxcxoNWLuD9SqbotqVTdP9s"
                       alt="Image"
                       class="w3-left w3-margin-right"
                       style="width: 50px"
-                    />
+                    /> -->
                     <span class="w3-large">DevOps</span><br />
                     <span
                       >DevOps Consulting Services help you construct your DevOps

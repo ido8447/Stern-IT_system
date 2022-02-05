@@ -48,7 +48,6 @@ export class DetailsOfTicketComponent implements OnInit {
     this.ticketService
       .GetTicketStatus(parseInt(this.activedRoute.snapshot.paramMap.get("id")))
       .subscribe((arg) => {
-          console.log(arg);
         if (arg=="Open") {
           this.ticketStatusIsOpen = true;
         } else {

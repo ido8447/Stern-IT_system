@@ -134,10 +134,10 @@ namespace Stern_IT.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
-            if (roles.Contains("Moderator") && !roles.Contains("Administrator"))
+            if (roles.Contains("Operator") && !roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                //moderator get only tickets by his manager name or all
+                //Operator get only tickets by his manager name or all
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status && (ticket.ToManagerName == user.FirstName + " " + user.LastName || ticket.ToManagerName == "All")).ToListAsync();
 
                 foreach (Models.Ticket ticket in tickets)
@@ -163,7 +163,7 @@ namespace Stern_IT.Controllers
             else if (roles.Contains("Administrator"))
             {
                 List<TicketViewModel> viewModels = new List<TicketViewModel>();
-                
+
                 //administrator get all tickets
                 List<Models.Ticket> tickets = await _context.Tickets.Where(ticket => ticket.Status == status).ToListAsync();
 
@@ -182,7 +182,7 @@ namespace Stern_IT.Controllers
                         Created = ticket.Created,
                         CustomerName = customerName.CustomerName,
                         ToManager = ticket.ToManagerName
-                       
+
                     });
 
                 }
@@ -433,7 +433,7 @@ namespace Stern_IT.Controllers
                 throw ex;
             }
         }
-        
+
 
         // customersTicket
         //"https://localhost:5001/api/tickets/customersTicket/2"
@@ -461,6 +461,41 @@ namespace Stern_IT.Controllers
             }
 
             return tvm_list;
+        }
+
+
+
+        // DeleteTicketsByUser
+        [HttpDelete("DeleteTicketsByUser/{email}")]
+        public async Task<object> DeleteTicketsByUser(string email)
+        {
+            var tickets = await _context.Tickets.Where(t => t.Email == email).ToListAsync();
+            foreach (var ticket in tickets)
+            {
+                var answers = await _context.Answers.Where(a => a.ticket.TicketId == ticket.TicketId).ToListAsync();
+                if (answers.Count > 0)
+                {
+
+                    await DeleteAnswer(ticket.TicketId);
+
+                }
+
+                if (ticket == null)
+                {
+                    return NotFound();
+                }
+                 _context.Tickets.Remove(ticket);
+                try
+                {
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Ok();
         }
     }
 }
