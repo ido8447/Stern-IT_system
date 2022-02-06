@@ -60,7 +60,16 @@ export class PendingTicketsComponent implements OnInit {
   };
    
   
+  which(manager){
+    if(manager=="All"){
+      return false;
+    }
+    return true;
 
+  }
+fowardTicket(ticketId: any) {
+  this.ticketService.ShareTicket(ticketId).subscribe(res=>this.get());
+}
 
   get() {
     this.ticketService.getTickets(this.model).subscribe((res) => {
@@ -80,6 +89,7 @@ export class PendingTicketsComponent implements OnInit {
       this.ticketService.DeleteTicket(Id).subscribe(
         () => {
           this.ticketService.getTicket();
+          this.get();
         },
         (err: any) => {
           console.log(err);

@@ -22,7 +22,7 @@ export class CreateTicketComponent implements OnInit {
     Priority: "",
     Subject: "",
     Description: "",
-    ToManagerName: "All",
+    ToManager: "All",
   };
   srcResault: any;
   fileName: any;
@@ -57,6 +57,7 @@ export class CreateTicketComponent implements OnInit {
       this.fileSelected = InputNode.files[0];
     }
   }
+  
   //
   // upload() {
   //   const formData: FormData = new FormData();
@@ -100,7 +101,7 @@ export class CreateTicketComponent implements OnInit {
         .GetManagers()
         .subscribe((res) => this.sendToManeger(res, body));
     }
-    body =
+    var body2 =
       "<h4>New Ticket has Created!</h4>" +
       "<p>We will get back to you as soon as possible</p>"+
       "<p>Subject: " +
@@ -114,7 +115,7 @@ export class CreateTicketComponent implements OnInit {
       url +
       "  </p>";
     //send to this user
-    this.SendEmail(this.userService.getAuthorizedUserEmail(), body);
+    this.SendEmail(this.userService.getAuthorizedUserEmail(), body2);
   }
 
   SendEmail(toEmail: string, body: string) {

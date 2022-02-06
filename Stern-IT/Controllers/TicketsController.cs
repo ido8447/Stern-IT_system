@@ -484,7 +484,7 @@ namespace Stern_IT.Controllers
                 {
                     return NotFound();
                 }
-                 _context.Tickets.Remove(ticket);
+                _context.Tickets.Remove(ticket);
                 try
                 {
 
@@ -497,6 +497,26 @@ namespace Stern_IT.Controllers
             }
             return Ok();
         }
+
+
+        //shareTicket
+        [HttpPost]
+        [Route("shareTicket/{ticketId}")]
+        public async Task<object> ShareTicket(string ticketId)
+        {
+            var ticket = await _context.Tickets.Where(t=>t.TicketId.ToString()==ticketId).FirstOrDefaultAsync();
+            ticket.ToManager = "All";
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
 

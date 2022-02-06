@@ -5,6 +5,7 @@ import { UserService } from "src/app/services/user.service";
 import { map, filter } from "rxjs/operators";
 import { TicketService } from "src/app/services/ticket.service";
 import { Dictionary } from "lodash";
+import * as internal from "assert";
 
 @Component({
   selector: "app-show-tickets",
@@ -19,12 +20,12 @@ export class ShowTicketsComponent implements OnInit {
   columnsFunc() {
 
     if (this.userService.allowedRole(['Operator']) && !this.userService.allowedRole(['Administrator'])) {
-      return ["Id","Email","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+      return ["Id", "Email", "Customer", "Subject", "Status", "Priority", "Date", "details-delete"];
     }
-    else if(this.userService.allowedRole(['Administrator'])){
-      return ["Id","Email","TO","Customer","Subject", "Status", "Priority", "Date", "details-delete"];
+    else if (this.userService.allowedRole(['Administrator'])) {
+      return ["Id", "Email", "TO", "Customer", "Subject", "Status", "Priority", "Date", "details-delete"];
     }
-    return ["Id","Subject", "Status", "Priority", "Date", "details-delete"];
+    return ["Id", "Subject", "Status", "Priority", "Date", "details-delete"];
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -67,6 +68,7 @@ export class ShowTicketsComponent implements OnInit {
       .getTickets(this.model)
       .subscribe((res) => {
         this.dataSource.data = res as Ticket[];
+        console.log(res);
       });
   }
 
@@ -79,15 +81,27 @@ export class ShowTicketsComponent implements OnInit {
       this.ticketService.DeleteTicket(Id).subscribe(
         () => {
           this.ticketService.getTicket();
+          this.get();
         },
         (err: any) => {
           console.log(err);
         }
-      );
+        );
+      }
     }
+    
+    which(manager){
+      if(manager=="All"){
+        return false;
+      }
+      return true;
+  
+    }
+  fowardTicket(ticketId: any) {
+    this.ticketService.ShareTicket(ticketId).subscribe(res=>this.get());
   }
 
-  Refresh(){
+  Refresh() {
     this.get();
 
   }

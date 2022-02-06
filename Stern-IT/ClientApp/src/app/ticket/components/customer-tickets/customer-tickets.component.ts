@@ -18,6 +18,7 @@ export class CustomerTicketsComponent implements OnInit {
 
   columnsFunc() {
     return [
+      "Id",
       "Email",
       "Subject",
       "Status",
@@ -65,7 +66,7 @@ export class CustomerTicketsComponent implements OnInit {
         
       });
   }
-
+  
   public filter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }

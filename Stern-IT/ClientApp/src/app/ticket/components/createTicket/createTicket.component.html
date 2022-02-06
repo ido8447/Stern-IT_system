@@ -53,9 +53,9 @@
       <select
         id="inputToManagerName"
         class="form-control"
-        name="ToManagerName"
-        [(ngModel)]="formTicketModel.ToManagerName"
-        #ToManagerName="ngModel"
+        name="ToManager"
+        [(ngModel)]="formTicketModel.ToManager"
+        #ToManager="ngModel"
       >
         <option selected>All</option>
         <option *ngFor="let manager of managers">{{manager.FirstName + " " + manager.LastName}}</option>

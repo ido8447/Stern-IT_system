@@ -43,7 +43,16 @@ export class ClosedticketsComponent implements OnInit {
       );
     };
   }
+  which(manager){
+    if(manager=="All"){
+      return false;
+    }
+    return true;
 
+  }
+fowardTicket(ticketId: any) {
+  this.ticketService.ShareTicket(ticketId).subscribe(res=>this.get());
+}
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

@@ -43,6 +43,8 @@ export class CustomerListComponent implements OnInit {
     this.userService.GetCustomer().subscribe((res) => {
       this.dataSource.data = res as Customer[];
     });
+  
+
   }
 
   public filter(filter: string) {

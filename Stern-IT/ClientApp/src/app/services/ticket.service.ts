@@ -97,4 +97,11 @@ export class TicketService {
       this.baseURL + this.apiURL + "DeleteTicketsByUser/" + email
     );
   }
+
+  ShareTicket(ticketId:string){
+    return this.httpClient.post(
+      this.baseURL + this.apiURL + "shareTicket/"+ticketId,
+      ticketId
+    );
+  }
 }
