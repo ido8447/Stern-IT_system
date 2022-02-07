@@ -41,7 +41,7 @@
               <a class="btn" [routerLink]="['/users', item.Id]" matTooltip="Details">
                 <i class="material-icons">info</i>
               </a>
-              <a class="btn" [routerLink]="['/users/edit', item.Id]" matTooltip="Edit">
+              <a *ngIf="managers(item.Email)" class="btn" [routerLink]="['/users/edit', item.Id]" matTooltip="Edit">
                 <i class="material-icons">edit</i>
               </a>
               <!-- <a class="btn" matTooltip="Delete" (click) = "delete(item.Id)">

@@ -57,7 +57,7 @@ export class CreateTicketComponent implements OnInit {
       this.fileSelected = InputNode.files[0];
     }
   }
-  
+
   //
   // upload() {
   //   const formData: FormData = new FormData();
@@ -91,7 +91,7 @@ export class CreateTicketComponent implements OnInit {
       "<p>Ticktes:" +
       url +
       "  </p>";
-    let managerName = form.value.ToManagerName;
+    let managerName = form.value.ToManager;
     if (managerName != "All") {
       this.userService
         .GetManager(managerName)
@@ -103,17 +103,12 @@ export class CreateTicketComponent implements OnInit {
     }
     var body2 =
       "<h4>New Ticket has Created!</h4>" +
-      "<p>We will get back to you as soon as possible</p>"+
-      "<p>Subject: " +
-      form.value.Subject +
-      "</p><p>Priority: " +
-      form.value.Priority +
-      "</p><p>Description: " +
-      form.value.Description +
-      "</p>" +
-      "<p>Ticktes:" +
-      url +
-      "  </p>";
+      "<p>" +
+      "<p>Ticket received for you ,</p><p> we will get back to you as soon as possible</p>" +
+      "<p>In order to follow the ticket you can log in to Stern_IT (https://stern-it-hr-service.azurewebsites.net)</p>" +
+      "<p>Please do not replay to this email.</p>" +
+      "<p>Best Regard ,</p>" +
+      "<p>Stern-IT support</p>" 
     //send to this user
     this.SendEmail(this.userService.getAuthorizedUserEmail(), body2);
   }

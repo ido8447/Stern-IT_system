@@ -80,7 +80,7 @@ namespace Stern_IT.Controllers
         /// </summary>
         public class TicketViewModel
         {
-            public int Id { get; set; }
+            public int TicketId { get; set; }
             public string Status { get; set; }
             public string Email { get; set; }
             public string Subject { get; set; }
@@ -104,7 +104,7 @@ namespace Stern_IT.Controllers
             }
             TicketViewModel ticketViewModel = new TicketViewModel()
             {
-                Id = applicationTicket.TicketId,
+                TicketId = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
                 Status = applicationTicket.Status,
                 Subject = applicationTicket.Subject,
@@ -146,7 +146,7 @@ namespace Stern_IT.Controllers
                     var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
-                        Id = ticket.TicketId,
+                        TicketId = ticket.TicketId,
                         Status = ticket.Status,
                         Subject = ticket.Subject,
                         Priority = ticket.Priority,
@@ -173,7 +173,7 @@ namespace Stern_IT.Controllers
                     var customerName = await _context.Customers.Where(p => p.CustomerId == ticketsUser.CustomerId).FirstOrDefaultAsync();
                     viewModels.Add(new TicketViewModel()
                     {
-                        Id = ticket.TicketId,
+                        TicketId = ticket.TicketId,
                         Status = ticket.Status,
                         Subject = ticket.Subject,
                         Priority = ticket.Priority,
@@ -202,7 +202,7 @@ namespace Stern_IT.Controllers
 
                     viewModels.Add(new TicketViewModel()
                     {
-                        Id = ticket.TicketId,
+                        TicketId = ticket.TicketId,
                         Status = ticket.Status,
                         Subject = ticket.Subject,
                         Priority = ticket.Priority,
@@ -240,7 +240,7 @@ namespace Stern_IT.Controllers
 
             return new TicketViewModel()
             {
-                Id = applicationTicket.TicketId,
+                TicketId = applicationTicket.TicketId,
                 Email = applicationTicket.Email,
                 Status = applicationTicket.Status,
                 Subject = applicationTicket.Subject,
@@ -449,7 +449,7 @@ namespace Stern_IT.Controllers
                 {
                     tvm_list.Add(new TicketViewModel()
                     {
-                        Id = ticket.TicketId,
+                        TicketId = ticket.TicketId,
                         Created = ticket.Created,
                         Email = ticket.Email,
                         Description = ticket.Description,

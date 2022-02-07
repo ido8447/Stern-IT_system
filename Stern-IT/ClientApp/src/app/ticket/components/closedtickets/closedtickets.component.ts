@@ -33,12 +33,12 @@ export class ClosedticketsComponent implements OnInit {
   constructor(private ticketService: TicketService, public userService: UserService) {
     this.dataSource.filterPredicate = (ticket: Ticket, filter: string) => {
       return (
-        ticket.TicketId.toLowerCase().includes(filter.toLowerCase()) ||
+        ticket.TicketId.toString().includes(filter.toLowerCase()) ||
         ticket.CustomerName.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Status.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Priority.toLowerCase().includes(filter.toLowerCase()) ||
-        ticket.Email.toLowerCase().includes(filter.toLowerCase())
+        ticket.Email.toLowerCase().includes(filter.toLowerCase()) 
 
       );
     };

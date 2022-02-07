@@ -41,7 +41,9 @@ export class CustomerTicketsComponent implements OnInit {
         ticket.Subject.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Status.toLowerCase().includes(filter.toLowerCase()) ||
         ticket.Priority.toLowerCase().includes(filter.toLowerCase()) ||
-        ticket.Email.toLowerCase().includes(filter.toLowerCase())
+        ticket.Email.toLowerCase().includes(filter.toLowerCase()) ||
+        ticket.TicketId.toLowerCase().includes(filter.toLowerCase()) 
+
       );
     };
   }
@@ -78,6 +80,7 @@ export class CustomerTicketsComponent implements OnInit {
       this.ticketService.DeleteTicket(Id).subscribe(
         () => {
           this.ticketService.getTicket();
+          this.get();
         },
         (err: any) => {
           console.log(err);

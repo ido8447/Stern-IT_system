@@ -11,17 +11,13 @@ import { UserService } from "src/app/services/user.service";
   styleUrls: ["./customer-detail.component.css"],
 })
 export class CustomerDetailComponent implements OnInit {
-
   columns: string[] = this.columnsFunc();
 
-
-
   columnsFunc() {
-
-    if (this.userService.allowedRole(['Administrator'])) {
-      return["Email","PhoneNumber", "details-edit-delete"];
+    if (this.userService.allowedRole(["Administrator"])) {
+      return ["Email", "PhoneNumber", "details-edit-delete"];
     }
-    return ["Email","PhoneNumber"];
+    return ["Email", "PhoneNumber"];
   }
 
   dataSource = new MatTableDataSource<User>();
@@ -29,36 +25,41 @@ export class CustomerDetailComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  
 
-  public Users =[];
-  constructor(private activedRoute: ActivatedRoute,
-    public userService: UserService) {
+  public Users = [];
+  constructor(
+    private activedRoute: ActivatedRoute,
+    public userService: UserService
+  ) {
     this.dataSource.filterPredicate = (user: User, filter: string) => {
       return (
         user.Email.toLowerCase().includes(filter.toLowerCase()) ||
         user.Roles.join(",").toLowerCase().includes(filter.toLowerCase())
       );
-  }
+    };
   }
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
   ngOnInit() {
-    this.userService.GetCustomerById(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe(res =>{
-      this.CustomerName = res;
-    })
+    this.userService
+      .GetCustomerById(parseInt(this.activedRoute.snapshot.paramMap.get("id")))
+      .subscribe((res) => {
+        this.CustomerName = res;
+      });
     this.get();
-
-    
-   
+  }
+  managers(email) {
+    if (email == "ido@stern-it.com" || email == "eyal@stern-it.com") {
+      return false;
+    }
+    return true;
   }
   get() {
     const id = this.activedRoute.snapshot.paramMap.get("id");
     this.userService.GetCustomerUsersById(parseInt(id)).subscribe((res) => {
       this.dataSource.data = res as User[];
-      
     });
   }
   public filter(filter: string) {

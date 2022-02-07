@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Answer } from "src/app/models/Answer ";
-import { Ticket, TicketInfo, TicketStatusInfo } from "src/app/models/ticket.model";
+import {
+  Ticket,
+  TicketInfo,
+  TicketStatusInfo,
+} from "src/app/models/ticket.model";
 import { TicketService } from "src/app/services/ticket.service";
 import { UserService } from "src/app/services/user.service";
 import { User } from "../../../models/user.model";
@@ -31,7 +35,7 @@ export class EditTicketComponent implements OnInit {
     private emailService: SendEmailService,
     private activedRoute: ActivatedRoute,
     private _location: Location
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.ticketForm = this.formBuilder.group({
@@ -69,9 +73,13 @@ export class EditTicketComponent implements OnInit {
         () => {
           this.cancel();
           if (ticketFormValue.Status == "Closed") {
-            this.service.getTicket(parseInt(this.activedRoute.snapshot.paramMap.get("id"))).subscribe((res: Ticket) => this.SendEmail(res.Email, this.mailrequest.Body));
-
-
+            this.service
+              .getTicket(
+                parseInt(this.activedRoute.snapshot.paramMap.get("id"))
+              )
+              .subscribe((res: Ticket) =>
+                this.SendEmail(res.Email, this.mailrequest.Body)
+              );
           }
         },
         (error) => {
@@ -104,7 +112,13 @@ export class EditTicketComponent implements OnInit {
   mailrequest: MailRequest = {
     ToEmail: "________",
     Subject: "Your ticket has been closed",
-    Body: "<p>Sign in to view comments</p><p>https://stern-it-hr-service.azurewebsites.net/closed-ticket</p>",
+    Body:
+      "<p>" +
+      "<p>Ticket has been closed for you - If the problem persists, you are welcome to re-open the ticket by login to (stern-it-hr-service.azurewebsites.net)</p>" +
+      "<p>Please do not replay to this email.</p>" +
+      "<p>Best Regard ,</p>" +
+      "<p>Stern-IT support</p>" +
+      "</p>",
   };
 
   isManager() {

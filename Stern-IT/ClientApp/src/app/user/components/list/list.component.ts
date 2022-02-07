@@ -59,7 +59,12 @@ export class ListComponent implements OnInit, AfterViewInit {
     Status: "",
   };
   tickets: any;
-
+  managers(email) {
+    if (email == "ido@stern-it.com" || email == "eyal@stern-it.com") {
+      return false;
+    }
+    return true;
+  }
   delete(Id: any, email: string) {
     if (confirm("Are you sure to delete this record?")) {
       this.userService.delete(Id).subscribe(
