@@ -282,14 +282,14 @@ namespace Stern_IT.Controllers
         public class TicketChangeStatusModel
         {
             public int TicketId { get; set; }
-            public string Status { get; set; }
             public string Priority { get; set; }
+            public string Status { get; set; }
 
 
 
         }
 
-        //PUT: api/Ticket/ChangeStatus/5
+        //PUT: api/Ticket/5
         /// <summary>
         /// </summary>
         /// <param name="id">user id</param>
@@ -522,43 +522,7 @@ namespace Stern_IT.Controllers
             }
         }
 
-        public class TicketModel
-        {
-            public string Email { get; set; }
-            public string Description { get; set; }
-            public string Priority { get; set; }
-            public string Status { get; set; }
-        }
-        [HttpPut("{url}")]
-        public async Task<ActionResult> PutTicketURL(string url, TicketModel Ticket)
-        {
-
-            var applicationTicket = await _context.Tickets.Where(t=>t.Email==Ticket.Email && t.Description == Ticket.Description && t.Priority==Ticket.Priority &&t.Status==Ticket.Status).FirstOrDefaultAsync();
-            if (applicationTicket == null)
-            {
-                return NotFound();
-            }
-
-            _context.Entry(applicationTicket).State = EntityState.Modified;
-            try
-            {
-                applicationTicket.FileURL = url;
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (applicationTicket == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
-
+    
     }
 }
 
