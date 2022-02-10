@@ -8,6 +8,7 @@ export class Ticket {
   Created: string;
   ToManagerName:string;
   CustomerName:string;
+  FileURL:string;
 }
 
 export class TicketInfo {
@@ -17,6 +18,7 @@ export class TicketInfo {
   Subject: string;
   Priority: string;
   Description: string;
+  FileURL:string;
 }
 
 export class TicketStatusInfo {

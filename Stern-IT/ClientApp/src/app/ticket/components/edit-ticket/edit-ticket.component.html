@@ -52,7 +52,18 @@
       </textarea>
     </div>
 
-    <!--  -->
+    <!--  FileURL -->
+    <div class="form-group">
+      <label for="inputFileURL">FileURL</label>
+      <input
+        type="text"
+        id="inputFileURL"
+        class="form-control"
+        name="FileURL"
+        formControlName="FileURL"
+      />
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 
     <!-- Show conversation -->
@@ -129,8 +140,8 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-           <form #form="ngForm" (submit)="SendComment(form)">
-             <div class="card">
+          <form #form="ngForm" (submit)="SendComment(form)">
+            <div class="card">
               <div class="card-header">Add Comment To The Ticket</div>
               <div class="card-body">
                 <div class="form-group">
@@ -172,9 +183,8 @@
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
-                
               </div>
-           </div>
+            </div>
           </form>
         </div>
       </div>

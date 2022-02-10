@@ -52,6 +52,7 @@ import { ResetPasswordComponent } from './user/components/ResetPassword/reset-pa
 import { ResetPasswordCodeComponent } from './user/components/ResetPassword/reset-password-code/reset-password-code.component';
 import { ResetPasswordNewPasswordComponent } from './user/components/ResetPassword/reset-password-new-password/reset-password-new-password.component';
 import { FileService } from "./services/file.service";
+import { UploadService } from "./services/upload.service";
 
 @NgModule({
   declarations: [
@@ -189,6 +190,7 @@ import { FileService } from "./services/file.service";
     TicketService,
     SendEmailService,
     FileService,
+    UploadService,
 
     {
       provide: HTTP_INTERCEPTORS,

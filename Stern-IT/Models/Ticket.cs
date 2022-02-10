@@ -14,10 +14,11 @@ namespace Stern_IT.Models
         public string Subject { get; set; }
         public string Priority { get; set; }
         public string Description { get; set; }
+        public string FileURL { get; set; }
         public string Created { get; set; }
         public string ToManager { get; set; }
         public User user { get; set; }
         public List<Answer> answer { get; set; }
-        public List<Attathment> attachments { get; set; }
+        
     }
 }

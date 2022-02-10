@@ -16,7 +16,6 @@
       />
     </div>
 
-
     <div class="form-group">
       <input
         id="inputStatus"
@@ -26,9 +25,6 @@
         #Status="ngModel"
       />
     </div>
-
-  
-  
 
     <!--  -->
     <div class="form-group col-md-6">
@@ -47,7 +43,6 @@
       </select>
     </div>
 
-
     <div class="form-group col-md-6">
       <label for="inputToManagerName">Send to:</label>
       <select
@@ -58,14 +53,15 @@
         #ToManager="ngModel"
       >
         <option selected>All</option>
-        <option *ngFor="let manager of managers">{{manager.FirstName + " " + manager.LastName}}</option>
+        <option *ngFor="let manager of managers">
+          {{ manager.FirstName + " " + manager.LastName }}
+        </option>
       </select>
     </div>
 
-
     <!--  -->
-  
-    <!-- <div class="form-group">
+
+    <div class="form-group col-md-6">
       <button type="button" mat-raised-button (click)="fileInput.click()">
         <i class="fas fa-file-upload"></i>
         {{ fileName }}
@@ -77,12 +73,11 @@
         type="file"
         id="file"
       />
-    </div> -->
-    
-   
-    
+    </div>
 
-    <div class="form-group">
+   
+
+    <div class="form-group col-md-6">
       <label for="inputSubject">Subject</label>
       <!-- | -->
       <input
@@ -94,7 +89,7 @@
         #Subject="ngModel"
       />
     </div>
-    <div class="form-group">
+    <div class="form-group col-md-6">
       <label for="inputDescription">Description</label>
       <textarea
         id="inputDescription"

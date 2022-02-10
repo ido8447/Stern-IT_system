@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stern_IT.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -39,6 +40,7 @@ namespace Stern_IT.Controllers
             public string Description { get; set; }
             public string Created = DateTime.Now.ToString("dd/MM/yyyy");
             public string ToManager { get; set; }
+            public string FileURL { get; set; }
 
         }
 
@@ -58,6 +60,7 @@ namespace Stern_IT.Controllers
                 Email = user.Email,
                 Created = model.Created,
                 ToManager = model.ToManager,
+                FileURL = model.FileURL
             };
             try
             {
@@ -89,6 +92,7 @@ namespace Stern_IT.Controllers
             public string Created { get; set; }
             public string CustomerName { get; set; }
             public string ToManager { get; set; }
+            public string FileURL { get; set; }
 
         }
 
@@ -109,7 +113,8 @@ namespace Stern_IT.Controllers
                 Status = applicationTicket.Status,
                 Subject = applicationTicket.Subject,
                 Priority = applicationTicket.Priority,
-                Description = applicationTicket.Description
+                Description = applicationTicket.Description,
+                FileURL = applicationTicket.FileURL
 
             };
 
@@ -515,6 +520,43 @@ namespace Stern_IT.Controllers
             {
                 throw ex;
             }
+        }
+
+        public class TicketModel
+        {
+            public string Email { get; set; }
+            public string Description { get; set; }
+            public string Priority { get; set; }
+            public string Status { get; set; }
+        }
+        [HttpPut("{url}")]
+        public async Task<ActionResult> PutTicketURL(string url, TicketModel Ticket)
+        {
+
+            var applicationTicket = await _context.Tickets.Where(t=>t.Email==Ticket.Email && t.Description == Ticket.Description && t.Priority==Ticket.Priority &&t.Status==Ticket.Status).FirstOrDefaultAsync();
+            if (applicationTicket == null)
+            {
+                return NotFound();
+            }
+
+            _context.Entry(applicationTicket).State = EntityState.Modified;
+            try
+            {
+                applicationTicket.FileURL = url;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (applicationTicket == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
         }
 
     }

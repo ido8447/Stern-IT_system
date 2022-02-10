@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stern_IT.Models;
 
 namespace Stern_IT.Migrations
 {
     [DbContext(typeof(SternItContext))]
-    partial class SternItContextModelSnapshot : ModelSnapshot
+    [Migration("20220210090938_attach")]
+    partial class attach
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,6 +185,27 @@ namespace Stern_IT.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("Stern_IT.Models.Attachment", b =>
+                {
+                    b.Property<string>("AttachmentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AttachmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AttachmentId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("Attachments");
+                });
+
             modelBuilder.Entity("Stern_IT.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -212,9 +235,6 @@ namespace Stern_IT.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Priority")
@@ -370,6 +390,13 @@ namespace Stern_IT.Migrations
                 {
                     b.HasOne("Stern_IT.Models.Ticket", "ticket")
                         .WithMany("answer")
+                        .HasForeignKey("TicketId");
+                });
+
+            modelBuilder.Entity("Stern_IT.Models.Attachment", b =>
+                {
+                    b.HasOne("Stern_IT.Models.Ticket", "Ticket")
+                        .WithMany("Attachment")
                         .HasForeignKey("TicketId");
                 });
 

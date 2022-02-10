@@ -12,10 +12,7 @@ namespace Stern_IT.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Attathment> Attathments { get; set; }
-
-
-
+    //    public DbSet<Attachment> Attachments { get; set; }
 
 
         public SternItContext(DbContextOptions options) : base(options)
@@ -23,18 +20,11 @@ namespace Stern_IT.Models
 
         }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    builder.Entity<Customer>(entity =>
-        //    {
-        //        entity.HasKey(x => x.CustomerId);
-        //    });
-        //    builder.Entity<User>(entity =>
-        //    {
-        //        entity.HasKey(x => x.Id);
-        //        entity.HasOne<Customer>().WithMany(c => c.user).HasForeignKey(c => c.CustomerId);
-        //    });
-        //}
+        // protected override void OnModelCreating(ModelBuilder builder)
+        // {
+        //    builder.Entity<Ticket>().HasMany(a=>a.Attachments).
+          
+        // }
 
     }
 

@@ -45,6 +45,7 @@ export class EditTicketComponent implements OnInit {
       Subject: [{ value: "", disabled: true }],
       Priority: [{ value: "", disabled: false }],
       Description: [{ value: "", disabled: true }],
+      FileURL: [{value:"",disabled:true}]
     });
 
     const id = this.activateRoute.snapshot.paramMap.get("id");

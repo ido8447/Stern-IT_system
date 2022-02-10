@@ -87,6 +87,7 @@ fowardTicket(ticketId: any) {
       this.ticketService.DeleteTicket(Id).subscribe(
         () => {
           this.ticketService.getTicket();
+          this.get();
         },
         (err: any) => {
           console.log(err);

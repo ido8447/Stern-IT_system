@@ -29,7 +29,8 @@ export class TicketService {
   }
 
   //send request of ticket
-  public SendTicket(ticket: any) {
+  public SendTicket(ticket: any, URL:any) {
+    ticket.FileURL = URL;
     return this.httpClient
       .post(this.baseURL + this.apiURL + "create-ticket", ticket)
       .subscribe((res: any) => {
@@ -50,7 +51,7 @@ export class TicketService {
   }
 
   public getTickets(model: TicketModel) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "tickets/" + model.Email+"/"+model.Status);
+    return this.httpClient.get(this.baseURL + this.apiURL + "tickets/" + model.Email + "/" + model.Status);
   }
 
   DeleteTicket(Id: string) {
@@ -65,7 +66,11 @@ export class TicketService {
     return this.httpClient.put(this.baseURL + this.apiURL + ticket.Id, ticket);
   }
 
-  SendAnswer(answer: any) {
+//{TicketId}/{url}
+  PutTicketURL(Ticket:any,url:string) {
+  return this.httpClient.put(this.baseURL + this.apiURL+url,Ticket);
+}  
+SendAnswer(answer: any) {
     return this.httpClient.post(
       this.baseURL + this.apiURL + "answer/post",
       answer
@@ -92,15 +97,15 @@ export class TicketService {
     );
   }
 
-  DeleteTicketsByUser(email:string){
+  DeleteTicketsByUser(email: string) {
     return this.httpClient.delete(
       this.baseURL + this.apiURL + "DeleteTicketsByUser/" + email
     );
   }
 
-  ShareTicket(ticketId:string){
+  ShareTicket(ticketId: string) {
     return this.httpClient.post(
-      this.baseURL + this.apiURL + "shareTicket/"+ticketId,
+      this.baseURL + this.apiURL + "shareTicket/" + ticketId,
       ticketId
     );
   }
