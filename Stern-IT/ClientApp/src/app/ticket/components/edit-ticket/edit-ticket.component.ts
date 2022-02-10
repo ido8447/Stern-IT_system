@@ -66,7 +66,7 @@ export class EditTicketComponent implements OnInit {
   public save(ticketFormValue) {
     if (this.ticketForm.valid) {
       const ticket: TicketStatusInfo = {
-        Id: this.activedRoute.snapshot.paramMap.get("id"),
+        TicketId: this.activedRoute.snapshot.paramMap.get("id"),
         Status: ticketFormValue.Status,
         Priority: ticketFormValue.Priority,
       };

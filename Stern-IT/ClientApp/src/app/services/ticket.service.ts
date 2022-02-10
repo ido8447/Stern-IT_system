@@ -63,7 +63,7 @@ export class TicketService {
   //and return this url with PUT
   //Action the function on UserController
   PutTicket(ticket: any) {
-    return this.httpClient.put(this.baseURL + this.apiURL + ticket.Id, ticket);
+    return this.httpClient.put(this.baseURL + this.apiURL + ticket.TicketId, ticket);
   }
 
 //{TicketId}/{url}

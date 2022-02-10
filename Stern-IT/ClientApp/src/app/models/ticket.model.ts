@@ -18,11 +18,10 @@ export class TicketInfo {
   Subject: string;
   Priority: string;
   Description: string;
-  FileURL:string;
 }
 
 export class TicketStatusInfo {
-  Id: string;
+  TicketId: string;
   Status: string;
   Priority: string;
 }
