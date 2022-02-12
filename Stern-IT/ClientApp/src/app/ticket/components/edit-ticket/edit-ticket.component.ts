@@ -48,6 +48,7 @@ export class EditTicketComponent implements OnInit {
       FileURL: [{value:"",disabled:true}]
     });
 
+
     const id = this.activateRoute.snapshot.paramMap.get("id");
     this.service.getTicket(parseInt(id)).subscribe((res) => {
       this.ticketForm.patchValue(res as TicketInfo);

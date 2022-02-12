@@ -1,25 +1,19 @@
 <h1>Edit Ticket</h1>
 <div>
-  <form
-    [formGroup]="ticketForm"
-    (submit)="save(ticketForm.value)"
-    autocomplete="off"
-    novalidate
-  >
+  <form [formGroup]="ticketForm"
+        (submit)="save(ticketForm.value)"
+        autocomplete="off"
+        novalidate>
     <div class="form-group">
       <label for="inputStatus">Status</label>
-      <select
-        id="inputStatus"
-        class="form-control"
-        name="Status"
-        formControlName="Status"
-      >
+      <select id="inputStatus"
+              class="form-control"
+              name="Status"
+              formControlName="Status">
         <option value="Open">Open</option>
         <option value="Closed">Closed</option>
-        <option
-          *ngIf="userService.allowedRole(['Administrator', 'Operator'])"
-          value="Pending"
-        >
+        <option *ngIf="userService.allowedRole(['Administrator', 'Operator'])"
+                value="Pending">
           Pending
         </option>
       </select>
@@ -27,12 +21,10 @@
 
     <div class="form-group">
       <label for="inputPriority">Priority</label>
-      <select
-        id="inputPriority"
-        class="form-control"
-        name="Priority"
-        formControlName="Priority"
-      >
+      <select id="inputPriority"
+              class="form-control"
+              name="Priority"
+              formControlName="Priority">
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
@@ -42,60 +34,55 @@
 
     <div class="form-group">
       <label for="inputDescription">Description</label>
-      <textarea
-        id="inputDescription"
-        class="form-control"
-        rows="10"
-        name="Description"
-        formControlName="Description"
-      >
+      <textarea id="inputDescription"
+                class="form-control"
+                rows="10"
+                name="Description"
+                formControlName="Description">
       </textarea>
     </div>
 
     <!--  FileURL -->
     <div class="form-group">
       <label for="inputFileURL">File URL</label>
-      <input
-        type="text"
-        id="inputFileURL"
-        class="form-control"
-        name="FileURL"
-        formControlName="FileURL"
-      />
+      <a href="{{ticketForm.controls.FileURL.value}}" target="_blank" rel="noopener">
+        <input type="text"
+               id="inputFileURL"
+               class="form-control"
+               name="FileURL"
+               formControlName="FileURL"
+               style="cursor: pointer" />
+      </a>
     </div>
-
     <button type="submit" class="btn btn-primary">Submit</button>
 
     <!-- Show conversation -->
-    <button
-      type="button"
-      (click)="ShowComments()"
-      style="margin-right: 5px; margin-left: 5px"
-      class="btn btn-info"
-    >
+    <button type="button"
+            (click)="ShowComments()"
+            style="margin-right: 5px; margin-left: 5px"
+            class="btn btn-info">
       {{ text }} <i class="material-icons">{{ arrowClass }}</i>
     </button>
 
     <!-- ShowAnswers -->
     <!-- (click)="AddComment()" -->
-    <button
-      data-toggle="modal"
-      data-target="#myModal"
-      type="button"
-      style="color: white; background-color: darkcyan; border-color: darkcyan"
-      class="btn"
-    >
+    <button data-toggle="modal"
+            data-target="#myModal"
+            type="button"
+            style="color: white; background-color: darkcyan; border-color: darkcyan"
+            class="btn">
       <!-- {{ textb }} <i class="material-icons">{{ barrowClass }}</i> -->
       Add Comment
+
+
     </button>
 
-    <button
-      type="button"
-      mat-raised-button
-      color="warn"
-      style="margin-left: 5px"
-      (click)="cancel()"
-    >
+
+    <button type="button"
+            mat-raised-button
+            color="warn"
+            style="margin-left: 5px"
+            (click)="cancel()">
       Cancel
     </button>
 
@@ -131,11 +118,9 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Add Comment</h4>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-          ></button>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal body -->
@@ -145,41 +130,33 @@
               <div class="card-header">Add Comment To The Ticket</div>
               <div class="card-body">
                 <div class="form-group">
-                  <textarea
-                    id="inputAnswer"
-                    class="form-control"
-                    rows="10"
-                    name="Answer"
-                    [(ngModel)]="formTicketModel.Answer"
-                    #Answer="ngModel"
-                  >
+                  <textarea id="inputAnswer"
+                            class="form-control"
+                            rows="10"
+                            name="Answer"
+                            [(ngModel)]="formTicketModel.Answer"
+                            #Answer="ngModel">
                   </textarea>
                   <div class="form-group">
-                    <input
-                      id="inputIsManager"
-                      name="IsManager"
-                      type="hidden"
-                      [(ngModel)]="formTicketModel.IsManager"
-                      #IsManager="ngModel"
-                    />
+                    <input id="inputIsManager"
+                           name="IsManager"
+                           type="hidden"
+                           [(ngModel)]="formTicketModel.IsManager"
+                           #IsManager="ngModel" />
                   </div>
                   <div class="form-group">
-                    <input
-                      id="inputEmail"
-                      name="Email"
-                      type="hidden"
-                      [(ngModel)]="formTicketModel.Email"
-                      #Email="ngModel"
-                    />
+                    <input id="inputEmail"
+                           name="Email"
+                           type="hidden"
+                           [(ngModel)]="formTicketModel.Email"
+                           #Email="ngModel" />
                   </div>
                   <div class="form-group">
-                    <input
-                      id="inputTicketId"
-                      name="TicketId"
-                      type="hidden"
-                      [(ngModel)]="formTicketModel.TicketId"
-                      #TicketId="ngModel"
-                    />
+                    <input id="inputTicketId"
+                           name="TicketId"
+                           type="hidden"
+                           [(ngModel)]="formTicketModel.TicketId"
+                           #TicketId="ngModel" />
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
