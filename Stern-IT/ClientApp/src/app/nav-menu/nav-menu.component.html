@@ -30,6 +30,26 @@
         We Can Do IT
       </p>
 
+      <p
+        style="
+          padding-left: 6px;
+          padding-top: 6px;
+          border-style: groove;
+          border-left-width: 2px;
+          margin-bottom: 16px;
+          margin-top: 20px;
+          margin-left: 200px;
+          border-top-width: 2px;
+          border-bottom-width: 2px;
+          border-right-width: 2px;
+          padding-right: 6px;
+          padding-bottom: 6px;
+        "
+        *ngIf="userService.authorizedUser()"
+      >
+        {{ TeamName }} Group
+      </p>
+
       <button
         class="navbar-toggler"
         type="button"

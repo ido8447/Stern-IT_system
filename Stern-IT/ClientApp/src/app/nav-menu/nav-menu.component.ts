@@ -1,6 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { UserCustomer, AuthorizedUser, UserService } from "../services/user.service";
+import { Customer } from "../models/customer";
+import {
+  UserCustomer,
+  AuthorizedUser,
+  UserService,
+} from "../services/user.service";
 
 @Component({
   selector: "app-nav-menu",
@@ -10,11 +15,13 @@ import { UserCustomer, AuthorizedUser, UserService } from "../services/user.serv
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
   authorizedUser: AuthorizedUser;
+  TeamName: string;
 
-  constructor(public userService: UserService, private activedRoute: ActivatedRoute) { }
+  constructor(
+    public userService: UserService,
+    private activedRoute: ActivatedRoute
+  ) {}
   ngOnInit(): void {
-
-
     this.userService.authorizedUser$.subscribe(
       (authorizedUser: AuthorizedUser) => {
         this.authorizedUser = authorizedUser;
@@ -27,12 +34,13 @@ export class NavMenuComponent implements OnInit {
       this.authorizedUser = {
         Email: this.userService.getAuthorizedUserEmail(),
       };
-     
-    
+      this.userService
+        .GetMyCustomerByEmail(this.userService.getAuthorizedUserEmail())
+        .subscribe((res: Customer) => {
+          this.TeamName = res.CustomerName;
+        });
     }
   }
-
- 
 
   collapse() {
     this.isExpanded = false;
