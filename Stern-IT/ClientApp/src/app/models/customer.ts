@@ -1,5 +1,6 @@
 
 export class Customer {
-  Name: string;
+  CustomerId:string;
+  CustomerName: string;
   OpenTickets: number;
 }

@@ -161,7 +161,7 @@ namespace Stern_IT
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<Models.User>>();
-            string[] roleNames = { "Administrator", "Operator" };
+            string[] roleNames = { "Administrator", "Operator","Team Manager" };
             IdentityResult roleResault;
             foreach (var roleName in roleNames)
             {

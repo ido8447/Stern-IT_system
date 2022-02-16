@@ -528,16 +528,15 @@ namespace Stern_IT.Controllers
         //     return openTickets;
 
         // }
-
-        [HttpGet("GetMyCustomerByEmail/{UserEmail}")]
-        public async Task<object> GetMyCustomerByEmail(string UserEmail)
+        //GetMyCustomerByEmail
+        [HttpGet("GetMyCustomerByEmail/{mail}")]
+        public async Task<object> GetMyCustomerByEmail(string mail)
         {
-            string name = "";
-            var user = await _context.Users.Where(p => p.Email == UserEmail).FirstOrDefaultAsync();
-            var customer = await _context.Customers.Where(p => p.CustomerId == user.CustomerId).FirstOrDefaultAsync();
-            name = customer.CustomerName;
-            return name;
+            var user = await _context.Users.Where(p => p.Email == mail).FirstOrDefaultAsync();
+            var customrt = await _context.Customers.Where(c => c.CustomerId == user.CustomerId).FirstOrDefaultAsync();
+            return customrt;
         }
+
 
         public class ChangePasswordModel
         {

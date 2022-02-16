@@ -53,6 +53,7 @@ import { ResetPasswordCodeComponent } from './user/components/ResetPassword/rese
 import { ResetPasswordNewPasswordComponent } from './user/components/ResetPassword/reset-password-new-password/reset-password-new-password.component';
 import { FileService } from "./services/file.service";
 import { UploadService } from "./services/upload.service";
+import { TeamComponent } from './user/components/team/team.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { UploadService } from "./services/upload.service";
     ResetPasswordComponent,
     ResetPasswordCodeComponent,
     ResetPasswordNewPasswordComponent,
+    TeamComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -131,6 +133,10 @@ import { UploadService } from "./services/upload.service";
       {
         path: "customer-tickets/:id",
         component: CustomerTicketsComponent,
+        canActivate: [AuthorizeGuard],
+      }, {
+        path: "Team",
+        component: TeamComponent,
         canActivate: [AuthorizeGuard],
       },
       {

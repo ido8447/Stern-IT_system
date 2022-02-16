@@ -32,6 +32,19 @@
       <span class="ml-3">Customers</span>
     </a>
   </li>
+<!-- Team/:id -->
+<li
+    class="nav-item"
+    *ngIf="
+      userService.authorizedUser() &&
+      userService.allowedRole(['Team Manager'])
+    "
+  >
+    <a class="nav-link text-white" [routerLink]="['/Team']">
+      <i class="fas fa-users"></i> <span class="ml-3">Team</span>
+    </a>
+  </li>
+
 
   <li
     class="nav-item"

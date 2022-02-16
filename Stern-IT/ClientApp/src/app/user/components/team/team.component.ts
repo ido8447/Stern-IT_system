@@ -3,27 +3,29 @@ import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { Ticket, TicketModel } from "src/app/models/ticket.model";
 import { UserService } from "src/app/services/user.service";
 import { TicketService } from "src/app/services/ticket.service";
-
+import { Customer } from "../../../models/customer";
 
 @Component({
-  selector: "app-show-tickets",
-  templateUrl: "./show-tickets.component.html",
-  styleUrls: ["./show-tickets.component.css"],
+  selector: "app-team",
+  templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.css"],
 })
-export class ShowTicketsComponent implements OnInit {
+export class TeamComponent implements OnInit {
   columns: string[] = this.columnsFunc();
   dataSource = new MatTableDataSource<Ticket>();
   customerDict: any;
+  customerName:string;
 
   columnsFunc() {
-
-    if (this.userService.allowedRole(['Operator']) && !this.userService.allowedRole(['Administrator'])) {
-      return ["TicketId", "Email", "Customer", "Subject", "Status", "Priority", "Date", "details-delete"];
-    }
-    else if (this.userService.allowedRole(['Administrator'])) {
-      return ["TicketId", "Email", "TO", "Customer", "Subject", "Status", "Priority", "Date", "details-delete"];
-    }
-    return ["TicketId", "Subject", "Status", "Priority", "Date", "details-delete"];
+    return [
+      "TicketId",
+      "Email",
+      "Subject",
+      "Status",
+      "Priority",
+      "Date",
+      "details-delete",
+    ];
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -53,19 +55,21 @@ export class ShowTicketsComponent implements OnInit {
     this.get();
   }
 
-
   private model: TicketModel = {
     Status: "Open",
-    Email: this.userService.getAuthorizedUserEmail()
+    Email: this.userService.getAuthorizedUserEmail(),
   };
 
-
-
   get() {
-    this.ticketService
-      .getTickets(this.model)
-      .subscribe((res) => {
-        this.dataSource.data = res as Ticket[];
+    this.userService
+      .GetMyCustomerByEmail(this.userService.getAuthorizedUserEmail())
+      .subscribe((res: Customer) => {
+        this.ticketService
+          .getCustomerTickets(res.CustomerId)
+          .subscribe((res) => {
+            this.dataSource.data = res as Ticket[];
+          }),
+          this.customerName = res.CustomerName;
       });
   }
 
@@ -83,23 +87,21 @@ export class ShowTicketsComponent implements OnInit {
         (err: any) => {
           console.log(err);
         }
-        );
-      }
+      );
     }
-    
-    which(manager){
-      if(manager=="All"){
-        return false;
-      }
-      return true;
-  
+  }
+
+  which(manager) {
+    if (manager == "All") {
+      return false;
     }
+    return true;
+  }
   fowardTicket(ticketId: any) {
-    this.ticketService.ShareTicket(ticketId).subscribe(res=>this.get());
+    this.ticketService.ShareTicket(ticketId).subscribe((res) => this.get());
   }
 
   Refresh() {
     this.get();
-
   }
 }
