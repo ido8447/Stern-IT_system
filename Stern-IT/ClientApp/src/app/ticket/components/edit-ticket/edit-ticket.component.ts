@@ -35,7 +35,7 @@ export class EditTicketComponent implements OnInit {
     private emailService: SendEmailService,
     private activedRoute: ActivatedRoute,
     private _location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ticketForm = this.formBuilder.group({
@@ -45,7 +45,7 @@ export class EditTicketComponent implements OnInit {
       Subject: [{ value: "", disabled: true }],
       Priority: [{ value: "", disabled: false }],
       Description: [{ value: "", disabled: true }],
-      FileURL: [{value:"",disabled:true}]
+      FileURL: [{ value: "", disabled: true }]
     });
 
 
@@ -71,7 +71,7 @@ export class EditTicketComponent implements OnInit {
       //  Status: ticketFormValue.Status,
       //  Priority: ticketFormValue.Priority,
       //};
-    this.service.PutTicket(ticketFormValue).subscribe(
+      this.service.PutTicket(ticketFormValue).subscribe(
         () => {
           this.cancel();
           if (ticketFormValue.Status == "Closed") {
@@ -80,7 +80,21 @@ export class EditTicketComponent implements OnInit {
                 parseInt(this.activedRoute.snapshot.paramMap.get("id"))
               )
               .subscribe((res: Ticket) =>
-                this.SendEmail(res.Email, this.mailrequest.Body)
+                this.SendEmail(res.Email, this.mailrequest.Body,this.mailrequest.Subject)
+              );
+          }
+          else if (ticketFormValue.Status == "Pending") {
+            this.service
+              .getTicket(
+                parseInt(this.activedRoute.snapshot.paramMap.get("id"))
+              )
+              .subscribe((res: Ticket) =>
+                this.SendEmail(res.Email, "<p>" +
+                  "<p>Ticket has been Pending for you - You can show the ticket by login to (stern-it-hr-service.azurewebsites.net)</p>" +
+                  "<p>Please do not replay to this email.</p>" +
+                  "<p>Best Regard ,</p>" +
+                  "<p>Stern-IT support</p>" +
+                  "</p>", "Your ticket is in Pending")
               );
           }
         },
@@ -96,19 +110,34 @@ export class EditTicketComponent implements OnInit {
       .GetAnswer(ID)
       .subscribe((arg) => (this.modelList = arg as Answer[]));
   }
-
+  
   SendComment(form: NgForm) {
     if (form.value.Answer.length != 0) {
       this.service.SendAnswer(form.value).subscribe(() => {
-        // this.SendEmail(this.WhoToSend(), form.value);
+        console.log(form.value.Answer),
+          this.service
+            .getTicket(
+              parseInt(this.activedRoute.snapshot.paramMap.get("id"))
+            )
+            .subscribe((res: Ticket) => {
+              if (this.isManager()) { this.SendEmail(res.Email, "<p>" +
+                "<p>New Comment has send to youre ticket, you can answer the comment by login to (stern-it-hr-service.azurewebsites.net)</p>" +
+                "<p> The comment: " + form.value.Answer + "</p>" +
+                "<p>Please do not replay to this email.</p>" +
+                "<p>Best Regard ,</p>" +
+                "<p>Stern-IT support</p>" +
+                "</p>", "New Tickets Comment")
+            }
+          });
         alert("Send Comment"), window.location.reload();
       });
     }
   }
 
-  SendEmail(toEmail: string, body: string) {
+  SendEmail(toEmail: string, body: string, subject: string) {
     this.mailrequest.Body = body;
     this.mailrequest.ToEmail = toEmail;
+    this.mailrequest.Subject = subject;
     this.emailService.SendEmail(this.mailrequest);
   }
   mailrequest: MailRequest = {
