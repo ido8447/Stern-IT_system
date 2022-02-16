@@ -31,11 +31,12 @@ export class NavMenuComponent implements OnInit {
     //if there is a token
     //put on authorizedUser a email from the token
     if (localStorage.getItem("token")) {
+      var email = this.userService.getAuthorizedUserEmail();
       this.authorizedUser = {
-        Email: this.userService.getAuthorizedUserEmail(),
+        Email: email,
       };
       this.userService
-        .GetMyCustomerByEmail(this.userService.getAuthorizedUserEmail())
+        .GetMyCustomerByEmail(email)
         .subscribe((res: Customer) => {
           this.TeamName = res.CustomerName;
         });

@@ -72,9 +72,8 @@ export class UserService {
     this.authorizedUser$.next({
       Email: "",
     });
-    this.httpClient
-      .post(this.baseURL + this.apiURL + "Login", user)
-      .subscribe((res: any) => {
+    this.httpClient.post(this.baseURL + this.apiURL + "Login", user).subscribe(
+      (res: any) => {
         this.authorizedUser$.next({
           Email: JSON.parse(window.atob(res.token.split(".")[1])).Email,
         });
@@ -85,14 +84,17 @@ export class UserService {
           !this.allowedRole(["Administrator"]) &&
           !this.allowedRole(["Operator"])
         ) {
-          this.router.navigateByUrl("tickets");
+          this.router.navigateByUrl("tickets").then(() => {
+            window.location.reload();
+          });
         } else {
-          this.router.navigateByUrl("/");
+          this.router.navigateByUrl("/").then(() => {
+            window.location.reload();
+          });;
         }
-      }, error =>
-        alert("Wrong Password")
-      );
-
+      },
+      (error) => alert("Wrong Password")
+    );
   }
 
   //loguot function
@@ -231,40 +233,51 @@ export class UserService {
   //getCustomerById/{id}
 
   public GetCustomerById(id: number) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerById/" + id);
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "getCustomerById/" + id
+    );
   }
-
-
 
   public deleteCustomer(customerId) {
-    return this.httpClient.delete(this.baseURL + this.apiURL + "DeleteCustomer/" + customerId);
+    return this.httpClient.delete(
+      this.baseURL + this.apiURL + "DeleteCustomer/" + customerId
+    );
   }
-
 
   //getCustomerUsersById/{id}
   public GetCustomerUsersById(id: number) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "getCustomerUsersById/" + id);
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "getCustomerUsersById/" + id
+    );
   }
 
   public GetOpenTicketsByCustomer() {
-    return this.httpClient.get(this.baseURL + this.apiURL + "OpenTicketsByCustomer");
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "OpenTicketsByCustomer"
+    );
   }
 
   //GetMyCustomerByEmail
   public GetMyCustomerByEmail(Email: string) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "GetMyCustomerByEmail/" + Email);
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "GetMyCustomerByEmail/" + Email
+    );
   }
 
   public ChangePassword(ChangePasswordModel: ChangePassword) {
-    return this.httpClient.post(this.baseURL + this.apiURL + "ChangePassword", ChangePasswordModel);
+    return this.httpClient.post(
+      this.baseURL + this.apiURL + "ChangePassword",
+      ChangePasswordModel
+    );
   }
 
   public GetManager(name: string) {
-    return this.httpClient.get(this.baseURL + this.apiURL + "GetManager/" + name);
+    return this.httpClient.get(
+      this.baseURL + this.apiURL + "GetManager/" + name
+    );
   }
 
   public Email: string;
-
 }
 
 export interface AuthorizedUser {

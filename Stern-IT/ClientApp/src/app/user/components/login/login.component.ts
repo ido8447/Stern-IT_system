@@ -24,14 +24,13 @@ export class LoginComponent implements OnInit {
 
   login(form: NgForm) {
     this.userService.login(form.value);
-    
   }
 
   openWEB() {
     window.location.href = "http://www.stern-it.com";
   }
 
-  AddC(){
-    this.userService.AddCustomer("No Group").subscribe(()=>{})
+  AddC() {
+    this.userService.AddCustomer("No Group").subscribe(() => {});
   }
 }
